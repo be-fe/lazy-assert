@@ -5,21 +5,28 @@
   "main": "src/index.js",
   "scripts": {
     "test-normal": "mocha examples/mocha/__test/**/*.test.js",
-    "test-webpack": "mocha-webpack --webpack-config examples/mocha-webpack-es6/webpack.config.test.js examples/mocha-webpack-es6/__test/**/*.test.js"
+    "test-webpack": "mocha-webpack --webpack-config examples/mocha-webpack-es6/webpack.config.test.js examples/mocha-webpack-es6/__test/**/*.test.js",
+    "test-react": "mocha-webpack --require examples/mocha-webpack-react/setup-jsdom.js --webpack-config examples/mocha-webpack-react/webpack.config.test.js examples/mocha-webpack-react/__test/**/*.test.js"
   },
   "author": "Liang",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^3.5.0",
-    "mocha-webpack": "next",
-    "webpack": "^3.5.5",
-    "webpack-node-externals": "^1.6.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.3.2",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "enzyme": "^2.9.1",
+    "jsdom": "^11.2.0",
+    "mocha": "^3.5.0",
+    "mocha-webpack": "next",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
+    "webpack": "^3.5.5",
+    "webpack-node-externals": "^1.6.0"
   }
 }

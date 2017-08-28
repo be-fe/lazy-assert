@@ -5,6 +5,7 @@ describe('测试 es6', function () {
     it('test lib a', function () {
         const result = a.func('world');
 
-        assert.equal(result, 'greeting: hello, world');
+        assert.equal(result.greeting, 'hello, world');
+        assert.equal(result.ref.lastName, 'world');
     });
 });

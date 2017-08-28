@@ -1,4 +1,5 @@
 var nodeExternals = require('webpack-node-externals');
+var NodePathReplacePlugin = require('../node-path-replace-plugin');
 
 module.exports = {
     // webpack should emit node.js compatible code
@@ -12,6 +13,11 @@ module.exports = {
         __dirname: true,
         __filename: true
     },
+
+    plugins: [
+        // 非常重要, 必须设置这个 replace plugin
+        new NodePathReplacePlugin()
+    ],
 
     module: {
         rules: [

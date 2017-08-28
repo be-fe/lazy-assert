@@ -351,4 +351,6 @@ lazyAssert.plugin({
     ref: require('./plugins/with-reference')
 });
 
+// make babel happy ;)
+lazyAssert.default = lazyAssert;
 module.exports = lazyAssert;

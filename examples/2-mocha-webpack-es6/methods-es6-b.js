@@ -1,7 +1,14 @@
 const b = {
     func(name) {
-        return 'hello, ' + name;
+        this.lastName = name;
+        
+        return {
+            value: 'hello, ' + name,
+            object: b
+        };
     }
 };
+
+b.self = b;
 
 export default b;

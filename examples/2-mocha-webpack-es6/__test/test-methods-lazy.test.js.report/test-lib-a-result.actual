@@ -1,0 +1,6 @@
+{}
+  greeting : "hello, world"
+  ref : {}
+    func : undefined
+    lastName : "world"
+    self : "_[[[reference: @root.ref]]]_"

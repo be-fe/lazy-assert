@@ -16,7 +16,7 @@ app.get('/hello', function (req, res) {
 app.post('/hi', function (req, res) {
     res.send({
         hi: ', ' + (req.body.name || 'nobody'),
-        name: req.query.name || 'nobody',
+        name: req.body.name || 'nobody',
         timestamp: new Date().getTime(),
         thingsWeDontCare: {what: 'ever'}
     });

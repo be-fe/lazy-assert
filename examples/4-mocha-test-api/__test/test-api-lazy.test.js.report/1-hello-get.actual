@@ -1,0 +1,6 @@
+[]
+  0 : {}
+    hello : ", nobody"
+    name : "nobody"
+  1 : "type: number"
+  2 : "large enough: true"

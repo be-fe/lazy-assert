@@ -1,6 +1,6 @@
 var axios = require('axios');
 
-var assert = require('assert');
+var lazy = require('../../../src/index');
 var config = require('../test-config');
 
 describe('测试 api', function () {
@@ -16,16 +16,18 @@ describe('测试 api', function () {
             baseURL: config.url,
             header: config.header
         });
+
+        lazy.setLocation(__filename);
     });
 
     it('测试 get /hello', function (done) {
         instance.get('/hello').then(function (response) {
-            delete response.data.thingsWeDontCare;
 
-            assert.equal(response.data.hello, ', nobody');
-            assert.equal(response.data.name, 'nobody');
-            assert.equal(typeof response.data.timestamp, 'number');
-            assert.ok(response.data.timestamp > 1500000000000, 'Should great than certain number');
+            lazy.peek('1-hello-get', [
+                lazy.pick(response.data, ['hello', 'name']),
+                'type: ' + typeof response.data.timestamp,
+                'large enough: ' + (response.data.timestamp > 1500000000000)
+            ]);
 
             done();
         }).catch(function (error) {
@@ -37,10 +39,11 @@ describe('测试 api', function () {
         instance.get('/hello?name=world').then(function (response) {
             delete response.data.thingsWeDontCare;
 
-            assert.equal(response.data.hello, ', world');
-            assert.equal(response.data.name, 'world');
-            assert.equal(typeof response.data.timestamp, 'number');
-            assert.ok(response.data.timestamp > 1500000000000, 'Should great than certain number');
+            lazy.peek('2-hello-get', [
+                lazy.pick(response.data, ['hello', 'name']),
+                'type: ' + typeof response.data.timestamp,
+                'large enough: ' + (response.data.timestamp > 1500000000000)
+            ]);
 
             done();
         }).catch(function (error) {
@@ -50,16 +53,11 @@ describe('测试 api', function () {
 
     it('测试 catch /hello?name=world', function (done) {
         instance.get('/hello?name=world').then(function (response) {
-            delete response.data.thingsWeDontCare;
-            delete response.data.timestamp
+            lazy.peek('temp-wrong-peek', response.data.hello);
 
-            assert.deepEqual(response.data, {
-                hello: ', not-correct'
-            });
             done();
         }).catch(function (error) {
-            console.log(error.message);
-            assert.equal(error.message, "{ hello: ', world', name: 'world' } deepEqual { hello: ', not-correct' }");
+            lazy.peek('4-error-caught', error, 'ref');
             done();
         });
     });
@@ -68,12 +66,12 @@ describe('测试 api', function () {
         instance.post('/hi', {
             name: 'world'
         }).then(function (response) {
-            delete response.data.thingsWeDontCare;
 
-            assert.equal(response.data.hi, ', world');
-            assert.equal(response.data.name, 'world');
-            assert.equal(typeof response.data.timestamp, 'number');
-            assert.ok(response.data.timestamp > 1500000000000, 'Should great than certain number');
+            lazy.peek('5-hello-post', {
+                values: lazy.unpick(response.data, ['timestamp', 'thingsWeDontCare']),
+                type: typeof response.data.timestamp,
+                largeEnough: (response.data.timestamp > 1500000000000)
+            });
 
             done();
         }).catch(function (error) {

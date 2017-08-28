@@ -1,0 +1,7 @@
+{}
+  actual : "\", world\""
+  expected : ""
+  generatedMessage : false
+  message : "temp-wrong-peek"
+  name : "AssertionError"
+  operator : "=="

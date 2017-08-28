@@ -2,6 +2,8 @@ var assert = require('assert');
 var utils = require('./utils');
 var fs = require('fs');
 
+var PLUGIN_KEY = '--[[lazy_plugin_name]]--';
+
 /**
  * @start-def: lazyAssert: {}
  */
@@ -194,8 +196,31 @@ var lazyAssert = {
             depthOrPlugin = lazyAssert.plugins[depthOrPlugin];
         }
 
+        // is it really worth making complicated?
         if (typeof depthOrPlugin === 'object') {
-            depthOrPlugin = depthOrPlugin.process;
+            if (PLUGIN_KEY in depthOrPlugin) {
+                depthOrPlugin = depthOrPlugin.process;
+            }
+            else if (depthOrPlugin instanceof Array) {
+                var result = {};
+                depthOrPlugin.forEach(function (plugin, index) {
+                    if (typeof plugin === 'string') {
+                        plugin = lazyAssert.plugins[plugin];
+                        result[plugin[PLUGIN_KEY]] = plugin(value, lazyAssert.processValue, context, plugin.process)
+                    }
+                    else if (PLUGIN_KEY in plugin) {
+                        result[plugin[PLUGIN_KEY]] = plugin(value, lazyAssert.processValue, context, plugin.process);
+                    }
+                    else if (typeof plugin === 'function') {
+                        result[index] = plugin.call(lazyAssert, value, lazyAssert.processValue, context, plugin);
+                    }
+                });
+            }
+            else {
+                for (var key in value) {
+
+                }
+            }
         }
 
         if (typeof depthOrPlugin === 'function') {

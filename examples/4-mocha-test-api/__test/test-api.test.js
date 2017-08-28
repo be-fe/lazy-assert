@@ -18,10 +18,28 @@ describe('测试 api', function () {
         })
     });
 
-    it('测试 /hello', function (done) {
+    it('测试 get /hello', function (done) {
         instance.get('/hello').then(function (response) {
+            delete response.data.thingsWeDontCare;
+
+            assert.equal(response.data.hello, ', nobody');
+            assert.equal(response.data.name, 'nobody');
+            assert.equal(typeof response.data.timestamp, 'number');
+            assert.ok(response.data.timestamp > 1500000000000, 'Should great than certain number');
+
+            done();
+        }).catch(function (error) {
+            done(error);
+        });
+    });
+
+    it('测试 get /hello?name=world', function (done) {
+        instance.get('/hello?name=world').then(function (response) {
+            delete response.data.thingsWeDontCare;
+
             assert.deepEqual(response.data, {
-                hello: ', nobody'
+                hello: ', world',
+                name: 'world'
             });
             done();
         }).catch(function (error) {
@@ -31,23 +49,16 @@ describe('测试 api', function () {
 
     it('测试 catch /hello?name=world', function (done) {
         instance.get('/hello?name=world').then(function (response) {
-            assert.deepEqual(response.data, {
-                hello: ', world'
-            });
-            done();
-        }).catch(function (error) {
-            done(error);
-        });
-    });
+            delete response.data.thingsWeDontCare;
+            delete response.data.timestamp
 
-    it('测试 catch /hello?name=world', function (done) {
-        instance.get('/hello?name=world').then(function (response) {
             assert.deepEqual(response.data, {
                 hello: ', not-correct'
             });
             done();
         }).catch(function (error) {
-            assert.equal(error.message, "{ hello: ', world' } deepEqual { hello: ', not-correct' }");
+            console.log(error.message);
+            assert.equal(error.message, "{ hello: ', world', name: 'world' } deepEqual { hello: ', not-correct' }");
             done();
         });
     });
@@ -56,8 +67,11 @@ describe('测试 api', function () {
         instance.post('/hi', {
             name: 'world'
         }).then(function (response) {
+            delete response.data.thingsWeDontCare;
+
             assert.deepEqual(response.data, {
-                hi: ', world'
+                hi: ', world',
+                name: 'world'
             });
             done();
         }).catch(function (error) {

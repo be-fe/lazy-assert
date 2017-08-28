@@ -313,6 +313,7 @@ var lazyAssert = {
             for (var i = 0; i < value.length; i++) {
                 result.push(lazyAssert.unpick(value[i], configArray));
             }
+            return result;
         }
         else if (typeof value === 'object' && value) {
             var result = {};
@@ -359,17 +360,13 @@ var lazyAssert = {
 
                 if (typeof type === 'object') {
                     for (var key in type) {
-                        result[key] = result[key] || [];
-                        if (result[key].indexOf(type[key]) === -1) {
-                            result[key].push(type[key]);
-                        }
+                        result[key] = result[key] || {};
+                        result[key][type[key]] = 1;
                     }
                 }
                 else {
-                    result[lazyAssert.TYPE_ROOT_KEY] = result[lazyAssert.TYPE_ROOT_KEY] || [];
-                    if (result[lazyAssert.TYPE_ROOT_KEY].indexOf(type[lazyAssert.TYPE_ROOT_KEY]) === -1) {
-                        result[lazyAssert.TYPE_ROOT_KEY].push(type[lazyAssert.TYPE_ROOT_KEY]);
-                    }
+                    result[lazyAssert.TYPE_ROOT_KEY] = result[lazyAssert.TYPE_ROOT_KEY] || {};
+                    result[lazyAssert.TYPE_ROOT_KEY][type] = 1;
                 }
             }
 
@@ -393,6 +390,7 @@ var lazyAssert = {
                 }
             }
 
+            return result;
         }
         else {
             return typeof value;

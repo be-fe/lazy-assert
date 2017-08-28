@@ -13,7 +13,7 @@ var CHROMEDRIVER_PATH = r(BINPATH, 'chromedriver');
 
 var config = { // we use a nightwatch.conf.js file so we can include comments and helper functions
     "src_folders": [
-        "examples/5-mocha-nightwatch/__test"
+        "examples/5-nightwatch/__test"
     ],
     "output_folder": "./node_modules/nightwatch/reports", // reports (test outcome) output by Nightwatch
     "selenium": {

@@ -1,0 +1,10 @@
+{}
+  aString : "a string"
+  bool : true
+  func : "_[[[function]]]_"
+  hello : []
+    0 : 1
+    1 : 2
+    2 : 3
+    3 : {}
+      world : "!"

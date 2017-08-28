@@ -46,8 +46,7 @@ describe('Test value peeking', function () {
 
             peek.push('hello').push('world');
 
-            peek.set('hello', 'world')
-                .set('hello', {world: '!'})
+            peek.set('hello', {world: '!'})
 
             var b = {name: 'b'};
             var a = {name: 'a', b: b};
@@ -62,5 +61,16 @@ describe('Test value peeking', function () {
 
         lazy.peek('multiple-peek-file', utils.read(actual('multiple-peek')));
         assert.strictEqual(utils.read(expected('multiple-peek')), '');
+    });
+
+    it('Test forceSet vs. set', function () {
+        var peek = lazy.newPeek('peek-instance');
+
+        peek.set('hello', 'world');
+        assert.throws(function () {
+            peek.set('hello', 'new world');
+        }, /@set-on-same-key:/);
+
+        peek.forceSet('hello', 'new world');
     });
 });

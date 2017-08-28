@@ -158,7 +158,7 @@ var lazyAssert = {
                 return value;
             }
 
-            plugin(value, lazyAssert.processValue, context, currentPlugin, plugin);
+            plugin(value, lazyAssert.processValue, context, plugin);
         }
     },
 
@@ -232,11 +232,18 @@ var lazyAssert = {
         }
     },
 
+    /**
+     *
+     * @def: .peek: peekKey, value, depthOrPlugin => undefined
+     *  peekKey: string     // This will set up the peek key (the peek file) for the test
+     *  value: any          // This is the value for peeking
+     *  depthOrPlugin: @#.processValue.depthOrPlugin
+     */
     peek: function (peekKey, value, depthOrPlugin) {
         if (!this.testLocation) {
             throw utils.newError('no-test-set', 'No test script set for this test.');
         }
-        if (arguments.length !== 2 || typeof peekKey !== 'string' || !peekKey) {
+        if (arguments.length < 2 || typeof peekKey !== 'string' || !peekKey) {
             throw utils.newError('no-peek-key', 'No peek key set for this peek')
         }
 
@@ -269,6 +276,8 @@ var lazyAssert = {
 };
 
 // Setting up preset plugins:
-lazyAssert.plugin(require('./plugins/with-reference'));
+lazyAssert.plugin({
+    ref: require('./plugins/with-reference')
+});
 
 module.exports = lazyAssert;

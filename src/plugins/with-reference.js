@@ -22,9 +22,11 @@ module.exports = {
                 value.___lazy_path___ = context.path.join('.');
 
                 for (var key in value) {
-                    context.path.push(key);
-                    result[key] = processValue(value[key], currentPluginProcess, context);
-                    context.path.pop();
+                    if (key !== '___lazy_path___') {
+                        context.path.push(key);
+                        result[key] = processValue(value[key], currentPluginProcess, context);
+                        context.path.pop();
+                    }
                 }
             }
 

@@ -45,4 +45,30 @@ describe('Test default peek', function () {
             aString: 'a string'
         });
     });
+
+    it('Test complex value : really deep object, with depth = 6', function () {
+        lazy.peek('complex-deep-object-6', {
+            a: {b: {c: {d: {e: {f: {g: 0}}}}}},
+            hello: [1, 2, 3, {
+                world: '!'
+            }],
+            func: function () {
+            },
+            bool: true,
+            aString: 'a string'
+        }, 6);
+    });
+
+    it('Test complex value : really deep object, with depth = -1', function () {
+        lazy.peek('complex-deep-object-full', {
+            a: {b: {c: {d: {e: {f: {g: 0}}}}}},
+            hello: [1, 2, 3, {
+                world: '!'
+            }],
+            func: function () {
+            },
+            bool: true,
+            aString: 'a string'
+        }, -1);
+    });
 });

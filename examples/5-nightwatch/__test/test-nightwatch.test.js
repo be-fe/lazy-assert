@@ -2,25 +2,14 @@ var conf = require('../nightwatch.config.js');
 
 module.exports = {
     'Demo test GitHub': function (browser) {
-
-        var fs = require('fs');
-        fs.writeFileSync('./temp-file.txt', __filename);
-
-
         browser
-            .url('http://www.github.com/dwyl')   // visit the url
+            .url('https://www.baidu.com/')   // visit the url
             .waitForElementVisible('body'); // wait for the body to be rendered
-        // check if we are seeing the Mobile Version of GitHub
-        browser.element('css selector', '.switch-to-desktop', function(result) {
-            if(result.status != -1) { //Element exists, do something
-                browser.click('.switch-to-desktop')
-                    .waitForElementVisible('body'); // wait for the body to be rendered
-            }
-        });
+
         // part two:
         browser
-            .assert.containsText('body', 'dwyl.io') // assert contains
-            .saveScreenshot(conf.imgpath(browser) + 'dwyl.png')
+            .assert.containsText('body', '百度') // assert contains
+            .saveScreenshot(conf.imgpath(browser) + 'baidu.png')
             .end();
     }
 };

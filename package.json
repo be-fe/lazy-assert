@@ -4,9 +4,9 @@
   "description": "An way of doing assertion for lazy people ...",
   "main": "src/index.js",
   "scripts": {
-    "test-normal": "mocha examples/mocha/__test/**/*.test.js",
-    "test-webpack": "mocha-webpack --webpack-config examples/mocha-webpack-es6/webpack.config.test.js examples/mocha-webpack-es6/__test/**/*.test.js",
-    "test-react": "mocha-webpack --require examples/mocha-webpack-react/setup-jsdom.js --webpack-config examples/mocha-webpack-react/webpack.config.test.js examples/mocha-webpack-react/__test/**/*.test.js"
+    "test-normal": "mocha examples/1-mocha/__test/**/*.test.js",
+    "test-webpack": "mocha-webpack --webpack-config examples/2-mocha-webpack-es6/webpack.config.test.js examples/2-mocha-webpack-es6/__test/**/*.test.js",
+    "test-react": "mocha-webpack --require examples/3-mocha-webpack-react/setup-jsdom.js --webpack-config examples/3-mocha-webpack-react/webpack.config.test.js examples/3-mocha-webpack-react/__test/**/*.test.js"
   },
   "author": "Liang",
   "license": "MIT",
@@ -20,7 +20,9 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "body-parser": "^1.17.2",
     "enzyme": "^2.9.1",
+    "express": "^4.15.4",
     "jsdom": "^11.2.0",
     "mocha": "^3.5.0",
     "mocha-webpack": "next",

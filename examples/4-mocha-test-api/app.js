@@ -6,13 +6,19 @@ app.use(bodyParser.json());
 
 app.get('/hello', function (req, res) {
     res.send({
-        hello: ', ' + (req.query.name || 'nobody')
+        hello: ', ' + (req.query.name || 'nobody'),
+        name: req.query.name || 'nobody',
+        timestamp: new Date().getTime(),
+        thingsWeDontCare: {what: 'ever'}
     });
 });
 
 app.post('/hi', function (req, res) {
     res.send({
-        hi: ', ' + (req.body.name || 'nobody')
+        hi: ', ' + (req.body.name || 'nobody'),
+        name: req.query.name || 'nobody',
+        timestamp: new Date().getTime(),
+        thingsWeDontCare: {what: 'ever'}
     });
 });
 

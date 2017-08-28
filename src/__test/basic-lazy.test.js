@@ -33,4 +33,10 @@ describe('Test simple output', function () {
             '{}\n  hello : {}\n    world : "!"'
         );
     });
+
+    it('Should have preset plugin `ref`', function () {
+        assert.ok(lazy.plugins.ref, 'Should have ref');
+        assert.ok(lazy.plugins.ref.process, 'Should have ref.process');
+        assert.ok(lazy.plugins.ref.post, 'Should have ref.post');
+    });
 });

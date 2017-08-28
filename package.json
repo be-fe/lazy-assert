@@ -6,7 +6,8 @@
   "scripts": {
     "test-normal": "mocha examples/1-mocha/__test/**/*.test.js",
     "test-webpack": "mocha-webpack --webpack-config examples/2-mocha-webpack-es6/webpack.config.test.js examples/2-mocha-webpack-es6/__test/**/*.test.js",
-    "test-react": "mocha-webpack --require examples/3-mocha-webpack-react/setup-jsdom.js --webpack-config examples/3-mocha-webpack-react/webpack.config.test.js examples/3-mocha-webpack-react/__test/**/*.test.js"
+    "test-react": "mocha-webpack --require examples/3-mocha-webpack-react/setup-jsdom.js --webpack-config examples/3-mocha-webpack-react/webpack.config.test.js examples/3-mocha-webpack-react/__test/**/*.test.js",
+    "test-api": "mocha examples/4-mocha-test-api/__test/**/*.test.js"
   },
   "author": "Liang",
   "license": "MIT",

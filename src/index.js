@@ -31,7 +31,7 @@ var lazyAssert = {
         return lazyAssert.innerStringify(peekValue).replace(/^\s+/, '').replace(/\s+$/, '');
     },
 
-    prepareValue: function(value, depthOrPlugin) {
+    prepareValue: function (value, depthOrPlugin) {
         var peekValue = lazyAssert.processValue(value, depthOrPlugin);
         lazyAssert.postValue(value, depthOrPlugin);
         return peekValue;
@@ -64,15 +64,22 @@ var lazyAssert = {
         for (var name in processors) {
             if (typeof processors[name] === 'function') {
                 this.plugins[name] = {
+                    '--[[lazy_plugin_name]]--': name,
                     process: processors[name].bind(lazyAssert),
                     post: null
                 };
             }
             else {
                 this.plugins[name] = {
+                    '--[[lazy_plugin_name]]--': name,
                     process: processors[name].process.bind(lazyAssert),
                     post: processors[name].post.bind(lazyAssert)
                 }
+            }
+
+            this.plugins[name].process.lazyPluginName = name;
+            if (this.plugins[name].post) {
+                this.plugins[name].lazyPluginName = name;
             }
         }
     },
@@ -147,8 +154,8 @@ var lazyAssert = {
      */
     postValue: function (value, plugin, context) {
         context = context || {
-                plugins: this.plugins
-            };
+            plugins: this.plugins
+        };
 
         if (typeof plugin === 'string') {
             plugin = lazyAssert.plugins[plugin];
@@ -180,8 +187,8 @@ var lazyAssert = {
      */
     processValue: function (value, depthOrPlugin, context) {
         context = context || {
-                plugins: this.plugins
-            };
+            plugins: this.plugins
+        };
 
         if (typeof depthOrPlugin === 'string') {
             depthOrPlugin = lazyAssert.plugins[depthOrPlugin];

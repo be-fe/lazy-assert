@@ -18,4 +18,13 @@ describe('Test default peek', function () {
         lazy.peek('complex-ref-string', a, 'ref');
         lazy.peek('complex-ref-object', a, lazy.plugins.ref);
     });
+
+    it('Should not revert the origin value', function () {
+        var b = {name: 'b'}
+        var a = {name: 'a', b: b, c: [b]};
+        b.a = a;
+
+        lazy.stringify(a, 'ref');
+        lazy.peek('origin-value', a, 2);
+    });
 });

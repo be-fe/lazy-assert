@@ -2,6 +2,29 @@ var assert = require('assert');
 var utils = require('./utils');
 var fs = require('fs');
 
+var Peek = function(peekKey) {
+    this.peekKey = peekKey;
+    this.list = [];
+    this.map = {};
+};
+
+Peek.prototype = {
+    push: function (value, depthOrPlugin) {
+        this.list.push(lazyAssert.prepareValue(value, depthOrPlugin));
+        return this;
+    },
+    set: function (key, value, depthOrPluign) {
+        this.map[key] = lazyAssert.prepareValue(value, depthOrPluign);
+        return this;
+    },
+    assert: function () {
+        lazyAssert.peek(this.peekKey, {
+            list: this.list,
+            map: this.map
+        }, -1);
+    }
+};
+
 /**
  * @start-def: lazyAssert: {}
  */
@@ -27,9 +50,14 @@ var lazyAssert = {
      * @def: .stringify: value, depthOrPlugin => result
      */
     stringify: function (value, depthOrPlugin) {
+        var peekValue = this.prepareValue(value, depthOrPlugin);
+        return lazyAssert.innerStringify(peekValue).replace(/^\s+/, '').replace(/\s+$/, '');
+    },
+
+    prepareValue: function(value, depthOrPlugin) {
         var peekValue = lazyAssert.processValue(value, depthOrPlugin);
         lazyAssert.postValue(value, depthOrPlugin);
-        return lazyAssert.innerStringify(peekValue).replace(/^\s+/, '').replace(/\s+$/, '');
+        return peekValue;
     },
 
     repeat: function (str, count) {
@@ -266,12 +294,9 @@ var lazyAssert = {
         assert.equal(actual, expected, peekKey);
     },
 
-    peekArray: function (peekKey) {
-
-    },
-
-    peekObject: function (peekKey) {
-
+    newPeek: function (peekKey) {
+        var peek = new Peek(peekKey);
+        return peek;
     }
 };
 

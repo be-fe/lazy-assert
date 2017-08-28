@@ -3,16 +3,16 @@ var fs = require('fs');
 var utils = require('../utils');
 var assert = require('assert');
 
-describe('Test value peeking', function() {
-    var actual = function(key) {
+describe('Test value peeking', function () {
+    var actual = function (key) {
         return utils.j(__filename + '.report/' + key + '.actual');
     };
-    var expected = function(key) {
+    var expected = function (key) {
         return utils.j(__filename + '.report/' + key + '.expected');
     };
 
-    var removeFiles = function(keys) {
-        keys.forEach(function(key) {
+    var removeFiles = function (keys) {
+        keys.forEach(function (key) {
             if (fs.existsSync(actual(key))) {
                 fs.unlinkSync(actual(key));
             }
@@ -23,19 +23,44 @@ describe('Test value peeking', function() {
         });
     };
 
-    before(function() {
+    before(function () {
         lazy.setLocation(__filename);
         removeFiles([
-            'simple-value'
+            'single-peek',
+            'multiple-peek'
         ]);
     });
 
-    it('Test simple values', function () {
-        assert.throws(function() {
-            lazy.peek('simple-value', 'a string');
+    it('Test single peek', function () {
+        assert.throws(function () {
+            lazy.peek('single-peek', 'a string');
         });
 
-        assert.strictEqual(utils.read(actual('simple-value')), '"a string"');
-        assert.strictEqual(utils.read(expected('simple-value')), '');
+        assert.strictEqual(utils.read(actual('single-peek')), '"a string"');
+        assert.strictEqual(utils.read(expected('single-peek')), '');
+    });
+
+    it('Test peek instance', function () {
+        assert.throws(function () {
+            var peek = lazy.newPeek('multiple-peek');
+
+            peek.push('hello').push('world');
+
+            peek.set('hello', 'world')
+                .set('hello', {world: '!'})
+
+            var b = {name: 'b'};
+            var a = {name: 'a', b: b};
+            b.a = a;
+
+            peek.set('foo', a, 'ref');
+
+            peek.push(123);
+
+            peek.assert();
+        });
+
+        lazy.peek('multiple-peek-file', utils.read(actual('multiple-peek')));
+        assert.strictEqual(utils.read(expected('multiple-peek')), '');
     });
 });

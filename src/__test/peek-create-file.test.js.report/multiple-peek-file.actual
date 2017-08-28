@@ -1,0 +1,1 @@
+"{}\n  list : []\n    0 : \"hello\"\n    1 : \"world\"\n    2 : 123\n  map : {}\n    foo : {}\n      b : {}\n        a : \"_[[[reference: @root]]]_\"\n        name : \"b\"\n      name : \"a\"\n    hello : {}\n      world : \"!\""

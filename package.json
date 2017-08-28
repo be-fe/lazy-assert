@@ -33,6 +33,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
+    "selenium-download": "^2.0.10",
     "webpack": "^3.5.5",
     "webpack-node-externals": "^1.6.0"
   }

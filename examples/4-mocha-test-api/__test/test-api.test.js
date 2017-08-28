@@ -1,7 +1,7 @@
 var axios = require('axios');
 
 var assert = require('assert');
-var config = require('./test-config');
+var config = require('../test-config');
 
 describe('测试 api', function () {
     var instance;

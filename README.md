@@ -38,7 +38,7 @@ processSomething( input ).should.deep.equal( output );
 processSomething(  I<光标所在位置>
 ```
 
-![img](./asset/img/thinking.jpeg)
+思考一下...
 
 ```
 // using chai.should()
@@ -49,11 +49,7 @@ processSomething( input ).should. I<光标所在位置>
 
 来, 人肉算一算是什么结果... 
 
-![img](./asset/img/thinking.jpeg)
-
 好繁琐啊... 偷偷打印一下结果 `console.log( processSomething(input) )`
-
-![face palm](./asset/img/face-palm.jpeg)
 
 Finally...
 

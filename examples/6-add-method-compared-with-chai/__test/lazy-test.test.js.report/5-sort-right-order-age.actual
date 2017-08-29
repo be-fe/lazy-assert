@@ -1,0 +1,19 @@
+{}
+  list : []
+    0 : {}
+      age : 5
+      firstName : "newborn"
+      lastName : "ai"
+    1 : {}
+      age : 20
+      firstName : "william"
+      lastName : "green"
+    2 : {}
+      age : 30
+      firstName : "foo"
+      lastName : "bar"
+    3 : {}
+      age : 40
+      firstName : "newborn"
+      lastName : "bond"
+  self : "_[[[reference: @root]]]_"

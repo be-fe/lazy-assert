@@ -1,4 +1,5 @@
-var add = require('../add');
+var add = require('../methods').add;
+var sort = require('../methods').sort;
 require('chai').should();
 
 describe('Test add method', function () {
@@ -14,5 +15,66 @@ describe('Test add method', function () {
         add(1, null).should.equal(1);
         add(1, undefined, 2).should.equal(3);
         add(1, true, false, 2).should.equal(3);
+    });
+
+    beforeEach(function () {
+        this.personList = {
+            list: [{
+                firstName: 'foo',
+                lastName: 'bar',
+                age: 30
+            }, {
+                firstName: 'william',
+                lastName: 'green',
+                age: 20
+            }, {
+                firstName: 'newborn',
+                lastName: 'bond',
+                age: 40
+            }, {
+                firstName: 'newborn',
+                lastName: 'ai',
+                age: 5
+            }]
+        };
+
+        this.personList.self = this.personList;
+    });
+
+    it('Should sort in the right order', function () {
+        sort(this.personList);
+
+        this.personList.list[0].firstName.should.equal('foo');
+        this.personList.list[1].lastName.should.equal('bond');
+        this.personList.list[2].lastName.should.equal('ai');
+        this.personList.list[3].firstName.should.equal('william');
+    });
+
+
+    it('Should sort in the right order : firstName', function () {
+        var list = sort(this.personList, 'firstName');
+
+        this.personList.list[0].firstName.should.equal('foo');
+        this.personList.list[1].lastName.should.equal('bond');
+        this.personList.list[2].lastName.should.equal('ai');
+        this.personList.list[3].firstName.should.equal('william');
+    });
+
+    it('Should sort in the right order : lastName', function () {
+        var list = sort(this.personList, 'lastName');
+
+        this.personList.list[0].lastName.should.equal('ai');
+        this.personList.list[1].firstName.should.equal('foo');
+        this.personList.list[2].lastName.should.equal('bond');
+        this.personList.list[3].firstName.should.equal('william');
+    });
+
+    it('Should sort in the right order : age', function () {
+        var list = sort(this.personList, 'age');
+
+        this.personList.list[0].lastName.should.equal('ai');
+        this.personList.list[1].firstName.should.equal('william');
+        this.personList.list[2].firstName.should.equal('foo');
+        this.personList.list[3].lastName.should.equal('bond');
     });
 });

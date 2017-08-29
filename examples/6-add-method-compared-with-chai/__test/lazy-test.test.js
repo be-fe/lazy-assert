@@ -1,4 +1,5 @@
-var add = require('../add');
+var add = require('../methods').add;
+var sort = require('../methods').sort;
 var lazy = require('../../../src/index');
 
 describe('Test add method', function () {
@@ -23,5 +24,50 @@ describe('Test add method', function () {
             '1, undefined, 2': add(1, undefined, 2),
             '1, true, false, 2': add(1, true, false, 2)
         });
+    });
+
+
+    beforeEach(function () {
+        this.personList = {
+            list: [{
+                firstName: 'foo',
+                lastName: 'bar',
+                age: 30
+            }, {
+                firstName: 'william',
+                lastName: 'green',
+                age: 20
+            }, {
+                firstName: 'newborn',
+                lastName: 'bond',
+                age: 40
+            }, {
+                firstName: 'newborn',
+                lastName: 'ai',
+                age: 5
+            }]
+        };
+
+        this.personList.self = this.personList;
+    });
+
+    it('Should sort in the right order', function () {
+        var list = sort(this.personList);
+        lazy.peek('2-sort-right-order', list, 'ref');
+    });
+
+    it('Should sort in the right order : firstName', function () {
+        var list = sort(this.personList, 'firstName');
+        lazy.peek('3-sort-right-order-firstName', list, 'ref');
+    });
+
+    it('Should sort in the right order : lastName', function () {
+        var list = sort(this.personList, 'lastName');
+        lazy.peek('4-sort-right-order-lastName', list, 'ref');
+    });
+
+    it('Should sort in the right order : age', function () {
+        var list = sort(this.personList, 'age');
+        lazy.peek('5-sort-right-order-age', list, 'ref');
     });
 });

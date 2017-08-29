@@ -83,7 +83,6 @@ processSomething( input ).should.deep.equal( output );
 ```
 personList.sort('lastName');
 
-// 
 this.personList.list[0].firstName.should.equal('ai');
 this.personList.list[1].firstName.should.equal('foo');
 this.personList.list[2].firstName.should.equal('bond');

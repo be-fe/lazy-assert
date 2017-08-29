@@ -99,69 +99,11 @@ this.personList.list[3].firstName.should.equal('william');
 例如使用 `chai.should()` 你有以下的 API 需要了解 (有些可能不常用) :
 
 ```
-to
-be
-been
-is
-that
-which
-and
-has
-have
-with
-at
-of
-same
-but
-does
-not
-deep
-nested
-own
-ordered
-any
-all
-a
-include
-ok
-true
-false
-null
-undefined
-NaN
-exist
-empty
-arguments
-equal
-eql
-above
-least
-below
-most
-within
-instanceof
-property
-ownPropertyDescriptor
-lengthOf
-match
-string
-keys
-throw
-respondTo
-itself
-satisfy
-closeTo
-members
-oneOf
-change
-increase
-decrease
-by
-extensible
-sealed
-frozen
-finite
-fail
+to, be, been, is, that, which, and, has, have, with, at, of, same, but, does, not, deep, 
+nested, own, ordered, any, all, a, include, ok, true, false, null, undefined, NaN, exist, 
+empty, arguments, equal, eql, above, least, below, most, within, instanceof, property, 
+ownPropertyDescriptor, lengthOf, match, string, keys, throw, respondTo, itself, satisfy, 
+closeTo, members, oneOf, change, increase, decrease, by, extensible, sealed, frozen, finite, fail
 ```
 
 虽然, 这种完整的API提供了异常灵活的支持, 且能够将测试的断言写得非常语义化, 但是它的缺点是:

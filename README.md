@@ -18,7 +18,7 @@ lazy-assert 库的基本思路:
 
 整个流程可以用下图解释:
 
-![img](./assert/img/lazy-assert-cn.png)
+![img](./asset/img/lazy-assert-cn.png)
 
 ## 测试为何那么烦人
 

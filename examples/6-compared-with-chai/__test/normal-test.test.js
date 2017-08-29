@@ -1,5 +1,6 @@
 var add = require('../methods').add;
 var sort = require('../methods').sort;
+var numList = require('../methods').getSortedNumberList;
 require('chai').should();
 
 describe('Test add method', function () {
@@ -76,5 +77,14 @@ describe('Test add method', function () {
         this.personList.list[1].firstName.should.equal('william');
         this.personList.list[2].firstName.should.equal('foo');
         this.personList.list[3].lastName.should.equal('bond');
+    });
+
+    it('Should get sorted number list', function () {
+        numList().should.deep.equal([]);
+        numList(1).should.deep.equal([1]);
+        numList(2, 1.2, 3).should.deep.equal([1.2, 2, 3]);
+        numList(5, 2, undefined, true, 3).should.deep.equal([2, 3, 5]);
+        numList(5, '2', undefined, true, 3).should.deep.equal([2, 3, 5]);
+        numList(5, "2 not a number", undefined, true, 3).should.deep.equal([3, 5]);
     });
 });

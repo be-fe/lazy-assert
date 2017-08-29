@@ -1,5 +1,6 @@
 var add = require('../methods').add;
 var sort = require('../methods').sort;
+var numList = require('../methods').getSortedNumberList;
 var lazy = require('../../../src/index');
 
 describe('Test add method', function () {
@@ -69,5 +70,16 @@ describe('Test add method', function () {
     it('Should sort in the right order : age', function () {
         var list = sort(this.personList, 'age');
         lazy.peek('5-sort-right-order-age', list, 'ref');
+    });
+
+    it('Should get sorted number list', function () {
+        lazy.peek('6-sorted-number-list', {
+            'no arg': numList(),
+            '1': numList(1),
+            '2, 1.2, 3': numList(2, 1.2, 3),
+            '5, 2, undefined, true, 3': numList(5, 2, undefined, true, 3),
+            '5, "2", undefined, true, 3': numList(5, '2', undefined, true, 3),
+            '5, "2 not a number", undefined, true, 3': numList(5, '2 not a number', undefined, true, 3),
+        });
     });
 });

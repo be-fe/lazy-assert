@@ -4,9 +4,11 @@ module.exports = {
         for (var i = 0; i < arguments.length; i++) {
             var value = arguments[i];
 
-            value = parseFloat(value);
-            if (isNaN(value)) {
+            if (isNaN(Number(value)) || isNaN(parseFloat(value))) {
                 value = 0;
+            }
+            else {
+                value = Number(value);
             }
 
             result += value;
@@ -21,5 +23,20 @@ module.exports = {
                 a[key] < b[key] ? -1 : 0;
         });
         return personList;
+    },
+
+    getSortedNumberList: function () {
+        var result = [];
+        for (var i = 0; i < arguments.length; i++) {
+            var value = arguments[i];
+
+            if (!isNaN(Number(value)) && !isNaN(parseFloat(value))) {
+                result.push(Number(value));
+            }
+        }
+        result.sort(function (a, b) {
+            return a > b ? 1 : a < b ? -1 : 0;
+        });
+        return result;
     }
 };

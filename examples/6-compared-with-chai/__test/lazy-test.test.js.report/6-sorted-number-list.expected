@@ -1,0 +1,19 @@
+{}
+  1 : []
+    0 : 1
+  2, 1.2, 3 : []
+    0 : 1.2
+    1 : 2
+    2 : 3
+  5, "2 not a number", undefined, true, 3 : []
+    0 : 3
+    1 : 5
+  5, "2", undefined, true, 3 : []
+    0 : 2
+    1 : 3
+    2 : 5
+  5, 2, undefined, true, 3 : []
+    0 : 2
+    1 : 3
+    2 : 5
+  no arg : []

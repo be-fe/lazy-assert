@@ -16,6 +16,10 @@ lazy-assert 库的基本思路:
 
 你可以把 `peek` 简单视为测试过程的带 `assert` 效果, 并具有记忆功能的 `console.log`
 
+整个流程可以用下图解释:
+
+![img](./assert/img/lazy-assert-cn.png)
+
 ## 测试为何那么烦人
 
 让我们来反思一下, 写测试本身为什么很痛苦. 下面是几个主要的点:
@@ -69,7 +73,7 @@ Finally...
 processSomething( input ).should.deep.equal( output );
 ```
 
-以上的整个流程的时间 = 准备输入素材时间 + 准备输出素材时间 + 编写输出断言语句
+以上的整个流程的时间 = 准备输入素材时间 + 准备输出素材时间 (以及编写输出断言语句)
  
 实际场景里, 输入素材的准备相对是比较简单的, 大量的时间会被消耗在准备输出素材以及编写断言语句上面. 这是写测试时间成本高的第一个环节.
 
@@ -110,4 +114,8 @@ closeTo, members, oneOf, change, increase, decrease, by, extensible, sealed, fro
 
 - 初次上手, 成本高, 得踩踩坑
 - 细致地使用API, 会使断言语句的编写和维护 (脑补一下你的代码有一些调整) 成本上升
+
+## lazy-assert 的逻辑
+
+
 

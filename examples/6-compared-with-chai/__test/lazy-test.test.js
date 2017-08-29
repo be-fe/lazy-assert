@@ -82,4 +82,17 @@ describe('Test add method', function () {
             '5, "2 not a number", undefined, true, 3': numList(5, '2 not a number', undefined, true, 3),
         });
     });
+
+    it('Should test complex data to show a fail result', function () {
+
+        var a = {name: 'a'};
+        var b = {name: 'b', a: a};
+        // The correct version :
+        // var c = {name: 'c', b: b};
+        var c = {name: 'c', b: a};
+        a.b = b;
+        b.c = c;
+
+        lazy.peek('7-wrong-deep-equal', a, 'ref');
+    });
 });

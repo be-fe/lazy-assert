@@ -10,6 +10,7 @@
     "test-react": "mocha-webpack --require examples/setup-jsdom.js --webpack-config examples/3-mocha-webpack-react/webpack.config.test.js examples/3-mocha-webpack-react/__test/**/*.test.js",
     "test-api": "mocha examples/4-mocha-test-api/__test/**/*.test.js",
     "test-nightwatch": "./node_modules/nightwatch/bin/nightwatch -c examples/5-nightwatch/nightwatch.config.js",
+    "test-compared-with-chai":  "mocha examples/6-compared-with-chai/__test/**/*.test.js",
     "test": "mocha src/**/__test/*.test.js"
   },
   "author": "Liang",

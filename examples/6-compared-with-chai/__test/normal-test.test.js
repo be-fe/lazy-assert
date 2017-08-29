@@ -87,4 +87,25 @@ describe('Test add method', function () {
         numList(5, '2', undefined, true, 3).should.deep.equal([2, 3, 5]);
         numList(5, "2 not a number", undefined, true, 3).should.deep.equal([3, 5]);
     });
+
+    it('Should test complex data to show a fail result', function () {
+
+        // Actual
+        var a = {name: 'a'};
+        var b = {name: 'b', a: a};
+        // The correct version :
+        // var c = {name: 'c', b: b};
+        var c = {name: 'c', b: a};
+        a.b = b;
+        b.c = c;
+
+        // Expected
+        var r = {name: 'a'};
+        var s = {name: 'b', a: r};
+        var t = {name: 'c', b: s};
+        r.b = s;
+        s.c = t;
+
+        a.should.deep.equal(r);
+    });
 });

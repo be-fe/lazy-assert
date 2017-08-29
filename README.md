@@ -45,8 +45,6 @@ processSomething(  I<光标所在位置>
 processSomething( input ).should. I<光标所在位置>
 ```
 
-![img](./asset/img/thinking.jpeg)
-
 来, 人肉算一算是什么结果... 
 
 好繁琐啊... 偷偷打印一下结果 `console.log( processSomething(input) )`

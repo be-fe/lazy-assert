@@ -4,6 +4,18 @@
 
 ![face palm](./asset/img/face-palm.jpeg)
 
+## tl;dr
+
+lazy-assert 库的基本思路:
+
+提供一个最基本的 `peek` 方法来进行测试失败/成功的判断.
+
+- 测试里 `peek( /* 任何你关心的标志变量 */ )`
+- `peek` 会将变量序列化成无歧义的字符串
+- 然后跟上一次正确的字符串进行对比, 如果一致, 则测试通过, 否则为测试失败
+
+你可以把 `peek` 视为测试过程的带 assert 效果的 `console.log`
+
 ## 测试为何那么烦人
 
 让我们来反思一下, 写测试本身为什么很痛苦. 下面是几个主要的点:
@@ -38,7 +50,7 @@ processSomething( input ).should.deep.equal( output );
 processSomething(  I<光标所在位置>
 ```
 
-思考一下...
+思考一下... 
 
 ```
 // using chai.should()
@@ -49,8 +61,14 @@ processSomething( input ).should. I<光标所在位置>
 
 好繁琐啊... 偷偷打印一下结果 `console.log( processSomething(input) )`
 
+看看结果是否正确, 如果正确, 就 copy & paste 作为测试用例的 equal 语句的素材.
+
 Finally...
 
 ```
 processSomething( input ).should.deep.equal( output );
 ```
+
+以上的整个流程的时间 = 准备输入素材时间 + 准备输出素材时间 + 编写输出断言语句
+ 
+实际场景里, 输入素材的准备相对是比较简单的, 大量的时间会被消耗在准备输出素材以及编写断言语句上面.

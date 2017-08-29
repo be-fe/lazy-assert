@@ -34,6 +34,9 @@ module.exports = {
         var peek = lazy.newPeek('info');
         // 检测 "百度百科" 文本
         browser
+            .info('title', function(res) {
+                lazy.peek('document-title', res);
+            })
             .info('.result-op h3 a', function (res) {
                 res.attr.href = res.attr.href.indexOf('http://www.baidu.com/link?') > -1;
                 peek.set('auto', res, 'ref');

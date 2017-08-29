@@ -1,0 +1,5 @@
+{}
+  "1", 2 : 3
+  1, null, 2 : 3
+  1, true, false, 2 : 3
+  1, undefined, 2 : 3

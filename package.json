@@ -25,6 +25,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "body-parser": "^1.17.2",
+    "chai": "^4.1.1",
     "enzyme": "^2.9.1",
     "express": "^4.15.4",
     "jsdom": "^11.2.0",

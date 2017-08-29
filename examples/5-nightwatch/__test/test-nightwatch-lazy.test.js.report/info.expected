@@ -1,0 +1,30 @@
+{}
+  list : []
+  map : {}
+    attr-array : {}
+      attr : {}
+        name : null
+        target : "_blank"
+      text : "hello world_百度百科"
+    attr-string : {}
+      attr : {}
+        target : "_blank"
+      text : "hello world_百度百科"
+    auto : {}
+      attr : {}
+        href : true
+        target : "_blank"
+      text : "hello world_百度百科"
+    style-array : {}
+      attr : {}
+        target : "_blank"
+      style : {}
+        color : "() > (rgb(0, 0, 204))"
+        width : "() > (auto)"
+      text : "hello world_百度百科"
+    style-string : {}
+      attr : {}
+        target : "_blank"
+      style : {}
+        width : "() > (auto)"
+      text : "hello world_百度百科"

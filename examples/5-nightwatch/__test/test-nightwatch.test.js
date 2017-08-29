@@ -7,7 +7,7 @@ var SearchPage = function (browser) {
 
 SearchPage.prototype = {
     doSearch: function (keyword) {
-        this.browser.element('xpath', '#kw')
+        this.browser.element('css selector', '#kw')
             .keys(keyword);
         return this.waitFor('.result');
     },
@@ -29,7 +29,7 @@ module.exports = {
 
         // 检测 "百度百科" 文本
         browser
-            .assert.containsText('body', 'hello world_百度百科') // assert contains
+            .assert.containsText('.result-op h3', 'hello world_百度百科')
             .saveScreenshot(conf.imgpath(browser) + 'baidu.png')
             .end();
     }

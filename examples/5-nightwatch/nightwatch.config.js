@@ -10,6 +10,7 @@ var SCREENSHOT_PATH = r(__dirname, "../../node_modules/nightwatch/screenshots/" 
 
 var SELENIUM_PATH = r(BINPATH, 'selenium.jar');
 var CHROMEDRIVER_PATH = r(BINPATH, 'chromedriver');
+var NIGHT_WATCH_PLUGINS = r(__dirname, 'plugins');
 
 var config = { // we use a nightwatch.conf.js file so we can include comments and helper functions
     "src_folders": [
@@ -26,6 +27,7 @@ var config = { // we use a nightwatch.conf.js file so we can include comments an
             "webdriver.chrome.driver": CHROMEDRIVER_PATH // also downloaded by selenium-download
         }
     },
+    "custom_commands_path": NIGHT_WATCH_PLUGINS,
     "test_workers": {"enabled": true, "workers": "auto"}, // perform tests in parallel where possible
     "test_settings": {
         "default": {

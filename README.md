@@ -21,7 +21,7 @@ lazy-assert 库的基本思路:
 让我们来反思一下, 写测试本身为什么很痛苦. 下面是几个主要的点:
 
 - 大多数场景下, 我们是按照 "前置预期" 的方式来写测试.
-- 遇到复杂类型或场景时, 单一个测试, 就得写很多的测试判断语句.
+- 遇到复杂的数据结构时, 单单一个测试, 就得写很多的测试判断语句 (或准备复杂的输出预期数据).
 - 使用每一个 assert 库前, 都必须对其 api 进行上手熟悉.
 
 ### 前置预期
@@ -71,4 +71,102 @@ processSomething( input ).should.deep.equal( output );
 
 以上的整个流程的时间 = 准备输入素材时间 + 准备输出素材时间 + 编写输出断言语句
  
-实际场景里, 输入素材的准备相对是比较简单的, 大量的时间会被消耗在准备输出素材以及编写断言语句上面.
+实际场景里, 输入素材的准备相对是比较简单的, 大量的时间会被消耗在准备输出素材以及编写断言语句上面. 这是写测试时间成本高的第一个环节.
+
+### 复杂数据的检验
+
+除了 "前置预期" 的模式外, 面对复杂数据的检验也是一大时间开销.
+
+假设, 有一个 `personList.sort( key )` 的方法. 假设 `personList.list` 是我们关心的结果, 且每一个子项都是一个 `Person` 的对象, 
+那么测试很可能长这样: 
+
+```
+personList.sort('lastName');
+
+// 
+this.personList.list[0].firstName.should.equal('ai');
+this.personList.list[1].firstName.should.equal('foo');
+this.personList.list[2].firstName.should.equal('bond');
+this.personList.list[3].firstName.should.equal('william');
+```
+
+当然, 可能会写一些 test utils 来辅助 `assert`, 但是, 这样对应每一种复杂的情况, 开发 utils 方法, 也是一笔额外的开销.
+所以, 对这种复杂数据的测试断言 (预期数据) 本身, 也是一个令人头疼的点.
+
+### 断言库的 API 上手
+
+使用任何一个断言库, 都会有一定的 API 上手成本, 这个在熟练之后, 是可以基本忽略不计, 但是仍然是一个初始阶段的开销. 
+
+例如使用 `chai.should()` 你有以下的 API 需要了解 (有些可能不常用) :
+
+```
+to
+be
+been
+is
+that
+which
+and
+has
+have
+with
+at
+of
+same
+but
+does
+not
+deep
+nested
+own
+ordered
+any
+all
+a
+include
+ok
+true
+false
+null
+undefined
+NaN
+exist
+empty
+arguments
+equal
+eql
+above
+least
+below
+most
+within
+instanceof
+property
+ownPropertyDescriptor
+lengthOf
+match
+string
+keys
+throw
+respondTo
+itself
+satisfy
+closeTo
+members
+oneOf
+change
+increase
+decrease
+by
+extensible
+sealed
+frozen
+finite
+fail
+```
+
+虽然, 这种完整的API提供了异常灵活的支持, 且能够将测试的断言写得非常语义化, 但是它的缺点是:
+
+- 初次上手, 成本高, 得踩踩坑
+- 细致地使用API, 会使断言语句的编写和维护 (脑补一下你的代码有一些调整) 成本上升
+

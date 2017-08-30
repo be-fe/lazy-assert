@@ -95,6 +95,14 @@ var utils = {
      */
     newError: function (type, message) {
         return new Error(type ? '@' + type + ': ' + message : message);
+    },
+
+    extend: function (target, extra) {
+        for (var key in extra) {
+            if (extra.hasOwnProperty(key)) {
+                target[key] = extra[key];
+            }
+        }
     }
 };
 

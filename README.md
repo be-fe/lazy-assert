@@ -20,6 +20,11 @@ lazy-assert 库的基本思路:
 
 ![img](./asset/img/lazy-assert-cn.png)
 
+运行环境要求:
+
+- lazy-assert 需要能访问 `fs` node 模块来进行文件读写 (目前的版本被限定在 node 环境下运行)
+- lazy-assert 需要使用 `setLocation` 来确定 report 的生成位置, 一般上是使用 `__filename` 来指定与测试文件对应的位置
+
 ## 测试为何那么烦人
 
 让我们来反思一下, 写测试本身为什么很痛苦. 下面是几个主要的点:

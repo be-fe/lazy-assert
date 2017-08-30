@@ -5,13 +5,14 @@
   "main": "src/index.js",
   "scripts": {
     "postinstall": "node examples/5-nightwatch/nightwatch.config.js",
-    "test-normal": "node node_modules/mocha/bin/mocha examples/1-mocha/__test/**/*.test.js",
-    "test-webpack": "node node_modules/mocha-webpack/bin/mocha-webpack --webpack-config examples/2-mocha-webpack-es6/webpack.config.test.js examples/2-mocha-webpack-es6/__test/**/*.test.js",
-    "test-react": "node node_modules/mocha-webpack/bin/mocha-webpack --require examples/setup-jsdom.js --webpack-config examples/3-mocha-webpack-react/webpack.config.test.js examples/3-mocha-webpack-react/__test/**/*.test.js",
-    "test-api": "node node_modules/mocha/bin/mocha examples/4-mocha-test-api/__test/**/*.test.js",
+    "test-normal": "./node_modules/mocha/bin/mocha examples/1-mocha/__test/**/*.test.js",
+    "test-webpack": "./node_modules/.bin/mocha-webpack --webpack-config examples/2-mocha-webpack-es6/webpack.config.test.js examples/2-mocha-webpack-es6/__test/**/*.test.js",
+    "test-react": "./node_modules/.bin/mocha-webpack --require examples/setup-jsdom.js --webpack-config examples/3-mocha-webpack-react/webpack.config.test.js examples/3-mocha-webpack-react/__test/**/*.test.js",
+    "test-api": "./node_modules/mocha/bin/mocha examples/4-mocha-test-api/__test/**/*.test.js",
     "test-nightwatch": "node node_modules/nightwatch/bin/nightwatch -c examples/5-nightwatch/nightwatch.config.js",
-    "test-compared-with-chai":  "node node_modules/mocha/bin/mocha examples/6-compared-with-chai/__test/**/*.test.js",
-    "test": "node node_modules/mocha/bin/mocha src/**/__test/*.test.js"
+    "test-compared-with-chai": "./node_modules/mocha/bin/mocha examples/6-compared-with-chai/__test/**/*.test.js",
+    "test-cover": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha src/**/__test/*.test.js",
+    "test": "./node_modules/.bin/mocha src/**/__test/*.test.js"
   },
   "author": "Liang",
   "license": "MIT",
@@ -29,6 +30,7 @@
     "chai": "^4.1.1",
     "enzyme": "^2.9.1",
     "express": "^4.15.4",
+    "istanbul": "^0.4.5",
     "jsdom": "^11.2.0",
     "mocha": "^3.5.0",
     "mocha-webpack": "next",

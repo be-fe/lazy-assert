@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - "6"
+before_install:
+  - "npm install -g yarn"
 install:
-  - npm install
+  - yarn install
 script:
   - npm test

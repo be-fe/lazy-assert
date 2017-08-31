@@ -18,8 +18,8 @@ module.exports = {
                 }
             },
 
-            patternFunction: function (target, pattern) {
-                var check = pattern(target);
+            patternFunction: function (target, key, pattern) {
+                var check = pattern(target, key);
                 if (check) {
                     return 'ok';
                 }
@@ -39,12 +39,7 @@ module.exports = {
                     }
                     else {
                         // 只能是 object 了
-                        if (typeof array[i] === 'object') {
                             result.push(inner.patternObject(array[i], pattern));
-                        }
-                        else {
-                            result.push({fail: array[i]})
-                        }
                     }
                 }
                 return result;
@@ -53,17 +48,19 @@ module.exports = {
             patternObject: function (object, pattern) {
                 var result = {};
 
-                if (typeof pattern === 'object') {
-                    for (var key in pattern) {
-                        if (pattern.hasOwnProperty(key)) {
-                            if (typeof subPattern === 'function') {
-                                // match function
-                                result[key] = inner.patternFunction(object[key], key, pattern);
-                            }
-                            else {
-                                // regexp
-                                result[key] = inner.patternRegExp(object[key], pattern[key]);
-                            }
+                if (typeof object !== 'object') {
+                    return {fail: object, message: 'non-object target is not supported for object pattern'};
+                }
+
+                for (var key in pattern) {
+                    if (pattern.hasOwnProperty(key)) {
+                        if (typeof subPattern === 'function') {
+                            // match function
+                            result[key] = inner.patternFunction(object[key], key, pattern);
+                        }
+                        else {
+                            // regexp
+                            result[key] = inner.patternRegExp(object[key], pattern[key]);
                         }
                     }
                 }
@@ -249,12 +246,12 @@ module.exports = {
                     return inner.patternArray(target, pattern);
                 }
                 else if (typeof pattern === 'function') {
-                    return inner.patternFunction(target, pattern);
+                    return inner.patternFunction(target, undefined, pattern);
                 }
                 else if (pattern instanceof RegExp) {
                     return inner.patternRegExp(target, pattern);
                 }
-                else if (typeof target === 'object') {
+                else if (typeof pattern === 'object') {
                     return inner.patternObject(target, pattern);
                 }
             },

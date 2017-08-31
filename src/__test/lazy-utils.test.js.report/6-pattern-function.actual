@@ -9,3 +9,12 @@
   05 return first + last, result === first + last : "ok"
   06 return first, result === first + last : {}
     fail : "_[[[function]]]_"
+  07 [{a: 1}, {a: 2}, "a", 123] : []
+    0 : {}
+      fail : {}
+        a : 1
+    1 : "ok"
+    2 : {}
+      fail : "a"
+    3 : {}
+      fail : 123

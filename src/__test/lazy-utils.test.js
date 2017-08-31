@@ -101,7 +101,7 @@ describe('Test extra utils for lazy-assert', function () {
         });
     });
 
-    it('Should match function : function', function () {
+    it('Should match pattern : function', function () {
         var checkType, checkNumber, checkFunc;
 
         lazy.peek('6-pattern-function', {
@@ -126,6 +126,40 @@ describe('Test extra utils for lazy-assert', function () {
                     return first;
                 },
                 checkFunc
+            ),
+            '07 [{a: 1}, {a: 2}, "a", 123]': lazy.pattern(
+                [{a: 1}, {a: 2}, 'a', 123],
+                checkNumber
+            )
+        });
+    });
+
+    it('Should match patter : object', function () {
+        var target = {a: 'any', b: 123, c: 321};
+
+        lazy.peek('7-pattern-object', {
+            '01 "abc", {a: /any/}': lazy.pattern('abc', {a: /any/}),
+            '02 {a: "any", b: 123, c: 321}, {a: /any/, b: /^12/}':
+                lazy.pattern(
+                    target,
+                    {
+                        a: /any/,
+                        b: /^12/
+                    }
+                ),
+            '03 missing d': lazy.pattern(
+                target,
+                {
+                    a: /any/,
+                    d: /^12/
+                }
+            ),
+            '04 [ ... ]': lazy.pattern(
+                [target, undefined, 123],
+                {
+                    a: /any/,
+                    d: /^12/
+                }
             )
         });
     });

@@ -1,0 +1,3 @@
+{}
+  01 mismatch : [], {} : "fail: target & pattern set mismatch"
+  02 mismatch : [], undefined : "fail: target & pattern set mismatch"

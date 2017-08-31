@@ -260,7 +260,7 @@ module.exports = {
             fullPattern: function (complexTarget, patternSet) {
                 if (
                     !(complexTarget instanceof Array && patternSet instanceof Array)
-                    && !(typeof complexTarget === 'object' && typeof patternSet === 'object')
+                    && !(typeof complexTarget === 'object' && typeof patternSet === 'object' && !(complexTarget instanceof Array) && !(patternSet instanceof Array))
                 ) {
                     return 'fail: target & pattern set mismatch';
                 }

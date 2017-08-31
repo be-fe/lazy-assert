@@ -237,4 +237,17 @@ describe('Test extra utils for lazy-assert', function () {
             )
         });
     });
+
+    it('Should fail on mismatch on fullPattern', function () {
+        lazy.peek('10-full-pattern-mismatch', {
+            '01 mismatch : [], {}': lazy.fullPattern(
+                [1, 2],
+                {}
+            ),
+            '02 mismatch : [], undefined': lazy.fullPattern(
+                [1, 2],
+                undefined
+            )
+        })
+    });
 });

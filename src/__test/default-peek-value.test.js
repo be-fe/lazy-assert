@@ -28,18 +28,6 @@ describe('Test default peek', function () {
         });
     });
 
-    it('Test complex value : deep object', function () {
-        lazy.peek('complex-object', {
-            hello: [1, 2, 3, {
-                world: '!'
-            }],
-            func: function () {
-            },
-            bool: true,
-            aString: 'a string'
-        });
-    });
-
     it('Test complex value : really deep object', function () {
         lazy.peek('3-complex-deep-object', {
             a: {b: {c: {d: {e: {f: {g: 0}}}}}},
@@ -77,5 +65,17 @@ describe('Test default peek', function () {
             bool: true,
             aString: 'a string'
         }, -1);
+    });
+
+    it('Test complex value : deep object', function () {
+        lazy.peek('6-complex-object', {
+            hello: [1, 2, 3, {
+                world: '!'
+            }],
+            func: function () {
+            },
+            bool: true,
+            aString: 'a string'
+        });
     });
 });

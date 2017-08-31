@@ -285,10 +285,11 @@ var lazyAssert = {
 };
 
 // Loading Peek class
-var Peek = require('./Peek')(lazyAssert);
+var Peek = require('./Peek').init(lazyAssert);
 
 // Loading utils
-require('./lazy-utils')(lazyAssert);
+require('./lazy-utils').load(lazyAssert);
+require('./lazy-wrap-node-assert').load(lazyAssert);
 
 // Setting up preset plugins:
 lazyAssert.plugin({

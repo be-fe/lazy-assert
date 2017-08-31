@@ -1,0 +1,35 @@
+{}
+  01 string /string/ : {}
+    pattern : "/string/"
+    result : "ok"
+  02 abcd /bc/ : {}
+    pattern : "/bc/"
+    result : "ok"
+  03 abcd /^bc/ : {}
+    fail : "abcd"
+    pattern : "/^bc/"
+  04 123123.123 /123.d+/ : {}
+    pattern : "/123\\.\\d+/"
+    result : "ok"
+  05 123123.123 /^123.d+/ : {}
+    fail : 123123.123
+    pattern : "/^123\\.\\d+/"
+  06 {} /any/ : {}
+    fail : {}
+    pattern : "/any/"
+  07 function /any/ : {}
+    fail : "_[[[function]]]_"
+    pattern : "/any/"
+  08 [{}, any, 123, {}], /123/ : []
+    0 : {}
+      fail : {}
+      pattern : "/123/"
+    1 : {}
+      fail : "any"
+      pattern : "/123/"
+    2 : {}
+      pattern : "/123/"
+      result : "ok"
+    3 : {}
+      fail : {}
+      pattern : "/123/"

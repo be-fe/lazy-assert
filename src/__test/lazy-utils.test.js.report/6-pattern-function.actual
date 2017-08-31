@@ -1,0 +1,11 @@
+{}
+  01 string, typeof === string : "ok"
+  02 123, typeof === string : {}
+    fail : 123
+  03 {a: 2}, val.a > 1 : "ok"
+  04 {a: 1}, val.a > 1 : {}
+    fail : {}
+      a : 1
+  05 return first + last, result === first + last : "ok"
+  06 return first, result === first + last : {}
+    fail : "_[[[function]]]_"

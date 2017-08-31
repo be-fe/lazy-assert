@@ -86,4 +86,47 @@ describe('Test extra utils for lazy-assert', function () {
             ], ['first', 'last', 'not-exist'])
         ]);
     });
+
+    it('Should match pattern : regexp', function () {
+        lazy.peek('5-pattern-regexp', {
+            '01 string /string/': lazy.pattern('string', /string/),
+            '02 abcd /bc/': lazy.pattern('abcd', /bc/),
+            '03 abcd /^bc/': lazy.pattern('abcd', /^bc/),
+            '04 123123.123 /123.d+/': lazy.pattern(123.123, /123\.\d+/),
+            '05 123123.123 /^123.d+/': lazy.pattern(123123.123, /^123\.\d+/),
+            '06 {} /any/': lazy.pattern({}, /any/),
+            '07 function /any/': lazy.pattern(function () {
+            }, /any/),
+            '08 [{}, any, 123, {}], /123/': lazy.pattern([{}, 'any', 123, {}], /123/)
+        });
+    });
+
+    it('Should match function : function', function () {
+        var checkType, checkNumber, checkFunc;
+
+        lazy.peek('6-pattern-function', {
+            '01 string, typeof === string': lazy.pattern('string', checkType = function (value) {
+                return typeof value === 'string'
+            }),
+            '02 123, typeof === string': lazy.pattern(123, checkType),
+            '03 {a: 2}, val.a > 1': lazy.pattern({a: 2}, checkNumber = function (value) {
+                return value.a > 1;
+            }),
+            '04 {a: 1}, val.a > 1': lazy.pattern({a: 1}, checkNumber),
+            '05 return first + last, result === first + last': lazy.pattern(
+                function (first, last) {
+                    return first + last;
+                },
+                checkFunc = function (func) {
+                    return func('a', 'b') === 'ab';
+                }
+            ),
+            '06 return first, result === first + last': lazy.pattern(
+                function (first, last) {
+                    return first;
+                },
+                checkFunc
+            )
+        });
+    });
 });

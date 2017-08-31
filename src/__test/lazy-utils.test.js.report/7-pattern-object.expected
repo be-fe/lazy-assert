@@ -1,0 +1,32 @@
+{}
+  01 "abc", {a: /any/} : {}
+    fail : "abc"
+    message : "non-object target is not supported for object pattern"
+  02 {a: "any", b: 123, c: 321}, {a: /any/, b: /^12/} : {}
+    a : {}
+      pattern : "/any/"
+      result : "ok"
+    b : {}
+      pattern : "/^12/"
+      result : "ok"
+  03 missing d : {}
+    a : {}
+      pattern : "/any/"
+      result : "ok"
+    d : {}
+      fail : undefined
+      pattern : "/^12/"
+  04 [ ... ] : []
+    0 : {}
+      a : {}
+        pattern : "/any/"
+        result : "ok"
+      d : {}
+        fail : undefined
+        pattern : "/^12/"
+    1 : {}
+      fail : undefined
+      message : "non-object target is not supported for object pattern"
+    2 : {}
+      fail : 123
+      message : "non-object target is not supported for object pattern"

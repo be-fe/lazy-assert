@@ -1,0 +1,21 @@
+{}
+  01 {...}, {...}, success : {}
+    a : "ok"
+    b : {}
+      pattern : "/^32/"
+      result : "ok"
+  02 {...}, {...}, missing pattern : {}
+    a : "ok"
+    b : "fail: pattern not found"
+  03 {...}, {...}, missing target : {}
+    a : "ok"
+    b : "fail: target not found"
+  03 {...}, {...}, missing target, pattern : {}
+    a : "ok"
+    b : "fail: pattern not found"
+    d : "fail: target not found"
+  03 {...}, {...}, with failure : {}
+    a : "ok"
+    b : {}
+      fail : 321
+      pattern : "/^12/"

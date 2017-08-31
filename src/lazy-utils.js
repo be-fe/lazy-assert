@@ -241,12 +241,12 @@ module.exports = {
              *
              *  result: string
              */
-            pattern: function (target, pattern) {
+            pattern: function (target, pattern, key) {
                 if (target instanceof Array) {
                     return inner.patternArray(target, pattern);
                 }
                 else if (typeof pattern === 'function') {
-                    return inner.patternFunction(target, undefined, pattern);
+                    return inner.patternFunction(target, key, pattern);
                 }
                 else if (pattern instanceof RegExp) {
                     return inner.patternRegExp(target, pattern);
@@ -271,11 +271,11 @@ module.exports = {
                             result[i] = 'fail: target not found';
                         }
                         else {
-                            result[i] = lazyUtils.pattern(complexTarget[i], patternSet[i]);
+                            result[i] = lazyUtils.pattern(complexTarget[i], patternSet[i], i);
                         }
                     }
 
-                    if (i < complexTarget.length - 1) {
+                    if (i < complexTarget.length) {
                         result[i] = 'fail: target has more items than pattern';
                     }
 
@@ -291,7 +291,7 @@ module.exports = {
 
                     for (var key in patternSet) {
                         if (key in complexTarget) {
-                            result[key] = lazyUtils.pattern(complexTarget[key], patternSet[key]);
+                            result[key] = lazyUtils.pattern(complexTarget[key], patternSet[key], key);
                             delete allTargetKeys[key];
                         }
                         else {

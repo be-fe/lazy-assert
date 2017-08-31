@@ -1,0 +1,25 @@
+{}
+  01 [...], [...], success : []
+    0 : {}
+      pattern : "/^12/"
+      result : "ok"
+    1 : "ok"
+  02 [...], [...] fail : []
+    0 : {}
+      pattern : "/^12/"
+      result : "ok"
+    1 : {}
+      fail : 10
+  03 [...], [...] missing pattern : []
+    0 : {}
+      fail : 123
+      pattern : "/any/"
+    1 : {}
+      fail : 123
+      pattern : "/any/"
+    2 : "fail: target has more items than pattern"
+  04 [...], [...] missing target : []
+    0 : {}
+      fail : 123
+      pattern : "/any/"
+    1 : "fail: target not found"

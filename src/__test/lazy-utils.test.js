@@ -163,4 +163,78 @@ describe('Test extra utils for lazy-assert', function () {
             )
         });
     });
+
+    it('Should match fullPattern : object style', function () {
+        lazy.peek('8-full-pattern-object', {
+            '01 {...}, {...}, success': lazy.fullPattern(
+                {a: 123, b: 321},
+                {
+                    a: function (a) {
+                        return a > 1
+                    },
+                    b: /^32/
+                }
+            ),
+            '02 {...}, {...}, missing pattern': lazy.fullPattern(
+                {a: 123, b: 321},
+                {
+                    a: function (a) {
+                        return a > 1
+                    }
+                }
+            ),
+            '03 {...}, {...}, missing target': lazy.fullPattern(
+                {a: 123},
+                {
+                    a: function (a) {
+                        return a > 1
+                    },
+                    b: /^32/
+                }
+            ),
+            '03 {...}, {...}, missing target, pattern': lazy.fullPattern(
+                {a: 123, b: 321},
+                {
+                    a: function (a) {
+                        return a > 1
+                    },
+                    d: /^32/
+                }
+            ),
+            '03 {...}, {...}, with failure': lazy.fullPattern(
+                {a: 123, b: 321},
+                {
+                    a: function (a) {
+                        return a > 1
+                    },
+                    b: /^12/
+                }
+            )
+        });
+    });
+
+    it('Should match fullPattern : array style', function () {
+        lazy.peek('9-full-pattern-array', {
+            '01 [...], [...], success': lazy.fullPattern(
+                [123, -1],
+                [/^12/, function (value, index) {
+                    return value < index;
+                }]
+            ),
+            '02 [...], [...] fail': lazy.fullPattern(
+                [123, 10],
+                [/^12/, function (value, index) {
+                    return value < index;
+                }]
+            ),
+            '03 [...], [...] missing pattern': lazy.fullPattern(
+                [123, 123, 123],
+                [/any/, /any/]
+            ),
+            '04 [...], [...] missing target': lazy.fullPattern(
+                [123],
+                [/any/, /any/]
+            )
+        });
+    });
 });

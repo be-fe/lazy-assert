@@ -1,4 +1,4 @@
-Build status : ![travis build](https://travis-ci.org/be-fe/lazy-assert.svg?branch=master)
+![travis build](https://travis-ci.org/be-fe/lazy-assert.svg?branch=master)
 
 # 什么是 lazy-assert
 

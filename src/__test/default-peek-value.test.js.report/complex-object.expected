@@ -1,4 +1,11 @@
 {}
+  a : {}
+    b : {}
+      c : {}
+        d : {}
+          e : {}
+            f : {}
+              g : 0
   aString : "a string"
   bool : true
   func : "_[[[function]]]_"

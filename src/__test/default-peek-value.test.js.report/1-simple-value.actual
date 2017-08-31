@@ -1,0 +1,10 @@
+{}
+  -Infinity : -Infinity
+  Infinity : Infinity
+  NaN : NaN
+  boolean : false
+  float : -0.123
+  null : null
+  number : 123
+  string : "string"
+  undefined : undefined

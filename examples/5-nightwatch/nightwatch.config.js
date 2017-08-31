@@ -1,3 +1,9 @@
+try {
+    console.log(require.resolve('selenium-download'));
+} catch(e) {
+    process.exit(0);
+}
+
 var PKG = require('../../package.json'); // so we can get the version of the project
 
 var npath = require('path');

@@ -281,7 +281,16 @@ var lazyAssert = {
         }
 
         utils.write(actualPath, actual);
-        assert.equal(actual, expected, peekKey);
+        assert.equal(
+            actual, expected,
+            (this.testLocation ? this.testLocation + ' : ' : '')
+            + (this._hint ? this._hint + ' : ' : '')
+            + peekKey
+        );
+    },
+
+    hint: function (hint) {
+        this._hint = hint;
     },
 
     compare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
@@ -294,7 +303,7 @@ var lazyAssert = {
         // console.log(actualString === expectedString);
 
         if (actualString !== expectedString) {
-            console.warn('[WARN] peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
+            console.warn('[WARN] ' + (this._hint ? this._hint + ' :' : '') + ' peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
             console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
             return false;
         }
@@ -306,7 +315,7 @@ var lazyAssert = {
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue, depthOrPlugin));
 
         if (actualString !== expectedString) {
-            console.warn('[WARN] peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
+            console.warn('[WARN] ' + (this._hint ? this._hint + ' :' : '') + ' peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
             console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
         }
         assert.equal(actualString, expectedString, peekKey);

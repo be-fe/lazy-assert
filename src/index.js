@@ -295,7 +295,7 @@ var lazyAssert = {
 
         if (actualString !== expectedString) {
             console.warn('[WARN] peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
-            console.warn('[WARN] ', JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
+            console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
             return false;
         }
         return true;
@@ -307,7 +307,7 @@ var lazyAssert = {
 
         if (actualString !== expectedString) {
             console.warn('[WARN] peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
-            console.warn('[WARN] ', JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
+            console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
         }
         assert.equal(actualString, expectedString, peekKey);
     },

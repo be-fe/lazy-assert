@@ -39,7 +39,7 @@ module.exports = {
                     }
                     else {
                         // 只能是 object 了
-                            result.push(inner.patternObject(array[i], pattern));
+                        result.push(inner.patternObject(array[i], pattern));
                     }
                 }
                 return result;
@@ -70,22 +70,32 @@ module.exports = {
         };
 
         var lazyUtils = {
-            pick: function (value, configArray) {
+            pick: function (value, configArrayOrFunc) {
                 if (value instanceof Array) {
                     var result = [];
 
                     for (var i = 0; i < value.length; i++) {
-                        result.push(lazyAssert.pick(value[i], configArray));
+                        result.push(lazyAssert.pick(value[i], configArrayOrFunc));
                     }
                     return result;
                 }
                 else if (typeof value === 'object' && value) {
                     var result = {};
-                    configArray.forEach(function (key) {
-                        if (key in value) {
-                            result[key] = value[key];
+
+                    if (typeof configArrayOrFunc === 'function') {
+                        for (var key in value) {
+                            if (configArrayOrFunc(key, value[key])) {
+                                result[key] = value[key]
+                            }
                         }
-                    });
+                    }
+                    else {
+                        configArrayOrFunc.forEach(function (key) {
+                            if (key in value) {
+                                result[key] = value[key];
+                            }
+                        });
+                    }
                     return result;
                 }
                 else {
@@ -93,12 +103,12 @@ module.exports = {
                 }
             },
 
-            unpick: function (value, configArray) {
+            unpick: function (value, configArrayOrFunc) {
                 if (value instanceof Array) {
                     var result = [];
 
                     for (var i = 0; i < value.length; i++) {
-                        result.push(lazyAssert.unpick(value[i], configArray));
+                        result.push(lazyAssert.unpick(value[i], configArrayOrFunc));
                     }
                     return result;
                 }
@@ -107,9 +117,18 @@ module.exports = {
                     for (var key in value) {
                         result[key] = value[key];
                     }
-                    configArray.forEach(function (key) {
-                        delete result[key];
-                    });
+                    if (typeof configArrayOrFunc === 'function') {
+                        for (var key in value) {
+                            if (configArrayOrFunc(key, value[key])) {
+                                delete result[key];
+                            }
+                        }
+                    }
+                    else {
+                        configArrayOrFunc.forEach(function (key) {
+                            delete result[key];
+                        });
+                    }
                     return result;
                 }
                 else {

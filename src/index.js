@@ -284,18 +284,6 @@ var lazyAssert = {
         assert.equal(actual, expected, peekKey);
     },
 
-    compareRaw: function (peekKey, actualValue, expectedValue, depthOrPlugin) {
-        var expectedPreparedValue = lazyAssert.prepareValue(expectedValue, depthOrPlugin);
-
-        return lazyAssert.compare(peekKey, actualValue, expectedPreparedValue, depthOrPlugin);
-    },
-
-    assertRaw: function (peekKey, actualValue, expectedValue, depthOrPlugin) {
-        var expectedPreparedValue = lazyAssert.prepareValue(expectedValue, depthOrPlugin);
-
-        return lazyAssert.assert(peekKey, actualValue, expectedPreparedValue, depthOrPlugin);
-    },
-
     compare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
         var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue));

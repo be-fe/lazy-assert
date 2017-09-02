@@ -29,9 +29,12 @@ describe('Test lazy assert without fs', function () {
 
         var warn = sinon.stub(console, 'warn');
         warn.callsFake(function () {
-            _warn.apply(null, arguments);
-            if (self.insideLogCalling) return;
-            self.onLogCalled && self.onLogCalled.apply(this, arguments);
+            if (self.onLogCalled) {
+                self.onLogCalled.apply(this, arguments)
+            }
+            else {
+                _warn.apply(null, arguments);
+            }
         });
     });
 
@@ -129,5 +132,11 @@ describe('Test lazy assert without fs', function () {
                 "1": "{\n  \"name\": \"a\",\n  \"b\": {\n    \"name\": \"b\",\n    \"a\": \"_[[[reference: @root]]]_\"\n  }\n}"
             }
         ]);
+    });
+
+    it('Should throw assert error', function () {
+        lazy.throws(function() {
+            lazy.assert('assert-error', {hello: 'world'}, 123);
+        }, /assert-error/)
     });
 });

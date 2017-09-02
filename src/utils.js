@@ -1,5 +1,11 @@
 var npath = require('path');
-var fs = require('fs');
+
+try {
+    var fs = require('fs');
+}
+catch (ex) {
+
+}
 
 /**
  * @start-def: utils: {}
@@ -103,7 +109,16 @@ var utils = {
                 target[key] = extra[key];
             }
         }
-    }
+    },
+
+    /**
+     * // remove the leading/following whitespaces
+     * @def: .trim: string => string
+     */
+    trim: function(string) {
+        string = string || '';
+        return string.replace(/^\s+/, '').replace(/\s+$/, '');
+    },
 };
 
 module.exports = utils;

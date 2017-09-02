@@ -1,6 +1,12 @@
 var assert = require('assert');
 var utils = require('./utils');
-var fs = require('fs');
+
+try {
+    var fs = require('fs');
+}
+catch (ex) {
+    fs = require('./fake-fs');
+}
 
 /**
  * @start-def: lazyAssert: {}
@@ -276,6 +282,46 @@ var lazyAssert = {
 
         utils.write(actualPath, actual);
         assert.equal(actual, expected, peekKey);
+    },
+
+    compareRaw: function (peekKey, actualValue, expectedValue, depthOrPlugin) {
+        var expectedPreparedValue = lazyAssert.prepareValue(expectedValue, depthOrPlugin);
+
+        return lazyAssert.compare(peekKey, actualValue, expectedPreparedValue, depthOrPlugin);
+    },
+
+    assertRaw: function (peekKey, actualValue, expectedValue, depthOrPlugin) {
+        var expectedPreparedValue = lazyAssert.prepareValue(expectedValue, depthOrPlugin);
+
+        return lazyAssert.assert(peekKey, actualValue, expectedPreparedValue, depthOrPlugin);
+    },
+
+    compare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
+        var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
+        var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue));
+
+        // console.log('@@d');
+        // console.log('"' + actualString + '"');
+        // console.log('"' + expectedString + '"');
+        // console.log(actualString === expectedString);
+
+        if (actualString !== expectedString) {
+            console.warn('[WARN] peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
+            console.warn('[WARN] ', JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
+            return false;
+        }
+        return true;
+    },
+
+    assert: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
+        var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
+        var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue, depthOrPlugin));
+
+        if (actualString !== expectedString) {
+            console.warn('[WARN] peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
+            console.warn('[WARN] ', JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
+        }
+        assert.equal(actualString, expectedString, peekKey);
     },
 
     newPeek: function (peekKey) {

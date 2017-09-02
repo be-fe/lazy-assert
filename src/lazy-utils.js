@@ -54,9 +54,9 @@ module.exports = {
 
                 for (var key in pattern) {
                     if (pattern.hasOwnProperty(key)) {
-                        if (typeof subPattern === 'function') {
+                        if (typeof pattern[key] === 'function') {
                             // match function
-                            result[key] = inner.patternFunction(object[key], key, pattern);
+                            result[key] = inner.patternFunction(object[key], key, pattern[key]);
                         }
                         else {
                             // regexp

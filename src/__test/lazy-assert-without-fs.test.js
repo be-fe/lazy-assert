@@ -30,7 +30,8 @@ describe('Test lazy assert without fs', function () {
         var warn = sinon.stub(console, 'warn');
         warn.callsFake(function () {
             if (self.onLogCalled) {
-                _warn.apply(null, arguments);
+                // This is only for debug purpose
+                // _warn.apply(null, arguments);
                 self.onLogCalled.apply(this, arguments)
             }
             else {

@@ -96,7 +96,7 @@ describe('Test lazy assert without fs', function () {
         lazy.compare('error', a, 0, 'ref');
 
         setLogCalled();
-        lazy.assert('compare-warnings', result, [
+        lazy.assertCompare('compare-warnings', result, [
             {
                 "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
@@ -132,7 +132,7 @@ describe('Test lazy assert without fs', function () {
 
     it('Should throw assert error', function () {
         lazy.throws(function() {
-            lazy.assert('assert-error', {hello: 'world'}, 123);
+            lazy.assertCompare('assert-error', {hello: 'world'}, 123);
         }, /assert-error/)
     });
 });

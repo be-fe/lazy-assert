@@ -310,7 +310,7 @@ var lazyAssert = {
         return true;
     },
 
-    assert: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
+    assertCompare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
         var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue, depthOrPlugin));
 
@@ -319,6 +319,14 @@ var lazyAssert = {
             console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
         }
         assert.equal(actualString, expectedString, peekKey);
+    },
+
+    validate: function () {
+
+    },
+
+    assertValidate: function () {
+
     },
 
     newPeek: function (peekKey) {

@@ -343,63 +343,10 @@ var lazyAssert = {
         assert.equal(actualString, expectedString, peekKey);
     },
 
-    /**
-     *
-     * @def: ~Validator: arrayConfig | objectConfig | stringConfig | notStringConfig | regexpConfig | functionConfig
-     *
-     *  // The function being used to validate the target value
-     *  functionConfig: (val, key, parent) => boolean
-     *      val: any
-     *      key: string | number
-     *      parent: {} | []
-     *
-     *  // Use to validate the type of the target value
-     *  // 'string' | 'number' | 'function' | 'array' | 'regexp' | 'boolean' | 'nan' | 'infinity' | '-infinity' |
-     *  // 'object' | 'null'
-     *  stringConfig: string    as ~StringConfig
-     *
-     *  // '!' + #@~StringConfig, refers to "not ..."
-     *  notStringConfig: string
-     *
-     *  // Use to validate string/number against the regexp
-     *  regexpConfig: RegExp
-     *
-     *  arrayConfig: [firstArg, #@~Validator, ...] | [#@~Validator, ...] | ['value', rawValue...] >>
-     *      | [op, value] | ['!', notValidator...]
-     *      ///
-     *      When firstArg = 'array', the following Validator is to validate any item of the target value,
-     *      which should be an array.
-     *
-     *      When firstArg = 'and', the result of validation is true, only if the following validators returns true when
-     *      validating the target value.
-     *      ///
-     *      firstArg: 'array' | 'and'
-     *
-     *      ///
-     *      When the first item of the array is set as 'value', this is the "exact value" to be checked against the
-     *      target value.
-     *
-     *      If more than one rawValues are given , they are checked in an 'OR' condition.
-     *      ///
-     *      rawValue: any
-     *
-     *      // For quickily building up condition for checking the target value
-     *      op: '>' | '<' | '>=' | '<='
-     *
-     *      // When the first item is '!', the result of validation is true only if all the validators returns false
-     *      notValidator: #@~Validator
-     *
-     *  // key is related to the target's object's key
-     *  objectConfig: {key: #@~Validator}
-     *
-     *
-     * @def: .validate: peekKey, actualTargetValue, validator => boolean
-     *  peekKey: string         // The key to help marking the output easier
-     *  actualTargetValue: any  // The value to validate
-     *  validator: #@~Validator     // The validator to be used to validate the target value
-     */
     validate: function (peekKey, actualTargetValue, validator) {
-
+        if (!peekKey) {
+            throw utils.newError('no-peek-key', 'No peek key is set for this validation');
+        }
     },
 
     /**

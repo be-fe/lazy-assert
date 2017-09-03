@@ -122,6 +122,10 @@ var utils = {
 
     isArray: function (target) {
         return Object.prototype.toString.call(target) === '[object Array]';
+    },
+
+    isRegExp: function (target) {
+        return Object.prototype.toString.call(target) === '[object RegExp]';
     }
 };
 

@@ -1,0 +1,9 @@
+{}
+  01-true : true
+  02-false object : false
+  03-false arguments : false
+  04-false null : false
+  05-false 123 : false
+  05-false NaN : false
+  05-false string : false
+  05-false undefined : false

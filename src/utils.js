@@ -119,6 +119,10 @@ var utils = {
         string = string || '';
         return string.replace(/^\s+/, '').replace(/\s+$/, '');
     },
+
+    isArray: function (target) {
+        return Object.prototype.toString.call(target) === '[object Array]';
+    }
 };
 
 module.exports = utils;

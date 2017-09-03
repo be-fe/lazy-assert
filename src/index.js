@@ -293,6 +293,23 @@ var lazyAssert = {
         this._hint = hint;
     },
 
+    /**
+     * This function will compare the prepared value of actual target value with the expected prepared value.
+     * If failed, output the prepared value of the actual target value.
+     *
+     * So that, you can simple copy & paste the output to your test case.
+     * With minimal alteration, you wrote your test. ;)
+     *
+     * @def: .compare: peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin => boolean
+     *  // this arg is not used in report file creation as compare is meant to be run
+     *  // in fileless scenario
+     *  peekKey: string // is for showing some hint about which compare broke.
+     *
+     *  actualTargetValue: any      // the actual value
+     *  expectedPreparedValue: any  // different from "an actual value", it refers to the prepared value from an actual value
+     *
+     *  depthOrPlugin: string | func | number   // see #@.processValue.depthOrPlugin
+     */
     compare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
         var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue));
@@ -310,6 +327,11 @@ var lazyAssert = {
         return true;
     },
 
+    /**
+     * Almost the same as #@.compare, except for that it throw an AssertionError instead of return true/false.
+     *
+     * @def: .assertCompare: function
+     */
     assertCompare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
         var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue, depthOrPlugin));
@@ -321,10 +343,68 @@ var lazyAssert = {
         assert.equal(actualString, expectedString, peekKey);
     },
 
-    validate: function () {
+    /**
+     *
+     * @def: ~Validator: arrayConfig | objectConfig | stringConfig | notStringConfig | regexpConfig | functionConfig
+     *
+     *  // The function being used to validate the target value
+     *  functionConfig: (val, key, parent) => boolean
+     *      val: any
+     *      key: string | number
+     *      parent: {} | []
+     *
+     *  // Use to validate the type of the target value
+     *  // 'string' | 'number' | 'function' | 'array' | 'regexp' | 'boolean' | 'nan' | 'infinity' | '-infinity' |
+     *  // 'object' | 'null'
+     *  stringConfig: string    as ~StringConfig
+     *
+     *  // '!' + #@~StringConfig, refers to "not ..."
+     *  notStringConfig: string
+     *
+     *  // Use to validate string/number against the regexp
+     *  regexpConfig: RegExp
+     *
+     *  arrayConfig: [firstArg, #@~Validator, ...] | [#@~Validator, ...] | ['value', rawValue...] >>
+     *      | [op, value] | ['!', notValidator...]
+     *      ///
+     *      When firstArg = 'array', the following Validator is to validate any item of the target value,
+     *      which should be an array.
+     *
+     *      When firstArg = 'and', the result of validation is true, only if the following validators returns true when
+     *      validating the target value.
+     *      ///
+     *      firstArg: 'array' | 'and'
+     *
+     *      ///
+     *      When the first item of the array is set as 'value', this is the "exact value" to be checked against the
+     *      target value.
+     *
+     *      If more than one rawValues are given , they are checked in an 'OR' condition.
+     *      ///
+     *      rawValue: any
+     *
+     *      // For quickily building up condition for checking the target value
+     *      op: '>' | '<' | '>=' | '<='
+     *
+     *      // When the first item is '!', the result of validation is true only if all the validators returns false
+     *      notValidator: #@~Validator
+     *
+     *  // key is related to the target's object's key
+     *  objectConfig: {key: #@~Validator}
+     *
+     *
+     * @def: .validate: peekKey, actualTargetValue, validator => boolean
+     *  peekKey: string         // The key to help marking the output easier
+     *  actualTargetValue: any  // The value to validate
+     *  validator: #@~Validator     // The validator to be used to validate the target value
+     */
+    validate: function (peekKey, actualTargetValue, validator) {
 
     },
 
+    /**
+     *
+     */
     assertValidate: function () {
 
     },

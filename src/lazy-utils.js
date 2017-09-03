@@ -70,6 +70,39 @@ module.exports = {
         };
 
         var lazyUtils = {
+            /**
+             *
+             * @def: .map: (objTarget | arrTarget, callback) => objResult | arrResult
+             *  objTarget: {key: any}
+             *  arrTarget: [any]
+             *
+             *  callback: (value, key) => result
+             *
+             *  objResult: {key: result}
+             *  arrResult: [result]
+             *
+             */
+            map: function (target, callback) {
+                var result;
+                if (target instanceof Array) {
+                    result = [];
+                    for (var i = 0; i < target.length; i++) {
+                        result[i] = callback(target[i], i);
+                    }
+                }
+                else if (typeof target === 'object' && target) {
+                    result = {};
+                    for (var key in target) {
+                        result[key] = callback(target[key], key);
+                    }
+                }
+                else {
+                    throw utils.newError('target-not-applicable-for-map', 'Target is not an Array, nor an Object');
+                }
+                return result;
+            },
+
+
             pick: function (value, configArrayOrFunc) {
                 if (value instanceof Array) {
                     var result = [];
@@ -99,7 +132,7 @@ module.exports = {
                     return result;
                 }
                 else {
-                    return value;
+                    throw utils.newError('value-not-applicable-for-pick', 'Value is not an Array, nor an Object');
                 }
             },
 
@@ -132,7 +165,7 @@ module.exports = {
                     return result;
                 }
                 else {
-                    return value;
+                    throw utils.newError('value-not-applicable-for-unpick', 'Value is not an Array, nor an Object');
                 }
             },
 

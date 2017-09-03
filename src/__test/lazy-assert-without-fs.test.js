@@ -30,6 +30,7 @@ describe('Test lazy assert without fs', function () {
         var warn = sinon.stub(console, 'warn');
         warn.callsFake(function () {
             if (self.onLogCalled) {
+                _warn.apply(null, arguments);
                 self.onLogCalled.apply(this, arguments)
             }
             else {
@@ -97,39 +98,34 @@ describe('Test lazy assert without fs', function () {
         setLogCalled();
         lazy.assert('compare-warnings', result, [
             {
-                "0": "[WARN] peek <error> did not match the expected value, the actual prepared value is : "
+                "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
             {
-                "0": "[WARN] ",
-                "1": "{\n  \"hello\": \"world\"\n}"
+                "0": "{\n  \"hello\": \"world\"\n}"
             },
             {
-                "0": "[WARN] peek <error> did not match the expected value, the actual prepared value is : "
+                "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
             {
-                "0": "[WARN] ",
-                "1": "123"
+                "0": "123"
             },
             {
-                "0": "[WARN] peek <error> did not match the expected value, the actual prepared value is : "
+                "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
             {
-                "0": "[WARN] ",
-                "1": "[\n  1,\n  2,\n  3\n]"
+                "0": "[\n  1,\n  2,\n  3\n]"
             },
             {
-                "0": "[WARN] peek <error> did not match the expected value, the actual prepared value is : "
+                "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
             {
-                "0": "[WARN] ",
-                "1": "{\n  \"name\": \"a\",\n  \"b\": {\n    \"name\": \"b\",\n    \"a\": {\n      \"name\": \"a\",\n      \"b\": \"_[[[reference: object]]]_\"\n    }\n  }\n}"
+                "0": "{\n  \"name\": \"a\",\n  \"b\": {\n    \"name\": \"b\",\n    \"a\": {\n      \"name\": \"a\",\n      \"b\": \"_[[[reference: object]]]_\"\n    }\n  }\n}"
             },
             {
-                "0": "[WARN] peek <error> did not match the expected value, the actual prepared value is : "
+                "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
             {
-                "0": "[WARN] ",
-                "1": "{\n  \"name\": \"a\",\n  \"b\": {\n    \"name\": \"b\",\n    \"a\": \"_[[[reference: @root]]]_\"\n  }\n}"
+                "0": "{\n  \"name\": \"a\",\n  \"b\": {\n    \"name\": \"b\",\n    \"a\": \"_[[[reference: @root]]]_\"\n  }\n}"
             }
         ]);
     });

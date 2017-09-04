@@ -80,6 +80,8 @@ describe('Test lazy validator', function () {
             '08 value : true, 1': lazy.validators.validate(1, ['value', 1, null]),
             '08 value : true, null': lazy.validators.validate(null, ['value', 1, null]),
             '08 value : false': lazy.validators.validate(true, ['value', 1, null]),
+            '09 or : true': lazy.validators.validate([], ['or', 'array', null]),
+            '09 or : false': lazy.validators.validate(true, ['value', 'array', null]),
         });
     });
 

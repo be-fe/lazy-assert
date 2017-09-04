@@ -33,7 +33,7 @@ module.exports = {
              *  is an array itself.
              *  ///
              *  arrayConfig: ['array', arrayValidator, ...] | [orValidator, ...] | ['value', rawValue...] >>
-             *      | [op, value] | ['!', notValidator...] | ['and', andValidator, ...]
+             *      | [op, value] | ['!', notValidator...] | ['and', andValidator, ...] | ['or', orValidator, ...]
              *      ///
              *      When first item = 'array', the following Validator is to validate any item of the target value,
              *      which should be an array.
@@ -194,6 +194,10 @@ module.exports = {
                 }
                 else if (validator[0] === 'value') {
                     return validatorsUtils.validatorValueArray(target, validator);
+                }
+                else if (validator[0] === 'or') {
+                    validator.shift();
+                    return validatorsUtils.validatorOrArray(target, validator);
                 }
                 else if (validator[0] === 'array') {
                     return validatorsUtils.validatorArrayArray(target, validator, extra);

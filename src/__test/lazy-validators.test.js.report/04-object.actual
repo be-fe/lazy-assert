@@ -1,0 +1,143 @@
+{}
+  01 {} : true : {}
+    result : true
+  02 {} : false : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      message : "Target value is not of the expected type"
+      result : false
+      target : undefined
+      type : "number"
+    target : undefined
+  03 {} : true : {}
+    result : true
+  04 {} : true : {}
+    result : true
+  05 {a: 1} : true, number : {}
+    result : true
+  06 {a: 1} : true, object | number : {}
+    result : true
+  07 {a: 1} : true, number & func : {}
+    result : true
+  08 {a: 1} : false, object : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      message : "Did not match or-array"
+      result : false
+      target : 1
+      validator : []
+        0 : "object"
+    target : 1
+  09 {a: 1} : false, number & func : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      index : 2
+      message : "Did not meet all validators in and array"
+      result : false
+      subResult : {}
+        funcInfo : undefined
+        result : false
+        target : 1
+      subValidator : "_[[[function]]]_"
+    target : 1
+  10 {a: 1} : false, number & < : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      index : 2
+      message : "Did not meet all validators in and array"
+      result : false
+      subResult : {}
+        funcInfo : "Comparison : < 0"
+        result : false
+        target : 1
+      subValidator : []
+        0 : "<"
+        1 : 0
+    target : 1
+  11 {a: 1} : true, number & > : {}
+    result : true
+  12 {a: 1} : false, object & > : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      index : 1
+      message : "Did not meet all validators in and array"
+      result : false
+      subResult : {}
+        message : "Target value is not of the expected type"
+        result : false
+        target : 1
+        type : "object"
+      subValidator : "object"
+    target : 1
+  13 {a: 1} : true, object | > : {}
+    result : true
+  14 {a: {b: 1}} : true : {}
+    result : true
+  15 {a: {b: 1}} : true : {}
+    result : true
+  16 {a: {b: 1}} : true : {}
+    result : true
+  17 {a: {b: 1}} : false : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      key : "b"
+      message : "Target failed to match the object validator"
+      result : false
+      subResult : {}
+        index : 1
+        message : "Did not meet all validators in and array"
+        result : false
+        subResult : {}
+          message : "Target value is not of the expected type"
+          result : false
+          target : 1
+          type : "object"
+        subValidator : "object"
+      target : 1
+    target : {}
+      b : 1
+  18 {a: {b: ["1", "2", null]]}} : false : {}
+    key : "a"
+    message : "Target failed to match the object validator"
+    result : false
+    subResult : {}
+      key : "b"
+      message : "Target failed to match the object validator"
+      result : false
+      subResult : {}
+        message : "Did not match or-array"
+        result : false
+        target : []
+          0 : "1"
+          1 : "2"
+          2 : null
+        validator : []
+          0 : "string"
+          1 : []
+            0 : "array"
+            1 : "string"
+      target : []
+        0 : "1"
+        1 : "2"
+        2 : null
+    target : {}
+      b : []
+        0 : "1"
+        1 : "2"
+        2 : null
+  19 {a: {b: ["1", "2", null]]}} : true : {}
+    result : true
+  20 {a: {b: "1"}} : true : {}
+    result : true

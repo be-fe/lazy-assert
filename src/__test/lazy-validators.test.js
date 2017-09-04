@@ -1,4 +1,5 @@
 var lazy = require('../index');
+var utils = require('../utils');
 
 /* global before, beforeEach, after, afterEach */
 describe('Test lazy validator', function () {
@@ -163,5 +164,73 @@ describe('Test lazy validator', function () {
                 }
             ),
         }, -1);
+    });
+
+    it('Should return correct pre-summary : simple', function () {
+        lazy.peek('05-pre-summary-simple', {
+            '01 "123"': lazy.validators.preSummarizeTypeValidator('123'),
+            '02 123': lazy.validators.preSummarizeTypeValidator(123),
+            '03 nan': lazy.validators.preSummarizeTypeValidator(+'asdf'),
+            '04 infinity': lazy.validators.preSummarizeTypeValidator(Infinity),
+            '05 -infinity': lazy.validators.preSummarizeTypeValidator(-Infinity),
+            '06 true': lazy.validators.preSummarizeTypeValidator(true),
+            '07 null': lazy.validators.preSummarizeTypeValidator(null),
+            '08 undefined': lazy.validators.preSummarizeTypeValidator(undefined),
+            '09 function': lazy.validators.preSummarizeTypeValidator(function () {
+            }),
+            '10 regexp': lazy.validators.preSummarizeTypeValidator(/abc/),
+        }, -1);
+    });
+
+    it('Should return correct pre-summary : object', function () {
+        var a = {name: 'a'};
+        var b = {name: 'b', a: a};
+        a.b = b;
+
+        var c = {a: a, b: b};
+        var d = {b: b, a: a};
+
+        var result = {
+            '01 {a: 1}': lazy.validators.preSummarizeTypeValidator({a: 1}),
+            '02 {a: 1, b: "123"}': lazy.validators.preSummarizeTypeValidator({a: 1, b: '123'}),
+            '03 {a: 1, b: "123", c: [1, "2"]}': lazy.validators.preSummarizeTypeValidator({a: 1, b: '123', c: [1, '2']}),
+            '04 looping c': lazy.validators.preSummarizeTypeValidator(c),
+        };
+
+        lazy.validators.clearValidateKey(c);
+
+        utils.extend(result, {
+            '05 looping d': lazy.validators.preSummarizeTypeValidator(d),
+            '06 {a: 1, b: {c: 1, d: 1}}': lazy.validators.preSummarizeTypeValidator({a: 1, b: {c: 1, d: 1}}),
+            '07 {a: null, b: {c: 1, d: 1}, e: function}': lazy.validators.preSummarizeTypeValidator({
+                a: null,
+                b: {c: 1, d: 1},
+                e: function () {
+                }
+            }),
+        });
+
+        lazy.peek('06-pre-summary-object', result, -1);
+    });
+
+    it('Should return correct pre summary : array', function () {
+        var result = {
+            '01 1, "2"': lazy.validators.preSummarizeTypeValidator([1, '2']),
+            '02 1, "2", {a: 1}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: 1}]),
+            '03 1, "2", {a: {b: 1}}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: {b: 1}}]),
+            '04 1, "2", {a: {b: {c: 1}}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: {b: {c: 1}}}]),
+            '05 1, "2", {a: {b: {c: 1}}, {a: {b: 1}}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: {b: {c: 1}}}, {a: {b: 1}}]),
+            '06 1, "2", {a: {b: [1, "2"]}}, {a: {b: 1}}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: {b: [1, '2']}}, {a: {b: 1}}]),
+            '07 1, "2", {a: {b: 1}}, {a: {b: "2"}}, {a: {c: null}}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}]),
+            '08 1, "2", {a: [1, "2"]}, {a: {b: 1}, {a: {b: "2"}}, {a: {c: null}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}]),
+            '09 1, "2", {a: nan}, {a: [1, "2"]}, {a: {b: 1}, {a: {b: "2"}}, {a: {c: null}': lazy.validators.preSummarizeTypeValidator([1, '2', {a: NaN}, {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}]),
+            '10 1, {a: [nan]}, {a: [1, "2"]}, {a: [{b: 1}]}, [null]': lazy.validators.preSummarizeTypeValidator([1, {a: [NaN]}, {a: [1, '2']}, {a: [{b: 1}]}, [null]]),
+            '11 {a: [nan]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, "1"]}]}': lazy.validators.preSummarizeTypeValidator([{a: [NaN]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, '1']}]}]),
+            '12 {a : [{a: 1}], b: [{a: "1"}]}': lazy.validators.preSummarizeTypeValidator({a: [{a: 1}], b: [{a: '1'}]}),
+            '13 {a: [{a: 1}, {a: "1"}]}': lazy.validators.preSummarizeTypeValidator({a: [{a: 1}, {a: '1'}]}),
+            '14 {a: [{a: "1"}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}': lazy.validators.preSummarizeTypeValidator({a: [{a: '1'}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}),
+        };
+
+        lazy.peek('07-pre-summary-array', result, -1);
     });
 });

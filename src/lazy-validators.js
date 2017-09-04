@@ -2,6 +2,8 @@ var utils = require('./utils');
 
 module.exports = {
     load: function (lazyAssert) {
+        var VALIDATE_KEY = '--[[validate_key]]--';
+
         var validatorsUtils = {
 
             /**
@@ -22,6 +24,9 @@ module.exports = {
              *
              *  // '!' + #@~StringConfig, refers to "not ..."
              *  notStringConfig: string
+             *
+             *  // '=' + path, e.g. =.ref.from.root.0
+             *  refConfig: string
              *
              *  // Use to validate string/number against the regexp
              *  regexpConfig: RegExp
@@ -63,18 +68,19 @@ module.exports = {
              *  // key is related to the target's object's key
              *  objectConfig: {key: #@~Validator}
              *
-             *  // '=' + path, e.g. =.ref.from.root.0
-             *  refConfig: string
-             *
-             *
              * @def: .innerValidate: peekKey, actualTargetValue, validator => result
              *  peekKey: string         // The key to help marking the output easier
              *  actualTargetValue: any  // The value to validate
              *  validator: #@~Validator     // The validator to be used to validate the target value
              *
              *  result: {}
+             *      // if true, no other info will be given, the other info will only be given when result = false
              *      result: boolean
+             *
              *      message: string
+             *
+             *      // path to the target
+             *      path: string
              *
              *      target: any
              *      type: string
@@ -117,7 +123,12 @@ module.exports = {
                     extra.path.push(key);
                     var refPath = extra.path.join('.');
                     extra.refs[refPath] = target[key];
-                    result = validatorsUtils.validate(target[key], validator[key], {key: key, parent: target, path: extra.path, refs: extra.refs});
+                    result = validatorsUtils.validate(target[key], validator[key], {
+                        key: key,
+                        parent: target,
+                        path: extra.path,
+                        refs: extra.refs
+                    });
                     extra.path.pop();
                     if (!result.result) {
                         result.path = result.path || refPath;
@@ -169,22 +180,22 @@ module.exports = {
                     return validatorsUtils.validatorAndArray(target, validator, extra);
                 }
                 else if (validator[0] === '>') {
-                    return validatorsUtils.validatorFunction(target, function(target) {
+                    return validatorsUtils.validatorFunction(target, function (target) {
                         return target > validator[1]
                     }, {funcInfo: 'Comparison : > ' + validator[1]});
                 }
                 else if (validator[0] === '<') {
-                    return validatorsUtils.validatorFunction(target, function(target) {
+                    return validatorsUtils.validatorFunction(target, function (target) {
                         return target < validator[1]
                     }, {funcInfo: 'Comparison : < ' + validator[1]});
                 }
                 else if (validator[0] === '>=') {
-                    return validatorsUtils.validatorFunction(target, function(target) {
+                    return validatorsUtils.validatorFunction(target, function (target) {
                         return target >= validator[1]
                     }, {funcInfo: 'Comparison : >= ' + validator[1]});
                 }
                 else if (validator[0] === '<=') {
-                    return validatorsUtils.validatorFunction(target, function(target) {
+                    return validatorsUtils.validatorFunction(target, function (target) {
                         return target <= validator[1]
                     }, {funcInfo: 'Comparison : <= ' + validator[1]});
                 }
@@ -216,7 +227,12 @@ module.exports = {
                         var refPath = extra.path.join('.');
                         extra.refs[refPath] = target[i];
                         for (var j = 1; j < validator.length; j++) {
-                            result = validatorsUtils.validate(target[i], validator[j], {key: i, parent: target, path: extra.path, refs: extra.refs});
+                            result = validatorsUtils.validate(target[i], validator[j], {
+                                key: i,
+                                parent: target,
+                                path: extra.path,
+                                refs: extra.refs
+                            });
                             if (result.result) {
                                 itemResult = true;
                                 break;
@@ -445,6 +461,166 @@ module.exports = {
                         target: target,
                         expected: expected,
                         message: 'Target is not equal to the expected value.'
+                    }
+                }
+            },
+
+            /**
+             *
+             * @.def: .summarizeTypeValidator: target => validator
+             *  validator: objectValidator | valValidator
+             *      valValidator: stringValidator | refValidator | orValidator | arrayValidator
+             *          stringValidator: string
+             *          refValidator: string
+             *
+             *      objectValidator: {key: validator}
+             *
+             *      arrayValidator: [object, array, simple]
+             *          object: {key: validator}
+             *          array: arrayValidator
+             *          simple: [valValidator]
+             */
+            preSummarizeTypeValidator: function (target, path) {
+                var validator;
+                path = path || '';
+
+                if (utils.isRegExp(target)) {
+                    return [null, [], ['regexp']];
+                }
+                else if (utils.isArray(target)) {
+                    if (target[VALIDATE_KEY]) {
+                        return [null, [], ['=' + target[VALIDATE_KEY]]];
+                    }
+                    else {
+                        target[VALIDATE_KEY] = path;
+                    }
+
+                    validator = [null, [], []];
+
+                    target.forEach(function (item, index) {
+                        var subValidator = validatorsUtils.preSummarizeTypeValidator(item, (path ? path + '.' : '') + index);
+                        validatorsUtils.mergeChildSummary(validator, subValidator);
+                    });
+
+                    return validator;
+                }
+                else if (typeof target === 'object') {
+                    if (target) {
+                        if (target[VALIDATE_KEY]) {
+                            return [null, [], ['=' + target[VALIDATE_KEY]]];
+                        }
+                        else {
+                            target[VALIDATE_KEY] = path || '';
+                        }
+                        validator = {};
+
+                        var keys = [];
+                        for (var key in target) {
+                            if (key !== VALIDATE_KEY) {
+                                keys.push(key);
+                            }
+                        }
+                        keys.sort();
+                        keys.forEach(function (key) {
+                            validator[key] = [null, [], []];
+
+                            validatorsUtils.mergeSiblingSummary(validator[key], validatorsUtils.preSummarizeTypeValidator(target[key], (path ? path + '.' : '') + key));
+                        });
+                        return [validator, [], []];
+                    }
+                    else {
+                        return [null, [], ['null']];
+                    }
+                }
+                else if (typeof target === 'number') {
+                    if (isNaN(target)) {
+                        return [null, [], ['nan']];
+                    }
+                    else if (target === Infinity) {
+                        return [null, [], ['infinity']];
+                    }
+                    else if (target === -Infinity) {
+                        return [null, [], ['-infinity']];
+                    }
+                    else {
+                        return [null, [], ['number']];
+                    }
+                }
+                else {
+                    // boolean, undefined, function, string
+                    return [null, [], [typeof target]];
+                }
+            },
+
+            mergeSiblingSummary: function (previous, current) {
+                current[2].forEach(function (type) {
+                    validatorsUtils.mergeChildSummary(previous, type);
+                });
+                if (current[1].length) {
+                    validatorsUtils.mergeChildSummary(previous, current[1]);
+                }
+                if (current[0]) {
+                    validatorsUtils.mergeChildSummary(previous, current[0]);
+                }
+            },
+
+            mergeChildSummary: function (parent, child) {
+                if (typeof child === 'string') {
+                    if (parent[2].indexOf(child) === -1) {
+                        parent[2].push(child);
+                    }
+                }
+                else if (utils.isArray(child)) {
+                    if (!parent[1].length) {
+                        parent[1] = [null, [], []];
+                    }
+                    child[2].forEach(function (type) {
+                        validatorsUtils.mergeChildSummary(parent[1], type);
+                    });
+                    if (child[1].length) {
+                        validatorsUtils.mergeChildSummary(parent[1], child[1]);
+                    }
+                    if (child[0]) {
+                        validatorsUtils.mergeChildSummary(parent[1], child[0]);
+                    }
+                }
+                else if (typeof child === 'object') {
+                    var isFirst = parent[0] === null, currentKeys = {};
+                    if (isFirst) {
+                        parent[0] = {};
+                    }
+                    else {
+                        for (var key in parent[0]) {
+                            currentKeys[key] = 1;
+                        }
+                    }
+
+                    for (var key in child) {
+                        if (isFirst) {
+                            parent[0][key] = [null, [], []];
+                        }
+                        else {
+                            if (!parent[0][key]) {
+                                parent[0][key] = [null, [], ['undefined']];
+                            }
+                        }
+                        delete currentKeys[key];
+                        validatorsUtils.mergeSiblingSummary(parent[0][key], child[key]);
+                    }
+
+                    for (var key in currentKeys) {
+                        validatorsUtils.mergeChildSummary(parent[0][key], 'undefined');
+                    }
+                }
+            },
+
+            clearValidateKey: function (target) {
+                if (typeof target === 'object' && target) {
+                    if (VALIDATE_KEY in target) {
+                        delete target[VALIDATE_KEY];
+                        for (var key in target) {
+                            validatorsUtils.clearValidateKey(target[key]);
+                        }
                     }
                 }
             }

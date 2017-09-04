@@ -320,11 +320,15 @@ var lazyAssert = {
         // console.log(actualString === expectedString);
 
         if (actualString !== expectedString) {
-            console.warn('[WARN] ' + (this._hint ? this._hint + ' :' : '') + ' peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
+            lazyAssert.warn(peekKey, 'did not match the expected value, the actual prepared value is : ');
             console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
             return false;
         }
         return true;
+    },
+
+    warn: function (peekKey, message) {
+        console.warn('[WARN] ' + (this._hint ? this._hint + ' :' : '') + ' peek <' + peekKey + '> ' + message);
     },
 
     /**
@@ -337,7 +341,7 @@ var lazyAssert = {
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue, depthOrPlugin));
 
         if (actualString !== expectedString) {
-            console.warn('[WARN] ' + (this._hint ? this._hint + ' :' : '') + ' peek <' + peekKey + '> did not match the expected value, the actual prepared value is : ');
+            lazyAssert.warn(peekKey, 'did not match the expected value, the actual prepared value is : ');
             console.warn(JSON.stringify(lazyAssert.prepareValue(actualTargetValue, depthOrPlugin), null, 2));
         }
         assert.equal(actualString, expectedString, peekKey);
@@ -347,6 +351,23 @@ var lazyAssert = {
         if (!peekKey) {
             throw utils.newError('no-peek-key', 'No peek key is set for this validation');
         }
+
+        var result = lazyAssert.validators.validate(actualTargetValue, validator);
+
+        if (!result) {
+            lazyAssert.warn(peekKey, 'Validator returns undefined result');
+            return false;
+        }
+        else if (!result.result) {
+            lazyAssert.warn(peekKey, 'Validation failed with the given validator, the result is :');
+            console.warn(result);
+
+            lazyAssert.warn(peekKey, 'A default validator is : ');
+            console.warn(lazyAssert.validators.summarizeTypeValidator(actualTargetValue));
+            return false;
+        }
+
+        return true;
     },
 
     /**

@@ -88,35 +88,54 @@ module.exports = {
              */
             validate: function (target, validator, extra) {
                 // @todo: remove this
-                extra = extra || {path: [], refs: {}};
-                console.log('@@d', extra.refs);
+                if (!extra) {
+                    var isFirstLevel = true;
+                }
+                extra = extra || {path: [], refs: {}, pendingRefs: {}};
 
+                var result;
                 if (typeof validator === 'string') {
-                    return validatorsUtils.stringValidator(target, validator);
+                    result = validatorsUtils.stringValidator(target, validator, extra);
                 }
                 else if (utils.isArray(validator)) {
-                    return validatorsUtils.validatorArray(target, validator, extra);
+                    result = validatorsUtils.validatorArray(target, validator, extra);
                 }
                 else if (utils.isRegExp(validator)) {
-                    return validatorsUtils.validatorRegExp(target, validator);
+                    result = validatorsUtils.validatorRegExp(target, validator);
                 }
                 else if (typeof validator === 'object') {
                     if (validator) {
                         // it's a non-null object
-                        return validatorsUtils.validatorObject(target, validator, extra);
+                        result = validatorsUtils.validatorObject(target, validator, extra);
                     }
                     else {
                         // it's a null
-                        return validatorsUtils.exactValidator(target, null);
+                        result = validatorsUtils.exactValidator(target, null);
                     }
                 }
                 else if (typeof validator === 'function') {
-                    return validatorsUtils.validatorFunction(target, validator, extra);
+                    result = validatorsUtils.validatorFunction(target, validator, extra);
                 }
                 else {
                     // boolean, undefined, number
-                    return validatorsUtils.exactValidator(target, validator);
+                    result = validatorsUtils.exactValidator(target, validator);
                 }
+
+                if (isFirstLevel) {
+                    console.log('@@d', extra.refs, 'pending', extra.pendingRefs);
+
+                    for (var key in extra.pendingRefs) {
+                        if (extra.refs[key] !== extra.pendingRefs[key].target) {
+                            result = {
+                                result: false,
+                                path: extra.pendingRefs[key].path,
+                                targetPath: key,
+                                message: 'Ref is not equal'
+                            }
+                        }
+                    }
+                }
+                return result;
             },
 
             validatorObject: function (target, validator, extra) {
@@ -129,9 +148,11 @@ module.exports = {
                         key: key,
                         parent: target,
                         path: extra.path,
-                        refs: extra.refs
+                        refs: extra.refs,
+                        pendingRefs: extra.pendingRefs
                     });
                     extra.path.pop();
+
                     if (!result) {
                         return {
                             result: false,
@@ -242,7 +263,8 @@ module.exports = {
                                 key: i,
                                 parent: target,
                                 path: extra.path,
-                                refs: extra.refs
+                                refs: extra.refs,
+                                pendingRefs: extra.pendingRefs
                             });
                             if (result.result) {
                                 itemResult = true;
@@ -370,8 +392,12 @@ module.exports = {
                 }
             },
 
-            stringValidator: function (target, validator) {
-                if (validator === 'nan') {
+            stringValidator: function (target, validator, extra) {
+                if (validator.substr(0, 1) === '=') {
+                    extra.pendingRefs[validator.substr(1)] = {target: target, path: extra.path.join('.')};
+                    return {result: true}
+                }
+                else if (validator === 'nan') {
                     return validatorsUtils.nanValidator(target);
                 }
                 else if (validator === 'infinity') {
@@ -393,7 +419,7 @@ module.exports = {
                 else if (validator === 'object') {
                     if (!target) {
                         return {
-                            status: false,
+                            result: false,
                             target: target,
                             message: 'Target is not an non-null object'
                         }

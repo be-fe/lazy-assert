@@ -23,27 +23,32 @@ describe('Test pre summarizing', function () {
         var d = {b: b, a: a};
         var e = {ta: a, tb: b, a: [a, b]}
 
-        // lazy.validators.validate('01 {a: 1}', {a: 1}, lazy.validators.summarizeTypeValidator({a: 1}));
+        // lazy.validate('01 {a: 1}', {a: 1}, lazy.validators.summarizeTypeValidator({a: 1}));
         //
-        // lazy.validators.validate('02 {a: 1, b: "123"}',
+        // lazy.validate('02 {a: 1, b: "123"}',
         //     {a: 1, b: '123'},
         //     lazy.validators.summarizeTypeValidator({a: 1, b: '123'})
         // );
-        //
-        // lazy.validators.validate({a: 1, b: '123', c: [1, '2']},
-        //     lazy.validators.summarizeTypeValidator({a: 1, b: '123', c: [1, '2']}));
+
+        lazy.validate(
+            "{a: 1, b: '123', c: [1, '2']}",
+            {a: 1, b: '123', c: [1, '2']},
+            lazy.validators.summarizeTypeValidator({a: 1, b: '123', c: [1, '2']})
+        );
 
         // console.log('@@d', lazy.validators.summarizeTypeValidator(c), c);
-        lazy.validators.validate(c,
+        lazy.validate(
+            "looping c",
+            c,
             lazy.validators.summarizeTypeValidator(c)
         );
 
-        // lazy.validators.validate('06 {a: 1, b: {c: 1, d: 1}}',
+        // lazy.validate('06 {a: 1, b: {c: 1, d: 1}}',
         //     {a: 1, b: {c: 1, d: 1}},
         //     lazy.validators.summarizeTypeValidator({a: 1, b: {c: 1, d: 1}})
         // );
         //
-        // lazy.validators.validate('07 {a: null, b: {c: 1, d: 1}, e: function}',
+        // lazy.validate('07 {a: null, b: {c: 1, d: 1}, e: function}',
         //     {
         //         a: null,
         //         b: {c: 1, d: 1},

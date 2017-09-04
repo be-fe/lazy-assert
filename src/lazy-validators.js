@@ -485,17 +485,17 @@ module.exports = {
                 path = path || '';
 
                 if (utils.isRegExp(target)) {
-                    return [null, [], ['regexp']];
+                    return [null, null, ['regexp']];
                 }
                 else if (utils.isArray(target)) {
                     if (target[VALIDATE_KEY]) {
-                        return [null, [], ['=' + target[VALIDATE_KEY]]];
+                        return [null, null, ['=' + target[VALIDATE_KEY]]];
                     }
                     else {
                         target[VALIDATE_KEY] = path;
                     }
 
-                    validator = [null, [], []];
+                    validator = [null, [], ['array']];
 
                     target.forEach(function (item, index) {
                         var subValidator = validatorsUtils.preSummarizeTypeValidator(item, (path ? path + '.' : '') + index);
@@ -507,7 +507,7 @@ module.exports = {
                 else if (typeof target === 'object') {
                     if (target) {
                         if (target[VALIDATE_KEY]) {
-                            return [null, [], ['=' + target[VALIDATE_KEY]]];
+                            return [null, null, ['=' + target[VALIDATE_KEY]]];
                         }
                         else {
                             target[VALIDATE_KEY] = path || '';
@@ -522,33 +522,33 @@ module.exports = {
                         }
                         keys.sort();
                         keys.forEach(function (key) {
-                            validator[key] = [null, [], []];
+                            validator[key] = [null, null, []];
 
                             validatorsUtils.mergeSiblingSummary(validator[key], validatorsUtils.preSummarizeTypeValidator(target[key], (path ? path + '.' : '') + key));
                         });
-                        return [validator, [], []];
+                        return [validator, null, ['object']];
                     }
                     else {
-                        return [null, [], ['null']];
+                        return [null, null, ['null']];
                     }
                 }
                 else if (typeof target === 'number') {
                     if (isNaN(target)) {
-                        return [null, [], ['nan']];
+                        return [null, null, ['nan']];
                     }
                     else if (target === Infinity) {
-                        return [null, [], ['infinity']];
+                        return [null, null, ['infinity']];
                     }
                     else if (target === -Infinity) {
-                        return [null, [], ['-infinity']];
+                        return [null, null, ['-infinity']];
                     }
                     else {
-                        return [null, [], ['number']];
+                        return [null, null, ['number']];
                     }
                 }
                 else {
                     // boolean, undefined, function, string
-                    return [null, [], [typeof target]];
+                    return [null, null, [typeof target]];
                 }
             },
 
@@ -556,7 +556,7 @@ module.exports = {
                 current[2].forEach(function (type) {
                     validatorsUtils.mergeChildSummary(previous, type);
                 });
-                if (current[1].length) {
+                if (current[1] && current[1].length) {
                     validatorsUtils.mergeChildSummary(previous, current[1]);
                 }
                 if (current[0]) {
@@ -571,13 +571,13 @@ module.exports = {
                     }
                 }
                 else if (utils.isArray(child)) {
-                    if (!parent[1].length) {
-                        parent[1] = [null, [], []];
+                    if (!parent[1] || !parent[1].length) {
+                        parent[1] = [null, null, []];
                     }
                     child[2].forEach(function (type) {
                         validatorsUtils.mergeChildSummary(parent[1], type);
                     });
-                    if (child[1].length) {
+                    if (child[1] && child[1].length) {
                         validatorsUtils.mergeChildSummary(parent[1], child[1]);
                     }
                     if (child[0]) {

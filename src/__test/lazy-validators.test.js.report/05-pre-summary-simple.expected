@@ -1,51 +1,51 @@
 {}
   01 "123" : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "string"
   02 123 : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "number"
   03 nan : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "nan"
   04 infinity : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "infinity"
   05 -infinity : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "-infinity"
   06 true : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "boolean"
   07 null : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "null"
   08 undefined : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "undefined"
   09 function : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "function"
   10 regexp : []
     0 : null
-    1 : []
+    1 : null
     2 : []
       0 : "regexp"

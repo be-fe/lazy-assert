@@ -197,6 +197,7 @@ describe('Test lazy validator', function () {
 
         var c = {a: a, b: b};
         var d = {b: b, a: a};
+        var e = {ta: a, tb: b, a: [a, b]}
 
         var result = {
             '01 {a: 1}': lazy.validators.preSummarizeTypeValidator({a: 1}),
@@ -216,6 +217,12 @@ describe('Test lazy validator', function () {
                 e: function () {
                 }
             }),
+        });
+
+        lazy.validators.clearValidateKey(d);
+
+        utils.extend(result, {
+            '08 looping e': lazy.validators.preSummarizeTypeValidator(e)
         });
 
         lazy.peek('06-pre-summary-object', result, -1);

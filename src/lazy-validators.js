@@ -465,20 +465,20 @@ module.exports = {
                 }
             },
 
+            summarizeTypeValidator: function (target) {
+                var rawValidator = validatorsUtils.preSummarizeTypeValidator(target);
+                validatorsUtils.clearValidateKey(target);
+
+
+            },
+
             /**
              *
              * @.def: .summarizeTypeValidator: target => validator
-             *  validator: objectValidator | valValidator
-             *      valValidator: stringValidator | refValidator | orValidator | arrayValidator
-             *          stringValidator: string
-             *          refValidator: string
-             *
-             *      objectValidator: {key: validator}
-             *
-             *      arrayValidator: [object, array, simple]
-             *          object: {key: validator}
-             *          array: arrayValidator
-             *          simple: [valValidator]
+             *  validator: [object, array, simple]
+             *      object: {key: validator}
+             *      array: validator
+             *      simple: [string]
              */
             preSummarizeTypeValidator: function (target, path) {
                 var validator;

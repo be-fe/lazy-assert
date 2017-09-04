@@ -126,7 +126,7 @@ describe('Test lazy assert without fs', function () {
                 "0": "[WARN]  peek <error> did not match the expected value, the actual prepared value is : "
             },
             {
-                "0": "{\n  \"name\": \"a\",\n  \"b\": {\n    \"name\": \"b\",\n    \"a\": \"_[[[reference: @root]]]_\"\n  }\n}"
+                "0": "{\n  \"b\": {\n    \"a\": \"_[[[reference: @root]]]_\",\n    \"name\": \"b\"\n  },\n  \"name\": \"a\"\n}"
             }
         ]);
     });

@@ -44,6 +44,11 @@ describe('Test lazy validator', function () {
             '21 infinity : false': lazy.validators.validate(-Infinity, 'infinity'),
             '22 -infinity : true': lazy.validators.validate(-Infinity, '-infinity'),
             '23 -infinity : false': lazy.validators.validate(123, '-infinity'),
+
+            '24 -regexp 123, /^12/: true': lazy.validators.validate(123, /^12/),
+            '25 -regexp "abc", /bc$/: true': lazy.validators.validate('abc', /bc$/),
+            '26 -regexp {}, /bc$/: false': lazy.validators.validate({}, /bc$/),
+            '27 -regexp 123, /bc$/: false': lazy.validators.validate(123, /bc$/),
         });
     });
 

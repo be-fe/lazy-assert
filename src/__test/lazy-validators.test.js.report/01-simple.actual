@@ -77,3 +77,17 @@
     message : "Target is not equal to the expected value."
     result : false
     target : 123
+  24 -regexp 123, /^12/: true : {}
+    result : true
+  25 -regexp "abc", /bc$/: true : {}
+    result : true
+  26 -regexp {}, /bc$/: false : {}
+    message : "Target can not be tested by regexp"
+    regexp : /bc$/
+    result : false
+    target : {}
+  27 -regexp 123, /bc$/: false : {}
+    message : "Target does not match regexp"
+    regexp : /bc$/
+    result : false
+    target : 123

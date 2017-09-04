@@ -69,7 +69,7 @@ describe('Test lazy validator', function () {
             '04 < : false': lazy.validators.validate(5, ['<', 3]),
 
             '05 >= : true': lazy.validators.validate(3, ['>=', 3]),
-            '05 >= : false': lazy.validators.validate(2, ['>', 3]),
+            '05 >= : false': lazy.validators.validate(2, ['>=', 3]),
 
             '06 <= : true': lazy.validators.validate(3, ['<=', 3]),
             '06 <= : false': lazy.validators.validate(5, ['<=', 3]),

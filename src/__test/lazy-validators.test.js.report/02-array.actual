@@ -44,7 +44,7 @@
   04 < : true : {}
     result : true
   05 >= : false : {}
-    funcInfo : "Comparison : > 3"
+    funcInfo : "Comparison : >= 3"
     result : false
     target : 2
   05 >= : true : {}

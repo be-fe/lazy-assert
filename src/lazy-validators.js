@@ -87,7 +87,9 @@ module.exports = {
              *      expected: any
              */
             validate: function (target, validator, extra) {
+                // @todo: remove this
                 extra = extra || {path: [], refs: {}};
+                console.log('@@d', extra.refs);
 
                 if (typeof validator === 'string') {
                     return validatorsUtils.stringValidator(target, validator);
@@ -118,7 +120,7 @@ module.exports = {
             },
 
             validatorObject: function (target, validator, extra) {
-                var result;
+                var result, keys = [];
                 for (var key in validator) {
                     extra.path.push(key);
                     var refPath = extra.path.join('.');
@@ -130,7 +132,16 @@ module.exports = {
                         refs: extra.refs
                     });
                     extra.path.pop();
-                    if (!result.result) {
+                    if (!result) {
+                        return {
+                            result: false,
+                            key: key,
+                            path: refPath,
+                            validator: validator[key],
+                            message: 'Problem with validating against validator'
+                        }
+                    }
+                    else if (!result.result) {
                         result.path = result.path || refPath;
                         return result;
                     }
@@ -469,7 +480,49 @@ module.exports = {
                 var rawValidator = validatorsUtils.preSummarizeTypeValidator(target);
                 validatorsUtils.clearValidateKey(target);
 
+                var validator = validatorsUtils.extractValidatorFromRaw(rawValidator);
+                return validator;
+            },
 
+            extractValidatorFromRaw: function (validator) {
+                var result = [];
+                validator[2].forEach(function (type) {
+                    if (type === 'object') {
+                        var object = {};
+                        if (validator[0]) {
+                            for (var key in validator[0]) {
+                                object[key] = validatorsUtils.extractValidatorFromRaw(validator[0][key]);
+                            }
+                        }
+                        result.push(object);
+                    }
+                    else if (type === 'array') {
+                        var array;
+
+                        if (validator[1] && validator[1].length) {
+                            array = validatorsUtils.extractValidatorFromRaw(validator[1]);
+                            if (typeof array === 'string' || typeof array === 'object') {
+                                array = ['array', array];
+                            }
+                            else {
+                                array.unshift('array');
+                            }
+                        }
+                        else {
+                            array = ['array'];
+                        }
+
+                        result.push(array);
+                    }
+                    else {
+                        result.push(type);
+                    }
+                });
+
+                if (result.length === 1) {
+                    return result[0];
+                }
+                return result;
             },
 
             /**

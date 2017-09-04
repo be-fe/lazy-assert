@@ -76,3 +76,13 @@
     result : true
   08 value : true, null : {}
     result : true
+  09 or : false : {}
+    message : "Did not exact equal any value in the value-array"
+    result : false
+    target : true
+    validator : []
+      0 : "value"
+      1 : "array"
+      2 : null
+  09 or : true : {}
+    result : true

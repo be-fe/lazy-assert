@@ -81,7 +81,7 @@ module.exports = {
              *      expected: any
              */
             validate: function (target, validator, extra) {
-                extra = extra || {};
+                extra = extra || {path: [], refs: {}};
 
                 if (typeof validator === 'string') {
                     return validatorsUtils.stringValidator(target, validator);
@@ -114,15 +114,14 @@ module.exports = {
             validatorObject: function (target, validator, extra) {
                 var result;
                 for (var key in validator) {
-                    result = validatorsUtils.validate(target[key], validator[key], {key: key, parent: target});
+                    extra.path.push(key);
+                    var refPath = extra.path.join('.');
+                    extra.refs[refPath] = target[key];
+                    result = validatorsUtils.validate(target[key], validator[key], {key: key, parent: target, path: extra.path, refs: extra.refs});
+                    extra.path.pop();
                     if (!result.result) {
-                        return {
-                            result: false,
-                            target: target[key],
-                            key: key,
-                            subResult: result,
-                            message: 'Target failed to match the object validator'
-                        }
+                        result.path = result.path || refPath;
+                        return result;
                     }
                 }
 
@@ -207,23 +206,28 @@ module.exports = {
                 }
             },
 
-            validatorArrayArray: function (target, validator) {
+            validatorArrayArray: function (target, validator, extra) {
                 if (utils.isArray(target)) {
                     var itemResult, result;
 
                     for (var i = 0; i < target.length; i++) {
                         itemResult = false;
+                        extra.path.push(i);
+                        var refPath = extra.path.join('.');
+                        extra.refs[refPath] = target[i];
                         for (var j = 1; j < validator.length; j++) {
-                            result = validatorsUtils.validate(target[i], validator[j], {key: i, parent: target});
+                            result = validatorsUtils.validate(target[i], validator[j], {key: i, parent: target, path: extra.path, refs: extra.refs});
                             if (result.result) {
                                 itemResult = true;
                                 break;
                             }
                         }
+                        extra.path.pop();
                         if (!itemResult) {
                             return {
                                 result: false,
                                 target: target[i],
+                                path: refPath,
                                 index: i,
                                 validator: validator,
                                 message: 'Target does not meet the array validators'

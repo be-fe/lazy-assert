@@ -32,16 +32,13 @@ module.exports = {
              *  If the first item is 'array', this config is used to validate any item of the target value, as the target value
              *  is an array itself.
              *  ///
-             *  arrayConfig: [firstArg, #@~Validator, ...] | [#@~Validator, ...] | ['value', rawValue...] >>
-             *      | [op, value] | ['!', notValidator...]
+             *  arrayConfig: ['array', arrayValidator, ...] | [orValidator, ...] | ['value', rawValue...] >>
+             *      | [op, value] | ['!', notValidator...] | ['and', andValidator, ...]
              *      ///
-             *      When firstArg = 'array', the following Validator is to validate any item of the target value,
+             *      When first item = 'array', the following Validator is to validate any item of the target value,
              *      which should be an array.
-             *
-             *      When firstArg = 'and', the result of validation is true, only if the following validators returns true when
-             *      validating the target value.
              *      ///
-             *      firstArg: 'array' | 'and'
+             *      arrayValidator: #@~Validator
              *
              *      ///
              *      When the first item of the array is set as 'value', this is the "exact value" to be checked against the
@@ -54,8 +51,14 @@ module.exports = {
              *      // For quickily building up condition for checking the target value
              *      op: '>' | '<' | '>=' | '<='
              *
+             *      // When no special first item is set, the result is true when any of the validators succeeds
+             *      orValidator: #@~Validator
+             *
              *      // When the first item is '!', the result of validation is true only if all the validators returns false
              *      notValidator: #@~Validator
+             *
+             *      // When the first item is 'and', the result of validation is true only when all the validators succeed
+             *      andValidator: #@~Validator
              *
              *  // key is related to the target's object's key
              *  objectConfig: {key: #@~Validator}
@@ -169,22 +172,22 @@ module.exports = {
                 else if (validator[0] === '>') {
                     return validatorsUtils.validatorFunction(target, function(target) {
                         return target > validator[1]
-                    }, {funcInfo: 'Comparison : >'});
+                    }, {funcInfo: 'Comparison : > ' + validator[1]});
                 }
                 else if (validator[0] === '<') {
                     return validatorsUtils.validatorFunction(target, function(target) {
                         return target < validator[1]
-                    }, {funcInfo: 'Comparison : <'});
+                    }, {funcInfo: 'Comparison : < ' + validator[1]});
                 }
                 else if (validator[0] === '>=') {
                     return validatorsUtils.validatorFunction(target, function(target) {
                         return target >= validator[1]
-                    }, {funcInfo: 'Comparison : >='});
+                    }, {funcInfo: 'Comparison : >= ' + validator[1]});
                 }
                 else if (validator[0] === '<=') {
                     return validatorsUtils.validatorFunction(target, function(target) {
                         return target <= validator[1]
-                    }, {funcInfo: 'Comparison : <='});
+                    }, {funcInfo: 'Comparison : <= ' + validator[1]});
                 }
                 else if (validator[0] === '!') {
                     return validatorsUtils.validatorNotArray(target, validator, extra);
@@ -217,6 +220,7 @@ module.exports = {
                             return {
                                 result: false,
                                 target: target[i],
+                                index: i,
                                 validator: validator,
                                 message: 'Target does not meet the array validators'
                             }
@@ -265,6 +269,7 @@ module.exports = {
 
                 return {
                     result: false,
+                    target: target,
                     validator: validator,
                     message: 'Did not match or-array'
                 }
@@ -283,6 +288,7 @@ module.exports = {
 
                 return {
                     result: false,
+                    target: target,
                     validator: validator,
                     message: 'Did not exact equal any value in the value-array'
                 }
@@ -295,7 +301,8 @@ module.exports = {
                     if (result.result) {
                         return {
                             result: false,
-                            subResult: result,
+                            type: 'not array',
+                            target: target,
                             index: i,
                             subValidator: validator[i],
                             message: 'Did not meet the not-array validator'

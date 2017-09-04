@@ -1,0 +1,78 @@
+{}
+  01 or : "123", string | number : {}
+    result : true
+  01 or : 123, string | number : {}
+    result : true
+  01 or : null, string | number : {}
+    message : "Did not match or-array"
+    result : false
+    target : null
+    validator : []
+      0 : "string"
+      1 : "number"
+  02 and : false, func error : {}
+    index : 2
+    message : "Did not meet all validators in and array"
+    result : false
+    subResult : {}
+      funcInfo : undefined
+      result : false
+      target : 4
+    subValidator : "_[[[function]]]_"
+  02 and : false, type error : {}
+    index : 1
+    message : "Did not meet all validators in and array"
+    result : false
+    subResult : {}
+      message : "Target value is not of the expected type"
+      result : false
+      target : "123"
+      type : "number"
+    subValidator : "number"
+  02 and : true : {}
+    result : true
+  03 > : false : {}
+    funcInfo : "Comparison : > 3"
+    result : false
+    target : 2
+  03 > : true : {}
+    result : true
+  04 < : false : {}
+    funcInfo : "Comparison : < 3"
+    result : false
+    target : 5
+  04 < : true : {}
+    result : true
+  05 >= : false : {}
+    funcInfo : "Comparison : > 3"
+    result : false
+    target : 2
+  05 >= : true : {}
+    result : true
+  06 <= : false : {}
+    funcInfo : "Comparison : <= 3"
+    result : false
+    target : 5
+  06 <= : true : {}
+    result : true
+  07 ! : false : {}
+    index : 1
+    message : "Did not meet the not-array validator"
+    result : false
+    subValidator : "null"
+    target : null
+    type : "not array"
+  07 ! : true : {}
+    result : true
+  08 value : false : {}
+    message : "Did not exact equal any value in the value-array"
+    result : false
+    target : true
+    validator : []
+      0 : "value"
+      1 : 1
+      2 : null
+  08 value : true, 1 : {}
+    result : true
+  08 value : true, null : {}
+    result : true

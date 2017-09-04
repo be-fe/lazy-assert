@@ -1,16 +1,19 @@
 var lazy = require('../index');
 
 /* global before, beforeEach, after, afterEach */
-describe('Test lazy validator', function() {
-    before(function() {
+describe('Test lazy validator', function () {
+    before(function () {
         lazy.setLocation(__filename);
     });
 
-    beforeEach(function() {});
-    after(function() {});
-    afterEach(function() {});
+    beforeEach(function () {
+    });
+    after(function () {
+    });
+    afterEach(function () {
+    });
 
-    it('Should return correct result : simple validator', function() {
+    it('Should return correct result : simple validator', function () {
         lazy.peek('01-simple', {
             '01 string : true': lazy.validators.validate('123', 'string'),
             '02 string : false': lazy.validators.validate(123, 'string'),
@@ -30,7 +33,8 @@ describe('Test lazy validator', function() {
             '13 object : true': lazy.validators.validate({a: 1}, 'object'),
             '14 object : false': lazy.validators.validate(false, 'object'),
             '15 null, object : false': lazy.validators.validate(null, 'object'),
-            '16 function : true': lazy.validators.validate(function() {}, 'function'),
+            '16 function : true': lazy.validators.validate(function () {
+            }, 'function'),
             '17 function : false': lazy.validators.validate(123, 'function'),
 
             '18 nan : true': lazy.validators.validate(+'asdf', 'nan'),
@@ -39,6 +43,57 @@ describe('Test lazy validator', function() {
             '21 infinity : false': lazy.validators.validate(-Infinity, 'infinity'),
             '22 -infinity : true': lazy.validators.validate(-Infinity, '-infinity'),
             '23 -infinity : false': lazy.validators.validate(123, '-infinity'),
+        });
+    });
+
+    it('Should return correct result : array', function () {
+        lazy.peek('02-array', {
+            '01 or : 123, string | number': lazy.validators.validate(123, ['string', 'number']),
+            '01 or : "123", string | number': lazy.validators.validate('123', ['string', 'number']),
+            '01 or : null, string | number': lazy.validators.validate(null, ['string', 'number']),
+
+            '02 and : true': lazy.validators.validate(123, ['and', 'number', function (val) {
+                return val > 5
+            }]),
+            '02 and : false, type error': lazy.validators.validate('123', ['and', 'number', function (val) {
+                return val > 5
+            }]),
+            '02 and : false, func error': lazy.validators.validate(4, ['and', 'number', function (val) {
+                return val > 5
+            }]),
+
+            '03 > : true': lazy.validators.validate(5, ['>', 3]),
+            '03 > : false': lazy.validators.validate(2, ['>', 3]),
+
+            '04 < : true': lazy.validators.validate(2, ['<', 3]),
+            '04 < : false': lazy.validators.validate(5, ['<', 3]),
+
+            '05 >= : true': lazy.validators.validate(3, ['>=', 3]),
+            '05 >= : false': lazy.validators.validate(2, ['>', 3]),
+
+            '06 <= : true': lazy.validators.validate(3, ['<=', 3]),
+            '06 <= : false': lazy.validators.validate(5, ['<=', 3]),
+
+            '07 ! : true': lazy.validators.validate(3, ['!', 'null', 'object']),
+            '07 ! : false': lazy.validators.validate(null, ['!', 'null', 'object']),
+
+            '08 value : true, 1': lazy.validators.validate(1, ['value', 1, null]),
+            '08 value : true, null': lazy.validators.validate(null, ['value', 1, null]),
+            '08 value : false': lazy.validators.validate(true, ['value', 1, null]),
+        });
+    });
+
+    it('Should return correct result : array-array', function() {
+        lazy.peek('03-array-array', {
+            '01 [1, 2, 3] : true': lazy.validators.validate([1, 2, 3], ['array', 'number']),
+            '02 [1, "2", 3] : true': lazy.validators.validate([1, '2', 3], ['array', 'number', 'string']),
+            '03 [1, "2", 3] : false': lazy.validators.validate([1, '2', 3], ['array', 'number', 'object']),
+            '04 [1, {a: 1}, 3] : true': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', 'object']),
+            '05 [1, {a: 1}, 3] : false': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', 'function', 'null']),
+            '07 [1, {a: 1}, 3] : false': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', {}]),
+            '08 [1, {a: 1}, 3] : true': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', {a: 'number'}]),
+            '09 [1, {a: 1}, 3] : false': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', {a: 'string'}]),
+            '10 null : false': lazy.validators.validate(null, ['array', 'number', {a: 'string'}]),
         });
     });
 });

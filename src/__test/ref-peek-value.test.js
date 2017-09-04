@@ -15,8 +15,14 @@ describe('Test default peek', function () {
         var a = {name: 'a', b: b, c: [b]};
         b.a = a;
 
+        var c = {a: a, b: b};
+        var d = {b: b, a: a};
+
         lazy.peek('complex-ref-string', a, 'ref');
         lazy.peek('complex-ref-object', a, lazy.plugins.ref);
+
+        lazy.peek('complex-ref-object-c', c, 'ref');
+        lazy.peek('complex-ref-object-d', d, 'ref');
     });
 
     it('Should not revert the origin value', function () {

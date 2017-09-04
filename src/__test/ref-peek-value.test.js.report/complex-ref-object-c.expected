@@ -1,0 +1,9 @@
+{}
+  a : {}
+    b : {}
+      a : "_[[[reference: @root.a]]]_"
+      name : "b"
+    c : []
+      0 : "_[[[reference: @root.a.b]]]_"
+    name : "a"
+  b : "_[[[reference: @root.a.b]]]_"

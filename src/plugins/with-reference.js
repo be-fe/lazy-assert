@@ -21,15 +21,21 @@ module.exports = {
             }
             else {
                 result = {};
+                var keys = [];
                 value[KEY] = context.path.join('.');
 
                 for (var key in value) {
                     if (key !== KEY) {
-                        context.path.push(key);
-                        result[key] = processValue(value[key], currentPluginProcess, context);
-                        context.path.pop();
+                        keys.push(key);
                     }
                 }
+                keys.sort();
+
+                keys.forEach(function (key) {
+                    context.path.push(key);
+                    result[key] = processValue(value[key], currentPluginProcess, context);
+                    context.path.pop();
+                });
             }
 
             return result;

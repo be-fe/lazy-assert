@@ -91,3 +91,9 @@
     regexp : /bc$/
     result : false
     target : 123
+  28 -regexp string : true : {}
+    result : true
+  29 -regexp string: false : {}
+    message : "Target is not a RegExp"
+    result : false
+    target : 123

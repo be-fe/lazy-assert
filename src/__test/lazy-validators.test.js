@@ -49,6 +49,9 @@ describe('Test lazy validator', function () {
             '25 -regexp "abc", /bc$/: true': lazy.validators.validate('abc', /bc$/),
             '26 -regexp {}, /bc$/: false': lazy.validators.validate({}, /bc$/),
             '27 -regexp 123, /bc$/: false': lazy.validators.validate(123, /bc$/),
+
+            '28 -regexp string : true': lazy.validators.validate(/123/, 'regexp'),
+            '29 -regexp string: false': lazy.validators.validate(123, 'regexp'),
         });
     });
 

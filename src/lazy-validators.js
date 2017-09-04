@@ -7,7 +7,7 @@ module.exports = {
             /**
              *
              * @def: ~Validator: arrayConfig | objectConfig | stringConfig | notStringConfig | regexpConfig | functionConfig >>
-             *  | null | undefined | number | boolean
+             *  | refConfig | null | undefined | number | boolean
              *
              *  // The function being used to validate the target value
              *  functionConfig: (val, key, parent) => boolean
@@ -60,6 +60,9 @@ module.exports = {
              *  // key is related to the target's object's key
              *  objectConfig: {key: #@~Validator}
              *
+             *  // '=' + path, e.g. =.ref.from.root.0
+             *  refConfig: string
+             *
              *
              * @def: .innerValidate: peekKey, actualTargetValue, validator => result
              *  peekKey: string         // The key to help marking the output easier
@@ -83,6 +86,73 @@ module.exports = {
                 else if (utils.isArray(validator)) {
                     return validatorsUtils.validatorArray(target, validator, extra);
                 }
+                else if (utils.isRegExp(validator)) {
+                    return validatorsUtils.validatorRegExp(target, validator);
+                }
+                else if (typeof validator === 'object') {
+                    if (validator) {
+                        // it's a non-null object
+                        return validatorsUtils.validatorObject(target, validator, extra);
+                    }
+                    else {
+                        // it's a null
+                        return validatorsUtils.exactValidator(target, null);
+                    }
+                }
+                else if (typeof validator === 'function') {
+                    return validatorsUtils.validatorFunction(target, validator, extra);
+                }
+                else {
+                    // boolean, undefined, number
+                    return validatorsUtils.exactValidator(target, validator);
+                }
+            },
+
+            validatorObject: function (target, validator, extra) {
+                var result;
+                for (var key in validator) {
+                    result = validatorsUtils.validate(target[key], validator[key], {key: key, parent: target});
+                    if (!result.result) {
+                        return {
+                            result: false,
+                            target: target[key],
+                            key: key,
+                            subResult: result,
+                            message: 'Target failed to match the object validator'
+                        }
+                    }
+                }
+
+                return {
+                    result: true
+                }
+            },
+
+            validatorRegExp: function (target, validator) {
+                if ((typeof target === 'number' && !isNaN(target) && isFinite(target)) || typeof target === 'string') {
+                    var match = validator.exec(String(target));
+                    if (match) {
+                        return {
+                            result: true
+                        }
+                    }
+                    else {
+                        return {
+                            result: false,
+                            target: target,
+                            regexp: validator,
+                            message: 'Target does not match regexp'
+                        }
+                    }
+                }
+                else {
+                    return {
+                        result: false,
+                        target: target,
+                        regexp: validator,
+                        message: 'Target can not be tested by regexp'
+                    }
+                }
             },
 
             validatorArray: function (target, validator, extra) {
@@ -97,16 +167,24 @@ module.exports = {
                     return validatorsUtils.validatorAndArray(target, validator, extra);
                 }
                 else if (validator[0] === '>') {
-                    
+                    return validatorsUtils.validatorFunction(target, function(target) {
+                        return target > validator[1]
+                    }, {funcInfo: 'Comparison : >'});
                 }
                 else if (validator[0] === '<') {
-
+                    return validatorsUtils.validatorFunction(target, function(target) {
+                        return target < validator[1]
+                    }, {funcInfo: 'Comparison : <'});
                 }
                 else if (validator[0] === '>=') {
-
+                    return validatorsUtils.validatorFunction(target, function(target) {
+                        return target >= validator[1]
+                    }, {funcInfo: 'Comparison : >='});
                 }
                 else if (validator[0] === '<=') {
-
+                    return validatorsUtils.validatorFunction(target, function(target) {
+                        return target <= validator[1]
+                    }, {funcInfo: 'Comparison : <='});
                 }
                 else if (validator[0] === '!') {
                     return validatorsUtils.validatorNotArray(target, validator, extra);
@@ -115,10 +193,47 @@ module.exports = {
                     return validatorsUtils.validatorValueArray(target, validator);
                 }
                 else if (validator[0] === 'array') {
-
+                    return validatorsUtils.validatorArrayArray(target, validator, extra);
                 }
                 else {
                     return validatorsUtils.validatorOrArray(target, validator, extra);
+                }
+            },
+
+            validatorArrayArray: function (target, validator) {
+                if (utils.isArray(target)) {
+                    var itemResult, result;
+
+                    for (var i = 0; i < target.length; i++) {
+                        itemResult = false;
+                        for (var j = 1; j < validator.length; j++) {
+                            result = validatorsUtils.validate(target[i], validator[j], {key: i, parent: target});
+                            if (result.result) {
+                                itemResult = true;
+                                break;
+                            }
+                        }
+                        if (!itemResult) {
+                            return {
+                                result: false,
+                                target: target[i],
+                                validator: validator,
+                                message: 'Target does not meet the array validators'
+                            }
+                        }
+                    }
+
+                    return {
+                        result: true
+                    }
+                }
+                else {
+                    return {
+                        result: false,
+                        target: target,
+                        validator: validator,
+                        message: 'Target is not an array.'
+                    }
                 }
             },
 
@@ -131,6 +246,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
+                        funcInfo: extra.funcInfo,
                         target: target
                     }
                 }

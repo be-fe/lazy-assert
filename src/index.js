@@ -367,6 +367,7 @@ var Peek = require('./Peek').init(lazyAssert);
 
 // Loading utils
 require('./lazy-utils').load(lazyAssert);
+require('./lazy-validators').load(lazyAssert);
 require('./lazy-wrap-node-assert').load(lazyAssert);
 
 // Setting up preset plugins:

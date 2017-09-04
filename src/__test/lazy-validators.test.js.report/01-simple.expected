@@ -1,0 +1,79 @@
+{}
+  01 string : true : {}
+    result : true
+  02 string : false : {}
+    message : "Target value is not of the expected type"
+    result : false
+    target : 123
+    type : "string"
+  03 number : true : {}
+    result : true
+  04 number : false : {}
+    message : "Target value is not of the expected type"
+    result : false
+    target : true
+    type : "number"
+  05 boolean : true : {}
+    result : true
+  06 boolean : false : {}
+    message : "Target value is not of the expected type"
+    result : false
+    target : "123"
+    type : "boolean"
+  07 null : true : {}
+    result : true
+  08 null : false : {}
+    expected : null
+    message : "Target is not equal to the expected value."
+    result : false
+    target : undefined
+  09 undefined : true : {}
+    result : true
+  10 undefined : false : {}
+    expected : undefined
+    message : "Target is not equal to the expected value."
+    result : false
+    target : []
+  11 array : true : {}
+    result : true
+  12 array : false : {}
+    message : "Target is not an array"
+    result : false
+    target : 123
+  13 object : true : {}
+    result : true
+  14 object : false : {}
+    message : "Target is not an non-null object"
+    status : false
+    target : false
+  15 null, object : false : {}
+    message : "Target is not an non-null object"
+    status : false
+    target : null
+  16 function : true : {}
+    result : true
+  17 function : false : {}
+    message : "Target value is not of the expected type"
+    result : false
+    target : 123
+    type : "function"
+  18 nan : true : {}
+    result : true
+  19 nan : false : {}
+    message : "Target is not NaN"
+    result : false
+    target : "asdf"
+  20 infinity : true : {}
+    result : true
+  21 infinity : false : {}
+    expected : Infinity
+    message : "Target is not equal to the expected value."
+    result : false
+    target : -Infinity
+  22 -infinity : true : {}
+    result : true
+  23 -infinity : false : {}
+    expected : -Infinity
+    message : "Target is not equal to the expected value."
+    result : false
+    target : 123

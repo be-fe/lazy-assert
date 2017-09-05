@@ -361,7 +361,7 @@ var lazyAssert = {
         else if (!result.result) {
             delete result.result;
             lazyAssert.warn(peekKey, 'Validation failed with the given validator, the result is :');
-            console.warn(result);
+            lazyAssert.validators.printWarning(result);
 
             lazyAssert.warn(peekKey, 'A default validator is : ');
             console.warn(JSON.stringify(lazyAssert.validators.summarizeTypeValidator(actualTargetValue), null, 2));

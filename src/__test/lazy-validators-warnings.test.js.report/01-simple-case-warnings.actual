@@ -5,7 +5,7 @@
     0 : {}
       expected : undefined
       message : "Target is not equal to the expected value."
-      target : 1
+      type : "exact-equal"
   2 : {}
     0 : "[WARN]  peek <01 1, undefined> A default validator is : "
   3 : {}
@@ -15,8 +15,7 @@
   5 : {}
     0 : {}
       message : "Target value is not of the expected type"
-      target : 1
-      type : "object"
+      type : "type.object"
   6 : {}
     0 : "[WARN]  peek <02 1, \"object\"> A default validator is : "
   7 : {}
@@ -26,10 +25,7 @@
   9 : {}
     0 : {}
       message : "Target is not an array."
-      target : "_[[[function]]]_"
-      validator : []
-        0 : "array"
-        1 : "number"
+      type : "array-array.target-not-array"
   10 : {}
     0 : "[WARN]  peek <03 function, [array, number]> A default validator is : "
   11 : {}

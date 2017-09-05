@@ -2,6 +2,11 @@ var utils = require('./utils');
 
 module.exports = {
     load: function (lazyAssert) {
+        /**
+         * The key to mark "ref" in objects/arrays
+         *
+         * @def: ~VALIDATE_KEY: string
+         */
         var VALIDATE_KEY = '--[[validate_key]]--';
 
         var validatorsUtils = {
@@ -77,14 +82,50 @@ module.exports = {
              *      // if true, no other info will be given, the other info will only be given when result = false
              *      result: boolean
              *
+             *      // a type to show the type of a validation
+             *      type: 'ref-check' | 'object' | 'regexp' | 'array' >>
+             *          | 'array-array' | 'function' | 'or-array'
+             *          
+             *      // type = 'array-array'
+             *      reason: 'all-type-failed' | 'target-not-array'
+             *
+             *      // type = 'object'
+             *      reason: 'is-array' | 'is-not-object' | 'failed-on-key'
+             *
+             *      // type == 'object' | 'or-array'
+             *      reason: 'validator-error'
+             *
+             *      // type == 'regexp'
+             *      reason: 'match-failed' | 'target-type-error'
+             *
+             *      // type == 'array'
+             *      reason: 'validator-empty'
+             *
+             *      // explanation
              *      message: string
              *
-             *      // path to the target
-             *      path: string
+             *      // set if it is a prop of an object
+             *      key: string
+             *
+             *      // set if it is an item from an array
+             *      index: number
+             *
+             *      // set if the validator is an item from an array
+             *      vIndex: number
              *
              *      target: any
-             *      type: string
+             *
+             *      // valid for exact validator
              *      expected: any
+             *
+             *      // valid for regexp validator
+             *      regexp: RegExp
+             *
+             *      // Comparison : OP value, valid for op array validators
+             *      funcInfo: string
+             *
+             *      // for some complex validation, sub results should be recorded in order to show the detailed reason
+             *      subResult: [result]
              */
             validate: function (target, validator, extra) {
                 // @todo: remove this
@@ -146,14 +187,16 @@ module.exports = {
                 if (utils.isArray(target)) {
                     return {
                         result: false,
-                        type: 'object.is-array',
+                        type: 'object',
+                        reason: 'is-array',
                         message: 'Target is an array (Array is not recognised as valid object here), but is to be validated against object validator'
                     }
                 }
                 if (typeof target !== 'object') {
                     return {
                         result: false,
-                        type: 'object.is-not-object',
+                        type: 'object',
+                        reason: 'is-not-object',
                         message: 'Target is not an object.'
                     }
                 }
@@ -173,7 +216,8 @@ module.exports = {
                     if (!result) {
                         return {
                             result: false,
-                            type: 'object.validator-error',
+                            type: 'object',
+                            reason: 'validator-error',
                             key: key,
                             message: 'Problem with validating against validator'
                         }
@@ -181,7 +225,8 @@ module.exports = {
                     else if (!result.result) {
                         return {
                             result: false,
-                            type: 'object.failed-on-key',
+                            type: 'object',
+                            reason: 'failed-on-key',
                             key: key,
                             subResult: result
                         };
@@ -204,7 +249,8 @@ module.exports = {
                     else {
                         return {
                             result: false,
-                            type: 'regexp-match.fail',
+                            type: 'regexp',
+                            reason: 'match-failed',
                             regexp: validator,
                             message: 'Target does not match regexp'
                         }
@@ -213,7 +259,8 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        type: 'regexp-match.type-error',
+                        type: 'regexp',
+                        reason: 'target-type-error',
                         regexp: validator,
                         message: 'Target can not be tested by regexp'
                     }
@@ -232,7 +279,8 @@ module.exports = {
                 if (validator.length === 0) {
                     return {
                         result: false,
-                        type: 'array.validator-empty',
+                        type: 'array',
+                        reason: 'validator-empty',
                         message: 'Validator should not be an empty array.'
                     }
                 }
@@ -319,7 +367,8 @@ module.exports = {
                         if (!itemResult) {
                             return {
                                 result: false,
-                                type: 'array-array.all-type-failed',
+                                type: 'array-array',
+                                reason: 'all-type-failed',
                                 index: i,
                                 subResult: fails,
                                 message: 'Target does not meet the array validators'
@@ -334,7 +383,8 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        type: 'array-array.target-not-array',
+                        type: 'array-array',
+                        reason: 'target-not-array',
                         message: 'Target is not an array.'
                     }
                 }
@@ -363,7 +413,8 @@ module.exports = {
                     if (!result) {
                         return {
                             result: false,
-                            type: 'or-array.validator-error',
+                            type: 'or-array',
+                            reason: 'validator-error',
                             vIndex: i,
                             path: extra.path.join('.'),
                             message: 'Problem with validating against validator, validator problem'
@@ -753,6 +804,12 @@ module.exports = {
                 }
             },
 
+            /**
+             * Clean all #@~VALIDATE_KEY flag from (sub) objects & (sub) arrays
+             *
+             * @def: .clearValidateKey: target => undefined
+             *  target: any
+             */
             clearValidateKey: function (target) {
                 if (typeof target === 'object' && target) {
                     if (VALIDATE_KEY in target) {
@@ -762,6 +819,16 @@ module.exports = {
                         }
                     }
                 }
+            },
+
+            /**
+             * Print out all warnings based on the failed result
+             *
+             * @def: .printWarnings: result => undefined
+             *  #@.validate.result
+             */
+            printWarnings: function (result) {
+
             }
         };
 

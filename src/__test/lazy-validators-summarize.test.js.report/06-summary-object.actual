@@ -1,0 +1,51 @@
+{}
+  01 {a: 1} : {}
+    a : "number"
+  02 {a: 1, b: "123"} : {}
+    a : "number"
+    b : "string"
+  03 {a: 1, b: "123", c: [1, "2"]} : {}
+    a : "number"
+    b : "string"
+    c : []
+      0 : "array"
+      1 : []
+        0 : "number"
+        1 : "string"
+  04 looping c : {}
+    a : {}
+      b : {}
+        a : "=a"
+        name : "string"
+      name : "string"
+    b : "=a.b"
+  05 looping d : {}
+    a : {}
+      b : {}
+        a : "=a"
+        name : "string"
+      name : "string"
+    b : "=a.b"
+  06 {a: 1, b: {c: 1, d: 1}} : {}
+    a : "number"
+    b : {}
+      c : "number"
+      d : "number"
+  07 {a: null, b: {c: 1, d: 1}, e: function} : {}
+    a : "null"
+    b : {}
+      c : "number"
+      d : "number"
+    e : "function"
+  08 looping e : {}
+    a : []
+      0 : "array"
+      1 : []
+        0 : {}
+          b : {}
+            a : "=a.0"
+            name : "string"
+          name : "string"
+        1 : "=a.0.b"
+    ta : "=a.0"
+    tb : "=a.0.b"

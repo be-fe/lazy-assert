@@ -373,8 +373,10 @@ var lazyAssert = {
     /**
      *
      */
-    assertValidate: function () {
+    assertValidate: function (peekKey, actualTargetValue, validator) {
+        var result = lazyAssert.validate(peekKey, actualTargetValue, validator);
 
+        lazyAssert.ok(result, peekKey);
     },
 
     newPeek: function (peekKey) {

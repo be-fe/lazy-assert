@@ -23,21 +23,21 @@ describe('Test default validate', function () {
         var d = {b: b, a: a};
         var e = {ta: a, tb: b, a: [a, b]}
 
-        lazy.validate('01 {a: 1}', {a: 1}, lazy.validators.summarizeTypeValidator({a: 1}));
+        lazy.assertValidate('01 {a: 1}', {a: 1}, lazy.validators.summarizeTypeValidator({a: 1}));
 
-        lazy.validate('02 {a: 1, b: "123"}',
+        lazy.assertValidate('02 {a: 1, b: "123"}',
             {a: 1, b: '123'},
             lazy.validators.summarizeTypeValidator({a: 1, b: '123'})
         );
 
-        lazy.validate(
+        lazy.assertValidate(
             "{a: 1, b: '123', c: [1, '2']}",
             {a: 1, b: '123', c: [1, '2']},
             lazy.validators.summarizeTypeValidator({a: 1, b: '123', c: [1, '2']})
         );
 
         // console.log('@@d', lazy.validators.summarizeTypeValidator(c));
-        lazy.validate(
+        lazy.assertValidate(
             "04 looping c",
             c,
             {
@@ -48,19 +48,19 @@ describe('Test default validate', function () {
 
         lazy.validators.clearValidateKey(c);
 
-        lazy.validate(
+        lazy.assertValidate(
             '05 looping d',
             d,
             lazy.validators.summarizeTypeValidator(d)
         );
 
 
-        lazy.validate('06 {a: 1, b: {c: 1, d: 1}}',
+        lazy.assertValidate('06 {a: 1, b: {c: 1, d: 1}}',
             {a: 1, b: {c: 1, d: 1}},
             lazy.validators.summarizeTypeValidator({a: 1, b: {c: 1, d: 1}})
         );
 
-        lazy.validate('07 {a: null, b: {c: 1, d: 1}, e: function}',
+        lazy.assertValidate('07 {a: null, b: {c: 1, d: 1}, e: function}',
             {
                 a: null,
                 b: {c: 1, d: 1},
@@ -77,7 +77,7 @@ describe('Test default validate', function () {
 
         lazy.validators.clearValidateKey(d);
 
-        lazy.validate('08 looping e',
+        lazy.assertValidate('08 looping e',
             e,
             {
                 "a": [
@@ -99,31 +99,97 @@ describe('Test default validate', function () {
         );
     });
 
-    it('Should return correct pre summary : array', function () {
-        var result = {
-            '01 1, "2"': lazy.validators.summarizeTypeValidator([1, '2']),
-            '02 1, "2", {a: 1}': lazy.validators.summarizeTypeValidator([1, '2', {a: 1}]),
-            '03 1, "2", {a: {b: 1}}': lazy.validators.summarizeTypeValidator([1, '2', {a: {b: 1}}]),
-            '04 1, "2", {a: {b: {c: 1}}': lazy.validators.summarizeTypeValidator([1, '2', {a: {b: {c: 1}}}]),
-            '05 1, "2", {a: {b: {c: 1}}, {a: {b: 1}}': lazy.validators.summarizeTypeValidator([1, '2', {a: {b: {c: 1}}}, {a: {b: 1}}]),
-            '06 1, "2", {a: {b: [1, "2"]}}, {a: {b: 1}}': lazy.validators.summarizeTypeValidator([1, '2', {a: {b: [1, '2']}}, {a: {b: 1}}]),
-            '07 1, "2", {a: {b: 1}}, {a: {b: "2"}}, {a: {c: null}}': lazy.validators.summarizeTypeValidator([1, '2', {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}]),
-            '08 1, "2", {a: [1, "2"]}, {a: {b: 1}, {a: {b: "2"}}, {a: {c: null}': lazy.validators.summarizeTypeValidator([1, '2', {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}]),
-            '09 1, "2", {a: nan}, {a: [1, "2"]}, {a: {b: 1}, {a: {b: "2"}}, {a: {c: null}': lazy.validators.summarizeTypeValidator([1, '2', {a: NaN}, {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}]),
-            '10 1, {a: [nan]}, {a: [1, "2"]}, {a: [{b: 1}]}, [null]': lazy.validators.summarizeTypeValidator([1, {a: [NaN]}, {a: [1, '2']}, {a: [{b: 1}]}, [null]]),
-            '11 {a: [nan]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, "1"]}]}': lazy.validators.summarizeTypeValidator([{a: [NaN]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, '1']}]}]),
-            '12 {a : [{a: 1}], b: [{a: "1"}]}': lazy.validators.summarizeTypeValidator({a: [{a: 1}], b: [{a: '1'}]}),
-            '13 {a: [{a: 1}, {a: "1"}]}': lazy.validators.summarizeTypeValidator({a: [{a: 1}, {a: '1'}]}),
-            '14 {a: [{a: "1"}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}': lazy.validators.summarizeTypeValidator({a: [{a: '1'}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}),
-        };
+    it('Should assert successfully: array', function () {
 
-        lazy.peek('07-validate-array', result, -1);
+        lazy.assertValidate(
+            '01 1, "2"',
+            [1, '2'],
+            lazy.validators.summarizeTypeValidator([1, '2'])
+        );
+
+        lazy.assertValidate(
+            '02 1, "2", {a: 1}',
+            [1, '2', {a: 1}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: 1}])
+        );
+
+        lazy.assertValidate(
+            '03 1, "2", {a: {b: 1}}',
+            [1, '2', {a: {b: 1}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: {b: 1}}])
+        );
+
+        lazy.assertValidate(
+            '04 1, "2", {a: {b: {c: 1}}',
+            [1, '2', {a: {b: {c: 1}}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: {b: {c: 1}}}])
+        );
+
+        lazy.assertValidate(
+            '05 1, "2", {a: {b: {c: 1}}, {a: {b: 1}}',
+            [1, '2', {a: {b: {c: 1}}}, {a: {b: 1}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: {b: {c: 1}}}, {a: {b: 1}}])
+        );
+
+        lazy.assertValidate(
+            '06 1, "2", {a: {b: [1, "2"]}}, {a: {b: 1}}',
+            [1, '2', {a: {b: [1, '2']}}, {a: {b: 1}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: {b: [1, '2']}}, {a: {b: 1}}])
+        );
+
+        lazy.assertValidate(
+            '07 1, "2", {a: {b: 1}}, {a: {b: "2"}}, {a: {c: null}}',
+            [1, '2', {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}])
+        );
+
+        lazy.assertValidate(
+            '08 1, "2", {a: [1, "2"]}, {a: {b: 1}, {a: {b: "2"}}, {a: {c: null}',
+            [1, '2', {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}])
+        );
+
+        lazy.assertValidate(
+            '09 1, "2", {a: nan}, {a: [1, "2"]}, {a: {b: 1}, {a: {b: "2"}}, {a: {c: null}',
+            [1, '2', {a: NaN}, {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}],
+            lazy.validators.summarizeTypeValidator([1, '2', {a: NaN}, {a: [1, '2']}, {a: {b: 1}}, {a: {b: '2'}}, {a: {c: null}}])
+        );
+
+        lazy.assertValidate(
+            '10 1, {a: [nan]}, {a: [1, "2"]}, {a: [{b: 1}]}, [null]',
+            [1, {a: [NaN]}, {a: [1, '2']}, {a: [{b: 1}]}, [null]],
+            lazy.validators.summarizeTypeValidator([1, {a: [NaN]}, {a: [1, '2']}, {a: [{b: 1}]}, [null]])
+        );
+
+        lazy.assertValidate(
+            '11 {a: [nan]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, "1"]}]}',
+            [{a: [NaN]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, '1']}]}],
+            lazy.validators.summarizeTypeValidator([{a: [NaN]}, {a: [{b: 1}]}, {a: [{b: [{c: 1}, '1']}]}])
+        );
+
+        lazy.assertValidate(
+            '12 {a : [{a: 1}], b: [{a: "1"}]}',
+            {a: [{a: 1}], b: [{a: '1'}]},
+            lazy.validators.summarizeTypeValidator({a: [{a: 1}], b: [{a: '1'}]})
+        );
+
+        lazy.assertValidate(
+            '13 {a: [{a: 1}, {a: "1"}]}',
+            {a: [{a: 1}, {a: '1'}]},
+            lazy.validators.summarizeTypeValidator({a: [{a: 1}, {a: '1'}]})
+        );
+
+        lazy.assertValidate(
+            '14 {a: [{a: "1"}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}',
+            {a: [{a: '1'}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]},
+            lazy.validators.summarizeTypeValidator({a: [{a: '1'}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]})
+        );
     });
 
     it('Should process hi complex data', function () {
         var hiMockData = require('./hi-data.mock');
 
-        lazy.validate('08-hi-complex-data',
+        lazy.assertValidate('08-hi-complex-data',
             hiMockData,
             {
                 "code": "number",

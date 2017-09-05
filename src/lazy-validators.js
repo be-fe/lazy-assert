@@ -142,12 +142,12 @@ module.exports = {
 
             validatorObject: function (target, validator, extra) {
                 var result, keys = [];
-                if (typeof target !== 'object') {
+                if (utils.isArray(target) || typeof target !== 'object') {
                     return {
                         result: false,
                         target: target,
                         validator: validator,
-                        message: 'Target is not an object, but is to be validated against object validator'
+                        message: 'Target is not an object (Array is not recognised as valid object here), but is to be validated against object validator'
                     }
                 }
                 for (var key in validator) {
@@ -327,6 +327,17 @@ module.exports = {
                 var result;
                 for (var i = 0; i < validator.length; i++) {
                     result = validatorsUtils.validate(target, validator[i], extra);
+                    if (!result) {
+                        return {
+                            result: false,
+                            i: i,
+                            target: target[i],
+                            path: extra.path.join('.'),
+                            validator: validator[i],
+                            message: 'Problem with validating against validator'
+                        }
+                    }
+
                     if (result.result) {
                         return {
                             result: true

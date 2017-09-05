@@ -142,6 +142,14 @@ module.exports = {
 
             validatorObject: function (target, validator, extra) {
                 var result, keys = [];
+                if (typeof target !== 'object') {
+                    return {
+                        result: false,
+                        target: target,
+                        validator: validator,
+                        message: 'Target is not an object, but is to be validated against object validator'
+                    }
+                }
                 for (var key in validator) {
                     extra.path.push(key);
                     var refPath = extra.path.join('.');

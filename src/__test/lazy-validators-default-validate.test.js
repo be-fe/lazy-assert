@@ -2,7 +2,7 @@ var lazy = require('../index');
 var utils = require('../utils');
 
 /* global before, beforeEach, after, afterEach */
-describe('Test pre summarizing', function () {
+describe('Test default validate', function () {
     before(function () {
         lazy.setLocation(__filename);
     });
@@ -14,7 +14,7 @@ describe('Test pre summarizing', function () {
     afterEach(function () {
     });
 
-    it('Should return correct pre-summary : object', function () {
+    it('Should return correct validate : object', function () {
         var a = {name: 'a'};
         var b = {name: 'b', a: a};
         a.b = b;
@@ -79,7 +79,23 @@ describe('Test pre summarizing', function () {
 
         lazy.validate('08 looping e',
             e,
-            lazy.validators.summarizeTypeValidator(e)
+            {
+                "a": [
+                    "array",
+                    [
+                        {
+                            "b": {
+                                "a": "=a.0",
+                                "name": "string"
+                            },
+                            "name": "string"
+                        },
+                        "=a.0.b"
+                    ]
+                ],
+                "ta": "=a.0",
+                "tb": "=a.0.b"
+            }
         );
     });
 
@@ -101,7 +117,7 @@ describe('Test pre summarizing', function () {
             '14 {a: [{a: "1"}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}': lazy.validators.summarizeTypeValidator({a: [{a: '1'}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}),
         };
 
-        lazy.peek('07-pre-summary-array', result, -1);
+        lazy.peek('07-validate-array', result, -1);
     });
 
     it('Should process hi complex data', function () {

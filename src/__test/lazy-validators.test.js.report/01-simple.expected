@@ -44,11 +44,11 @@
     result : true
   14 object : false : {}
     message : "Target is not an non-null object"
-    status : false
+    result : false
     target : false
   15 null, object : false : {}
     message : "Target is not an non-null object"
-    status : false
+    result : false
     target : null
   16 function : true : {}
     result : true

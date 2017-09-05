@@ -2,7 +2,7 @@ var lazy = require('../index');
 var utils = require('../utils');
 
 /* global before, beforeEach, after, afterEach */
-describe('Test pre summarizing', function() {
+describe('Test summarizing', function() {
     before(function() {
         lazy.setLocation(__filename);
     });
@@ -11,8 +11,8 @@ describe('Test pre summarizing', function() {
     after(function() {});
     afterEach(function() {});
 
-    it('Should return correct pre-summary : simple', function () {
-        lazy.peek('05-pre-summary-simple', {
+    it('Should return correct-summary : simple', function () {
+        lazy.peek('05-summary-simple', {
             '01 "123"': lazy.validators.summarizeTypeValidator('123'),
             '02 123': lazy.validators.summarizeTypeValidator(123),
             '03 nan': lazy.validators.summarizeTypeValidator(+'asdf'),
@@ -27,7 +27,7 @@ describe('Test pre summarizing', function() {
         }, -1);
     });
 
-    it('Should return correct pre-summary : object', function () {
+    it('Should return correct summary : object', function () {
         var a = {name: 'a'};
         var b = {name: 'b', a: a};
         a.b = b;
@@ -62,7 +62,7 @@ describe('Test pre summarizing', function() {
             '08 looping e': lazy.validators.summarizeTypeValidator(e)
         });
 
-        lazy.peek('06-pre-summary-object', result, -1);
+        lazy.peek('06-summary-object', result, -1);
     });
 
     it('Should return correct pre summary : array', function () {
@@ -83,7 +83,7 @@ describe('Test pre summarizing', function() {
             '14 {a: [{a: "1"}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}': lazy.validators.summarizeTypeValidator({a: [{a: '1'}, {a: [1, {b: 1}]}, {a: {c: 1}}, {a: [{d: 1}]}]}),
         };
 
-        lazy.peek('07-pre-summary-array', result, -1);
+        lazy.peek('07-summary-array', result, -1);
     });
 
     it('Should process hi complex data', function() {

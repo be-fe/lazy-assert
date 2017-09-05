@@ -1,0 +1,47 @@
+[]
+  0 : "-------- \"1\", [or, {}, null] --------"
+  1 : {}
+    0 : "[WARN]  peek <\"1\", [or, {}, null]> Validation failed with the given validator, the result is :"
+  2 : {}
+    0 : {}
+      message : "Did not match or-array"
+      target : "1"
+      validator : []
+        0 : {}
+        1 : null
+  3 : {}
+    0 : "[WARN]  peek <\"1\", [or, {}, null]> A default validator is : "
+  4 : {}
+    0 : "\"string\""
+  5 : "-------- [\"1\"], [or, {}, null] --------"
+  6 : {}
+    0 : "[WARN]  peek <[\"1\"], [or, {}, null]> Validation failed with the given validator, the result is :"
+  7 : {}
+    0 : {}
+      message : "Did not match or-array"
+      target : []
+        0 : "1"
+      validator : []
+        0 : {}
+        1 : null
+  8 : {}
+    0 : "[WARN]  peek <[\"1\"], [or, {}, null]> A default validator is : "
+  9 : {}
+    0 : "[\n  \"array\",\n  \"string\"\n]"
+  10 : "-------- [\"1\"], [array, {}, null] --------"
+  11 : {}
+    0 : "[WARN]  peek <[\"1\"], [array, {}, null]> Validation failed with the given validator, the result is :"
+  12 : {}
+    0 : {}
+      index : 0
+      message : "Target does not meet the array validators"
+      path : "0"
+      target : "1"
+      validator : []
+        0 : "array"
+        1 : {}
+        2 : null
+  13 : {}
+    0 : "[WARN]  peek <[\"1\"], [array, {}, null]> A default validator is : "
+  14 : {}
+    0 : "[\n  \"array\",\n  \"string\"\n]"

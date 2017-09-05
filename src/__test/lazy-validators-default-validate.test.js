@@ -187,7 +187,7 @@ describe('Test default validate', function () {
     });
 
     it('Should process hi complex data', function () {
-        var hiMockData = require('./hi-data.mock');
+        var hiMockData = require('./_mock/hi-data.mock');
 
         lazy.assertValidate('08-hi-complex-data',
             hiMockData,

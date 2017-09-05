@@ -16,11 +16,12 @@ var mockWarn = require('./_utils/mock-warn');
 describe('Test lazy assert without fs', function () {
 
     var self = this;
-
-    var setLogCalled = mockWarn.setLogCalled(self);
-    mockWarn.mockWarn(self);
+    var setLogCalled;
 
     before(function () {
+        console.log('fuck why? fs');
+        setLogCalled = mockWarn.setLogCalled(self);
+        mockWarn.mockWarn(self);
     });
 
     it('Should run compare correctly', function () {
@@ -63,6 +64,7 @@ describe('Test lazy assert without fs', function () {
     });
 
     it('Should throw warning on compare error', function () {
+        console.log('lalala fs');
         var result = [];
         setLogCalled(function () {
             result.push(arguments);

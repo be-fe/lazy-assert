@@ -359,6 +359,7 @@ var lazyAssert = {
             return false;
         }
         else if (!result.result) {
+            delete result.result;
             lazyAssert.warn(peekKey, 'Validation failed with the given validator, the result is :');
             console.warn(result);
 

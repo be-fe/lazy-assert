@@ -14,6 +14,7 @@ module.exports = {
      *  self: TestRunnerInstance
      */
     mockWarn: function (self) {
+        console.warn.restore && console.warn.restore();
         var _warn = console.warn.bind(console);
 
         var warn = sinon.stub(console, 'warn');

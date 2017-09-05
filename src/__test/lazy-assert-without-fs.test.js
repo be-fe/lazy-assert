@@ -10,34 +10,17 @@ requireStub.withArgs('fs')
 requireStub.callThrough();
 
 var lazy = require('../index');
+var mockWarn = require('./_utils/mock-warn');
 
 /* global before, beforeEach, after, afterEach */
 describe('Test lazy assert without fs', function () {
 
     var self = this;
-    this.insideLogCalling = false;
-    var setLogCalled = function (callback) {
-        self.onLogCalled = function () {
-            self.insideLogCalling = true;
-            callback && callback.apply(null, arguments);
-            self.insideLogCalling = false;
-        }
-    };
+
+    var setLogCalled = mockWarn.setLogCalled(self);
+    mockWarn.mockWarn(self);
 
     before(function () {
-        var _warn = console.warn.bind(console);
-
-        var warn = sinon.stub(console, 'warn');
-        warn.callsFake(function () {
-            if (self.onLogCalled) {
-                // This is only for debug purpose
-                // _warn.apply(null, arguments);
-                self.onLogCalled.apply(this, arguments)
-            }
-            else {
-                _warn.apply(null, arguments);
-            }
-        });
     });
 
     it('Should run compare correctly', function () {
@@ -132,7 +115,7 @@ describe('Test lazy assert without fs', function () {
     });
 
     it('Should throw assert error', function () {
-        lazy.throws(function() {
+        lazy.throws(function () {
             lazy.assertCompare('assert-error', {hello: 'world'}, 123);
         }, /assert-error/)
     });

@@ -45,3 +45,23 @@
     0 : "[WARN]  peek <[\"1\"], [array, {}, null]> A default validator is : "
   14 : {}
     0 : "[\n  \"array\",\n  \"string\"\n]"
+  15 : "-------- [{a: [{b: 1}]}], inner array validator --------"
+  16 : {}
+    0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> Validation failed with the given validator, the result is :"
+  17 : {}
+    0 : {}
+      index : 0
+      message : "Target does not meet the array validators"
+      path : "0"
+      target : {}
+        a : []
+          0 : "_[[[reference: object]]]_"
+      validator : []
+        0 : "array"
+        1 : {}
+          a : "_[[[reference: object]]]_"
+          q : "number"
+  18 : {}
+    0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> A default validator is : "
+  19 : {}
+    0 : "[\n  \"array\",\n  {\n    \"a\": [\n      \"array\",\n      {\n        \"b\": \"number\"\n      }\n    ]\n  }\n]"

@@ -268,6 +268,7 @@ module.exports = {
                         extra.path.push(i);
                         var refPath = extra.path.join('.');
                         extra.refs[refPath] = target[i];
+
                         for (var j = 1; j < validator.length; j++) {
                             result = validatorsUtils.validate(target[i], validator[j], {
                                 key: i,
@@ -276,11 +277,13 @@ module.exports = {
                                 refs: extra.refs,
                                 pendingRefs: extra.pendingRefs
                             });
+
                             if (result.result) {
                                 itemResult = true;
                                 break;
                             }
                         }
+
                         extra.path.pop();
                         if (!itemResult) {
                             return {

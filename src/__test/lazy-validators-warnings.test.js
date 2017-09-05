@@ -17,6 +17,7 @@ describe('Test lazy validator warnings', function () {
     beforeEach(function () {
     });
     after(function () {
+        console.warn.restore();
     });
     afterEach(function () {
     });
@@ -74,6 +75,16 @@ describe('Test lazy validator warnings', function () {
             ['1'],
             ['array', {}, null]
         );
+
+        lazy.validate(setKey('[{a: [{b: 1}]}], inner array validator'),
+            [{
+                a: [{b: 1}]
+            }],
+            ['array', {
+                a: ['array', {b: 'string'}]
+            }]
+        );
+
 
         lazy.peek('02-complex-case-warnings',
             result

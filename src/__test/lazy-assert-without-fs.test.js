@@ -24,6 +24,10 @@ describe('Test lazy assert without fs', function () {
         mockWarn.mockWarn(self);
     });
 
+    after(function() {
+        console.warn.restore();
+    });
+
     it('Should run compare correctly', function () {
         var result;
 

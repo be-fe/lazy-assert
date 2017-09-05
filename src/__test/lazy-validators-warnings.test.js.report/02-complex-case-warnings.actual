@@ -60,7 +60,6 @@
         0 : "array"
         1 : {}
           a : "_[[[reference: object]]]_"
-          q : "number"
   18 : {}
     0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> A default validator is : "
   19 : {}

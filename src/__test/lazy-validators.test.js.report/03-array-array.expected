@@ -6,27 +6,43 @@
   03 [1, "2", 3] : false : {}
     index : 1
     message : "Target does not meet the array validators"
-    path : "1"
     result : false
-    target : "2"
-    validator : []
-      0 : "array"
-      1 : "number"
-      2 : "object"
+    subResult : []
+      0 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.number"
+        vIndex : 1
+      1 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.object"
+        vIndex : 2
+    type : "array-array.all-type-failed"
   04 [1, {a: 1}, 3] : true : {}
     result : true
   05 [1, {a: 1}, 3] : false : {}
     index : 1
     message : "Target does not meet the array validators"
-    path : "1"
     result : false
-    target : {}
-      a : 1
-    validator : []
-      0 : "array"
-      1 : "number"
-      2 : "function"
-      3 : "null"
+    subResult : []
+      0 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.number"
+        vIndex : 1
+      1 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.function"
+        vIndex : 2
+      2 : {}
+        expected : null
+        message : "Target is not equal to the expected value."
+        result : false
+        type : "exact-equal"
+        vIndex : 3
+    type : "array-array.all-type-failed"
   07 [1, {a: 1}, 3] : false : {}
     result : true
   08 [1, {a: 1}, 3] : true : {}
@@ -34,21 +50,24 @@
   09 [1, {a: 1}, 3] : false : {}
     index : 1
     message : "Target does not meet the array validators"
-    path : "1"
     result : false
-    target : {}
-      a : 1
-    validator : []
-      0 : "array"
-      1 : "number"
-      2 : {}
-        a : "string"
+    subResult : []
+      0 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.number"
+        vIndex : 1
+      1 : {}
+        key : "a"
+        result : false
+        subResult : {}
+          message : "Target value is not of the expected type"
+          result : false
+          type : "type.string"
+        type : "object.failed-on-key"
+        vIndex : 2
+    type : "array-array.all-type-failed"
   10 null : false : {}
     message : "Target is not an array."
     result : false
-    target : null
-    validator : []
-      0 : "array"
-      1 : "number"
-      2 : {}
-        a : "string"
+    type : "array-array.target-not-array"

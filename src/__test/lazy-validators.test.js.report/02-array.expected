@@ -6,72 +6,86 @@
   01 or : null, string | number : {}
     message : "Did not match or-array"
     result : false
-    target : null
-    validator : []
-      0 : "string"
-      1 : "number"
+    subResult : []
+      0 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.string"
+        vIndex : 0
+      1 : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.number"
+        vIndex : 1
+    type : "or-array.all-types-failed"
   02 and : false, func error : {}
-    index : 2
     message : "Did not meet all validators in and array"
     result : false
     subResult : {}
       funcInfo : undefined
       result : false
-      target : 4
-    subValidator : "_[[[function]]]_"
+      type : "function"
+    type : "and-array"
+    vIndex : 2
   02 and : false, type error : {}
-    index : 1
     message : "Did not meet all validators in and array"
     result : false
     subResult : {}
       message : "Target value is not of the expected type"
       result : false
-      target : "123"
-      type : "number"
-    subValidator : "number"
+      type : "type.number"
+    type : "and-array"
+    vIndex : 1
   02 and : true : {}
     result : true
   03 > : false : {}
     funcInfo : "Comparison : > 3"
     result : false
-    target : 2
+    type : "function"
   03 > : true : {}
     result : true
   04 < : false : {}
     funcInfo : "Comparison : < 3"
     result : false
-    target : 5
+    type : "function"
   04 < : true : {}
     result : true
   05 >= : false : {}
     funcInfo : "Comparison : >= 3"
     result : false
-    target : 2
+    type : "function"
   05 >= : true : {}
     result : true
   06 <= : false : {}
     funcInfo : "Comparison : <= 3"
     result : false
-    target : 5
+    type : "function"
   06 <= : true : {}
     result : true
   07 ! : false : {}
-    index : 1
     message : "Did not meet the not-array validator"
     result : false
-    subValidator : "null"
-    target : null
-    type : "not array"
+    subResult : {}
+      result : true
+    type : "not-array"
+    vIndex : 1
   07 ! : true : {}
     result : true
   08 value : false : {}
     message : "Did not exact equal any value in the value-array"
     result : false
-    target : true
-    validator : []
-      0 : "value"
-      1 : 1
-      2 : null
+    subResult : []
+      0 : {}
+        expected : 1
+        message : "Target is not equal to the expected value."
+        result : false
+        type : "exact-equal"
+      1 : {}
+        expected : null
+        message : "Target is not equal to the expected value."
+        result : false
+        type : "exact-equal"
+    type : "value-array.all-values-failed"
   08 value : true, 1 : {}
     result : true
   08 value : true, null : {}
@@ -79,10 +93,17 @@
   09 or : false : {}
     message : "Did not exact equal any value in the value-array"
     result : false
-    target : true
-    validator : []
-      0 : "value"
-      1 : "array"
-      2 : null
+    subResult : []
+      0 : {}
+        expected : "array"
+        message : "Target is not equal to the expected value."
+        result : false
+        type : "exact-equal"
+      1 : {}
+        expected : null
+        message : "Target is not equal to the expected value."
+        result : false
+        type : "exact-equal"
+    type : "value-array.all-values-failed"
   09 or : true : {}
     result : true

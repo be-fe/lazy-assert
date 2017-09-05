@@ -130,7 +130,8 @@ module.exports = {
                         if (extra.refs[refKey] !== extra.pendingRefs[key]) {
                             result = {
                                 result: false,
-                                path: keyParts[0],
+                                type: 'ref-check',
+                                sourcePath: keyParts[0],
                                 targetPath: refKey,
                                 message: 'Ref is not equal'
                             }
@@ -142,12 +143,18 @@ module.exports = {
 
             validatorObject: function (target, validator, extra) {
                 var result, keys = [];
-                if (utils.isArray(target) || typeof target !== 'object') {
+                if (utils.isArray(target)) {
                     return {
                         result: false,
-                        target: target,
-                        validator: validator,
-                        message: 'Target is not an object (Array is not recognised as valid object here), but is to be validated against object validator'
+                        type: 'object.is-array',
+                        message: 'Target is an array (Array is not recognised as valid object here), but is to be validated against object validator'
+                    }
+                }
+                if (typeof target !== 'object') {
+                    return {
+                        result: false,
+                        type: 'object.is-not-object',
+                        message: 'Target is not an object.'
                     }
                 }
                 for (var key in validator) {
@@ -166,15 +173,18 @@ module.exports = {
                     if (!result) {
                         return {
                             result: false,
+                            type: 'object.validator-error',
                             key: key,
-                            path: refPath,
-                            validator: validator[key],
                             message: 'Problem with validating against validator'
                         }
                     }
                     else if (!result.result) {
-                        result.path = result.path || refPath;
-                        return result;
+                        return {
+                            result: false,
+                            type: 'object.failed-on-key',
+                            key: key,
+                            subResult: result
+                        };
                     }
                 }
 
@@ -194,7 +204,7 @@ module.exports = {
                     else {
                         return {
                             result: false,
-                            target: target,
+                            type: 'regexp-match.fail',
                             regexp: validator,
                             message: 'Target does not match regexp'
                         }
@@ -203,18 +213,26 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
+                        type: 'regexp-match.type-error',
                         regexp: validator,
                         message: 'Target can not be tested by regexp'
                     }
                 }
             },
 
+            /**
+             *
+             * @def: .validatorArray: target, validator, extra => result
+             *  result: {}
+             *      result: boolean
+             *
+             *      type: 'array.validator-empty' // and others types from XXXArray
+             */
             validatorArray: function (target, validator, extra) {
                 if (validator.length === 0) {
                     return {
                         result: false,
-                        validator: validator,
+                        type: 'array.validator-empty',
                         message: 'Validator should not be an empty array.'
                     }
                 }
@@ -248,17 +266,25 @@ module.exports = {
                     return validatorsUtils.validatorValueArray(target, validator);
                 }
                 else if (validator[0] === 'or') {
-                    validator.shift();
-                    return validatorsUtils.validatorOrArray(target, validator);
+                    extra.orStartIndex = 1;
+                    return validatorsUtils.validatorOrArray(target, validator, extra);
                 }
                 else if (validator[0] === 'array') {
                     return validatorsUtils.validatorArrayArray(target, validator, extra);
                 }
                 else {
+                    extra.orStartIndex = 0;
                     return validatorsUtils.validatorOrArray(target, validator, extra);
                 }
             },
 
+            /**
+             *
+             * @def: .validatorArrayArray: ... => result
+             *  result: {}
+             *      type: 'array-array.all-type-failed' | 'array-array.target-not-array'
+             *
+             */
             validatorArrayArray: function (target, validator, extra) {
                 if (utils.isArray(target)) {
                     var itemResult, result;
@@ -269,6 +295,7 @@ module.exports = {
                         var refPath = extra.path.join('.');
                         extra.refs[refPath] = target[i];
 
+                        var fails = [];
                         for (var j = 1; j < validator.length; j++) {
                             result = validatorsUtils.validate(target[i], validator[j], {
                                 key: i,
@@ -282,16 +309,19 @@ module.exports = {
                                 itemResult = true;
                                 break;
                             }
+                            else {
+                                result.vIndex = j;
+                                fails.push(result);
+                            }
                         }
 
                         extra.path.pop();
                         if (!itemResult) {
                             return {
                                 result: false,
-                                target: target[i],
-                                path: refPath,
+                                type: 'array-array.all-type-failed',
                                 index: i,
-                                validator: validator,
+                                subResult: fails,
                                 message: 'Target does not meet the array validators'
                             }
                         }
@@ -304,8 +334,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
-                        validator: validator,
+                        type: 'array-array.target-not-array',
                         message: 'Target is not an array.'
                     }
                 }
@@ -320,24 +349,24 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        funcInfo: extra.funcInfo,
-                        target: target
+                        type: 'function',
+                        funcInfo: extra.funcInfo
                     }
                 }
             },
 
             validatorOrArray: function (target, validator, extra) {
-                var result;
-                for (var i = 0; i < validator.length; i++) {
+                var result, fails = [];
+                for (var i = extra.orStartIndex || 0; i < validator.length; i++) {
                     result = validatorsUtils.validate(target, validator[i], extra);
+
                     if (!result) {
                         return {
                             result: false,
-                            i: i,
-                            target: target[i],
+                            type: 'or-array.validator-error',
+                            vIndex: i,
                             path: extra.path.join('.'),
-                            validator: validator[i],
-                            message: 'Problem with validating against validator'
+                            message: 'Problem with validating against validator, validator problem'
                         }
                     }
 
@@ -346,31 +375,39 @@ module.exports = {
                             result: true
                         }
                     }
+                    else {
+                        result.vIndex = i;
+                        fails.push(result);
+                    }
                 }
 
                 return {
                     result: false,
-                    target: target,
-                    validator: validator,
+                    type: 'or-array.all-types-failed',
+                    subResult: fails,
                     message: 'Did not match or-array'
                 }
             },
 
             validatorValueArray: function (target, validator) {
-                var result;
+                var result, fails = [];
                 for (var i = 1; i < validator.length; i++) {
                     result = validatorsUtils.exactValidator(target, validator[i]);
+
                     if (result.result) {
                         return {
                             result: true
                         }
                     }
+                    else {
+                        fails.push(result);
+                    }
                 }
 
                 return {
                     result: false,
-                    target: target,
-                    validator: validator,
+                    type: 'value-array.all-values-failed',
+                    subResult: fails,
                     message: 'Did not exact equal any value in the value-array'
                 }
             },
@@ -382,10 +419,9 @@ module.exports = {
                     if (result.result) {
                         return {
                             result: false,
-                            type: 'not array',
-                            target: target,
-                            index: i,
-                            subValidator: validator[i],
+                            vIndex: i,
+                            type: 'not-array',
+                            subResult: result,
                             message: 'Did not meet the not-array validator'
                         }
                     }
@@ -403,9 +439,9 @@ module.exports = {
                     if (!result.result) {
                         return {
                             result: false,
+                            vIndex: i,
+                            type: 'and-array',
                             subResult: result,
-                            index: i,
-                            subValidator: validator[i],
                             message: 'Did not meet all validators in and array'
                         }
                     }
@@ -445,7 +481,7 @@ module.exports = {
                     if (!target) {
                         return {
                             result: false,
-                            target: target,
+                            type: 'object.null',
                             message: 'Target is not an non-null object'
                         }
                     }
@@ -465,7 +501,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
+                        type: 'type.regexp',
                         message: 'Target is not a RegExp'
                     }
                 }
@@ -477,7 +513,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
+                        type: 'type.array',
                         message: 'Target is not an array'
                     }
                 }
@@ -491,7 +527,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
+                        type: 'type.nan',
                         message: 'Target is not NaN'
                     }
                 }
@@ -505,8 +541,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
-                        type: type,
+                        type: 'type.' + type,
                         message: 'Target value is not of the expected type'
                     }
                 }
@@ -520,7 +555,7 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        target: target,
+                        type: 'exact-equal',
                         expected: expected,
                         message: 'Target is not equal to the expected value.'
                     }

@@ -2,11 +2,13 @@
   01 {} : true : {}
     result : true
   02 {} : false : {}
-    message : "Target value is not of the expected type"
-    path : "a"
+    key : "a"
     result : false
-    target : undefined
-    type : "number"
+    subResult : {}
+      message : "Target value is not of the expected type"
+      result : false
+      type : "type.number"
+    type : "object.failed-on-key"
   03 {} : true : {}
     result : true
   04 {} : true : {}
@@ -18,47 +20,60 @@
   07 {a: 1} : true, number & func : {}
     result : true
   08 {a: 1} : false, object : {}
-    message : "Did not match or-array"
-    path : "a"
+    key : "a"
     result : false
-    target : 1
-    validator : []
-      0 : "object"
+    subResult : {}
+      message : "Did not match or-array"
+      result : false
+      subResult : []
+        0 : {}
+          message : "Target value is not of the expected type"
+          result : false
+          type : "type.object"
+          vIndex : 0
+      type : "or-array.all-types-failed"
+    type : "object.failed-on-key"
   09 {a: 1} : false, number & func : {}
-    index : 2
-    message : "Did not meet all validators in and array"
-    path : "a"
+    key : "a"
     result : false
     subResult : {}
-      funcInfo : undefined
+      message : "Did not meet all validators in and array"
       result : false
-      target : 1
-    subValidator : "_[[[function]]]_"
+      subResult : {}
+        funcInfo : undefined
+        result : false
+        type : "function"
+      type : "and-array"
+      vIndex : 2
+    type : "object.failed-on-key"
   10 {a: 1} : false, number & < : {}
-    index : 2
-    message : "Did not meet all validators in and array"
-    path : "a"
+    key : "a"
     result : false
     subResult : {}
-      funcInfo : "Comparison : < 0"
+      message : "Did not meet all validators in and array"
       result : false
-      target : 1
-    subValidator : []
-      0 : "<"
-      1 : 0
+      subResult : {}
+        funcInfo : "Comparison : < 0"
+        result : false
+        type : "function"
+      type : "and-array"
+      vIndex : 2
+    type : "object.failed-on-key"
   11 {a: 1} : true, number & > : {}
     result : true
   12 {a: 1} : false, object & > : {}
-    index : 1
-    message : "Did not meet all validators in and array"
-    path : "a"
+    key : "a"
     result : false
     subResult : {}
-      message : "Target value is not of the expected type"
+      message : "Did not meet all validators in and array"
       result : false
-      target : 1
-      type : "object"
-    subValidator : "object"
+      subResult : {}
+        message : "Target value is not of the expected type"
+        result : false
+        type : "type.object"
+      type : "and-array"
+      vIndex : 1
+    type : "object.failed-on-key"
   13 {a: 1} : true, object | > : {}
     result : true
   14 {a: {b: 1}} : true : {}
@@ -68,29 +83,52 @@
   16 {a: {b: 1}} : true : {}
     result : true
   17 {a: {b: 1}} : false : {}
-    index : 1
-    message : "Did not meet all validators in and array"
-    path : "a.b"
+    key : "a"
     result : false
     subResult : {}
-      message : "Target value is not of the expected type"
+      key : "b"
       result : false
-      target : 1
-      type : "object"
-    subValidator : "object"
+      subResult : {}
+        message : "Did not meet all validators in and array"
+        result : false
+        subResult : {}
+          message : "Target value is not of the expected type"
+          result : false
+          type : "type.object"
+        type : "and-array"
+        vIndex : 1
+      type : "object.failed-on-key"
+    type : "object.failed-on-key"
   18 {a: {b: ["1", "2", null]]}} : false : {}
-    message : "Did not match or-array"
-    path : "a.b"
+    key : "a"
     result : false
-    target : []
-      0 : "1"
-      1 : "2"
-      2 : null
-    validator : []
-      0 : "string"
-      1 : []
-        0 : "array"
-        1 : "string"
+    subResult : {}
+      key : "b"
+      result : false
+      subResult : {}
+        message : "Did not match or-array"
+        result : false
+        subResult : []
+          0 : {}
+            message : "Target value is not of the expected type"
+            result : false
+            type : "type.string"
+            vIndex : 0
+          1 : {}
+            index : 2
+            message : "Target does not meet the array validators"
+            result : false
+            subResult : []
+              0 : {}
+                message : "Target value is not of the expected type"
+                result : false
+                type : "type.string"
+                vIndex : 1
+            type : "array-array.all-type-failed"
+            vIndex : 1
+        type : "or-array.all-types-failed"
+      type : "object.failed-on-key"
+    type : "object.failed-on-key"
   19 {a: {b: ["1", "2", null]]}} : true : {}
     result : true
   20 {a: {b: "1"}} : true : {}

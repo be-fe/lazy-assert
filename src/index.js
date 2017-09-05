@@ -363,7 +363,7 @@ var lazyAssert = {
             console.warn(result);
 
             lazyAssert.warn(peekKey, 'A default validator is : ');
-            console.warn(lazyAssert.validators.summarizeTypeValidator(actualTargetValue));
+            console.warn(JSON.stringify(lazyAssert.validators.summarizeTypeValidator(actualTargetValue), null, 2));
             return false;
         }
 

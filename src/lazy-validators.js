@@ -122,14 +122,16 @@ module.exports = {
                 }
 
                 if (isFirstLevel) {
-                    console.log('@@d', extra.refs, 'pending', extra.pendingRefs);
+                    // console.log('@@d', extra.refs, 'pending', extra.pendingRefs);
 
                     for (var key in extra.pendingRefs) {
-                        if (extra.refs[key] !== extra.pendingRefs[key].target) {
+                        var keyParts = key.split(':');
+                        var refKey = keyParts[1];
+                        if (extra.refs[refKey] !== extra.pendingRefs[key]) {
                             result = {
                                 result: false,
-                                path: extra.pendingRefs[key].path,
-                                targetPath: key,
+                                path: keyParts[0],
+                                targetPath: refKey,
                                 message: 'Ref is not equal'
                             }
                         }
@@ -394,7 +396,8 @@ module.exports = {
 
             stringValidator: function (target, validator, extra) {
                 if (validator.substr(0, 1) === '=') {
-                    extra.pendingRefs[validator.substr(1)] = {target: target, path: extra.path.join('.')};
+                    var refPath = extra.path.join('.');
+                    extra.pendingRefs[refPath + ':' + validator.substr(1)] = target;
                     return {result: true}
                 }
                 else if (validator === 'nan') {

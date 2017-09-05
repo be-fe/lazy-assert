@@ -1,171 +1,466 @@
 {}
-  code : "number"
-  corpId : "number"
-  info : "string"
+  code : 200
+  corpId : 1
+  info : "GetList Success"
   rspData : {}
-    existMore : "boolean"
+    existMore : true
     groupList : []
-      0 : "array"
+      0 : {}
+        groupInfo : {}
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1497443415631"
+          desc : ""
+          digest : null
+          friendlyLevel : 3
+          gid : "2100000100"
+          groupStatus : 2
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1503581931904"
+          name : "imrd_304"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : ""
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "0"
+        msgStatus : null
       1 : {}
         groupInfo : {}
-          autoName : "boolean"
-          bulletin : "string"
-          contentFiles : []
-            0 : "array"
-            1 : {}
-              extInfo : "null"
-              fid : "null"
-              fileId : "null"
-              fileType : "null"
-              fileUrl : "null"
-              md5 : "null"
-              name : "null"
-              size : "null"
-          contentImages : []
-            0 : "array"
-            1 : {}
-              extInfo : "null"
-              fid : "null"
-              height : "null"
-              imageId : "null"
-              imageType : "null"
-              md5 : "null"
-              name : "null"
-              size : "null"
-              url : "null"
-              width : "null"
-          corpId : "number"
-          createTime : "string"
-          desc : "string"
-          digest : "null"
-          friendlyLevel : "number"
-          gid : "string"
-          groupStatus : "number"
-          groupType : "number"
-          headMD5 : "string"
-          lastActiveTime : "string"
-          lastUpdateTime : "string"
-          name : "string"
-          onlyOwnerAllowModify : "boolean"
-          openLevel : "number"
-          ownerCorpId : "number"
-          ownerGid : "string"
-          parentGid : "string"
-          tag : "string"
-          topicContent : "string"
-          topicTypeExtensionId : "string"
-          uClass1 : "number"
-          uClass2 : "number"
-          uid : "string"
-        msgStatus : "null"
-    lastQueryTime : "string"
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1504188516229"
+          desc : ""
+          digest : null
+          friendlyLevel : 1
+          gid : "2100000357"
+          groupStatus : 1
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1504188516229"
+          name : "swr test"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : "swr create topicContent"
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "40000355"
+        msgStatus : null
+      2 : {}
+        groupInfo : {}
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1504188826565"
+          desc : ""
+          digest : null
+          friendlyLevel : 1
+          gid : "2100000358"
+          groupStatus : 1
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1504188826565"
+          name : "swr test"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : "swr create topicContent"
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "40000355"
+        msgStatus : null
+      3 : {}
+        groupInfo : {}
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1504189196589"
+          desc : ""
+          digest : null
+          friendlyLevel : 1
+          gid : "2100000359"
+          groupStatus : 1
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1504189196589"
+          name : "swr test"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : "swr create topicContent"
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "40000355"
+        msgStatus : null
+      4 : {}
+        groupInfo : {}
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1504195125008"
+          desc : ""
+          digest : null
+          friendlyLevel : 1
+          gid : "2100000360"
+          groupStatus : 1
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1504195125008"
+          name : "swr test"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : "swr create topicContent"
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "40000355"
+        msgStatus : null
+      5 : {}
+        groupInfo : {}
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1504195627629"
+          desc : ""
+          digest : null
+          friendlyLevel : 1
+          gid : "2100000361"
+          groupStatus : 1
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1504195627629"
+          name : "swr test"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : "swr create topicContent"
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "40000355"
+        msgStatus : null
+      6 : {}
+        groupInfo : {}
+          autoName : false
+          bulletin : ""
+          contentFiles : "_[[[reference: object]]]_"
+          contentImages : "_[[[reference: object]]]_"
+          corpId : 1
+          createTime : "1504195800165"
+          desc : ""
+          digest : null
+          friendlyLevel : 1
+          gid : "2100000362"
+          groupStatus : 1
+          groupType : 2
+          headMD5 : ""
+          lastActiveTime : "0"
+          lastUpdateTime : "1504195800165"
+          name : "swr test"
+          onlyOwnerAllowModify : false
+          openLevel : 1
+          ownerCorpId : 1
+          ownerGid : "0"
+          parentGid : "0"
+          tag : ""
+          topicContent : "swr create topicContent"
+          topicTypeExtensionId : ""
+          uClass1 : 0
+          uClass2 : 0
+          uid : "40000355"
+        msgStatus : null
+    lastQueryTime : "1504195800175"
     msgs : []
-      0 : "array"
-      1 : {}
-        clientMsgID : "string"
-        compatibleText : "null"
+      0 : {}
+        clientMsgID : "0"
+        compatibleText : null
         content : {}
-          appInfo : "null"
-          atAll : "null"
-          ats : []
-            0 : "array"
-          datas : []
-            0 : "array"
-          extContent : []
-            0 : "array"
-          faces : []
-            0 : []
-              0 : "array"
-            1 : "string"
-            2 : {}
-          files : []
-            0 : "array"
-          images : []
-            0 : "array"
-          sysNotify : {}
-            notifyData : {}
-              gid : []
-                0 : "string"
-                1 : "undefined"
-              groupInfo : []
-                0 : "undefined"
-                1 : {}
-                  autoName : "boolean"
-                  bulletin : "string"
-                  contentFiles : []
-                    0 : "array"
-                  contentImages : []
-                    0 : "array"
-                  corpId : "number"
-                  createTime : "string"
-                  desc : "string"
-                  digest : "null"
-                  friendlyLevel : "number"
-                  gid : "string"
-                  groupStatus : "number"
-                  groupType : "number"
-                  headMD5 : "string"
-                  lastActiveTime : "string"
-                  lastUpdateTime : "string"
-                  name : "string"
-                  onlyOwnerAllowModify : "boolean"
-                  openLevel : "number"
-                  ownerCorpId : "number"
-                  ownerGid : "string"
-                  parentGid : "string"
-                  tag : "string"
-                  topicContent : "string"
-                  topicTypeExtensionId : "string"
-                  uClass1 : "number"
-                  uClass2 : "number"
-                  uid : "string"
-              groupStatus : []
-                0 : "number"
-                1 : "undefined"
-            notifyId : "string"
-            notifyType : "number"
-          texts : []
-            0 : "array"
-          urls : []
-            0 : "array"
-          voices : []
-            0 : "array"
-        createTime : "string"
-        extra : "null"
-        fromId : "string"
-        fromName : "string"
-        fromType : "number"
-        isRealTime : "boolean"
-        lastUpdateTime : "string"
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "_[[[reference: object]]]_"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1503581932157"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1503581932154"
         msgEngines : []
-          0 : "array"
-          1 : {}
-            file : "null"
-            linear : "null"
-            notify : {}
-              contentId : "string"
-              version : "number"
-            simpleRM : "null"
-            voice : "null"
-        msgId : "string"
-        msgTemplate : "string"
-        notifyText : "null"
+          0 : "_[[[reference: object]]]_"
+        msgId : "1576619928093903187"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
         options : []
-          0 : "array"
-        persistLevel : "null"
+        persistLevel : null
         receivers : []
-          0 : "array"
-          1 : {}
-            mainReceiver : "null"
-            msgSeq : "string"
-            previousMsgSeq : "string"
-            subType : "number"
-            toId : "string"
-            toType : "number"
-        sendTime : "string"
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1503581932154"
         tags : []
-          0 : "array"
-        view : "string"
+        view : ""
+      1 : {}
+        clientMsgID : "0"
+        compatibleText : null
+        content : {}
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "hello"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1504188516279"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1504188516277"
+        msgEngines : []
+          0 : "_[[[reference: object]]]_"
+        msgId : "1577255977646041297"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
+        options : []
+        persistLevel : null
+        receivers : []
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1504188516277"
+        tags : []
+        view : ""
+      2 : {}
+        clientMsgID : "0"
+        compatibleText : null
+        content : {}
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "_[[[reference: object]]]_"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1504188826583"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1504188826581"
+        msgEngines : []
+          0 : "_[[[reference: object]]]_"
+        msgId : "1577256303023340313"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
+        options : []
+        persistLevel : null
+        receivers : []
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1504188826581"
+        tags : []
+        view : ""
+      3 : {}
+        clientMsgID : "0"
+        compatibleText : null
+        content : {}
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "_[[[reference: object]]]_"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1504189196605"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1504189196603"
+        msgEngines : []
+          0 : "_[[[reference: object]]]_"
+        msgId : "1577256691019856650"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
+        options : []
+        persistLevel : null
+        receivers : []
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1504189196603"
+        tags : []
+        view : ""
+      4 : {}
+        clientMsgID : "0"
+        compatibleText : null
+        content : {}
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "_[[[reference: object]]]_"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1504195125037"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1504195125031"
+        msgEngines : []
+          0 : "_[[[reference: object]]]_"
+        msgId : "1577262907430977331"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
+        options : []
+        persistLevel : null
+        receivers : []
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1504195125031"
+        tags : []
+        view : ""
+      5 : {}
+        clientMsgID : "0"
+        compatibleText : null
+        content : {}
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "_[[[reference: object]]]_"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1504195627710"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1504195627709"
+        msgEngines : []
+          0 : "_[[[reference: object]]]_"
+        msgId : "1577263434522511378"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
+        options : []
+        persistLevel : null
+        receivers : []
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1504195627709"
+        tags : []
+        view : ""
+      6 : {}
+        clientMsgID : "0"
+        compatibleText : null
+        content : {}
+          appInfo : null
+          atAll : null
+          ats : "_[[[reference: object]]]_"
+          datas : "_[[[reference: object]]]_"
+          extContent : "_[[[reference: object]]]_"
+          faces : "_[[[reference: object]]]_"
+          files : "_[[[reference: object]]]_"
+          images : "_[[[reference: object]]]_"
+          sysNotify : "_[[[reference: object]]]_"
+          texts : "_[[[reference: object]]]_"
+          urls : "_[[[reference: object]]]_"
+          voices : "_[[[reference: object]]]_"
+        createTime : "1504195800180"
+        extra : null
+        fromId : "0"
+        fromName : "HI"
+        fromType : 2
+        isRealTime : false
+        lastUpdateTime : "1504195800178"
+        msgEngines : []
+          0 : "_[[[reference: object]]]_"
+        msgId : "1577263615369964503"
+        msgTemplate : "SVR_NOTIFY"
+        notifyText : null
+        options : []
+        persistLevel : null
+        receivers : []
+          0 : "_[[[reference: object]]]_"
+        sendTime : "1504195800178"
+        tags : []
+        view : ""
     quitGids : []
-      0 : "array"
-  uid : "string"
+  uid : "40000999"

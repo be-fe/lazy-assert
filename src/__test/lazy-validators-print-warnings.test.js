@@ -33,6 +33,26 @@ describe('Test validators warning printing', function () {
             '06 val & op test': lazy.validators.formalizeFailResultItem(
                 lazy.validators.validate({a: 5}, {a: [['>', 6], /abc/]})
             ),
+            '07 val & array [and] validator': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate([1, 2], ['array', ['and', 'number', ['>', 5]], 'object'])
+            ),
+            '08 val & not array': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate({a: 1}, ['!', 'number', {a: ['>', 0]}])
+            ),
+            '09 val & value array': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate({a: 0}, {a: ['value', 2, 3, null, {b: 1}]})
+            ),
+            '10 val & func': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate({a: 1, b: 2}, function (val) {
+                    return val.a + val.b > 5;
+                })
+            ),
+            '11 val & func with info': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate({a: 1, b: 2}, function (val) {
+                    return val.a + val.b > 5 ? true : 'Sum should be greator than 5';
+                })
+            ),
+
 
         }, -1);
     });

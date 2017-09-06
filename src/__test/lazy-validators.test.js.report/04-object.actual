@@ -3,13 +3,15 @@
     result : true
   02 {} : false : {}
     key : "a"
+    message : "Failed on object property validation"
     reason : "failed-on-key"
     result : false
-    subResult : {}
-      message : "Target value is not of the expected type"
-      reason : "number"
-      result : false
-      type : "type"
+    subResult : []
+      0 : {}
+        message : "Target value is not of the expected type"
+        reason : "number"
+        result : false
+        type : "type"
     type : "object"
   03 {} : true : {}
     result : true
@@ -23,70 +25,83 @@
     result : true
   08 {a: 1} : false, object : {}
     key : "a"
+    message : "Failed on object property validation"
     reason : "failed-on-key"
     result : false
-    subResult : {}
-      message : "Did not match or-array"
-      reason : "all-types-failed"
-      result : false
-      subResult : []
-        0 : {}
-          message : "Target value is not of the expected type"
-          reason : "object"
-          result : false
-          type : "type"
-          vIndex : 0
-      type : "or-array"
+    subResult : []
+      0 : {}
+        message : "Did not match or-array"
+        reason : "all-types-failed"
+        result : false
+        subResult : []
+          0 : {}
+            message : "Target value is not of the expected type"
+            reason : "object"
+            result : false
+            type : "type"
+            vIndex : 0
+        type : "or-array"
     type : "object"
   09 {a: 1} : false, number & func : {}
     key : "a"
+    message : "Failed on object property validation"
     reason : "failed-on-key"
     result : false
-    subResult : {}
-      message : "Did not meet all validators in and array"
-      reason : "some-failed"
-      result : false
-      subResult : {}
-        funcInfo : undefined
-        reason : "returned-false"
+    subResult : []
+      0 : {}
+        message : "Did not meet all validators in and array"
+        reason : "some-failed"
         result : false
-        type : "function"
-      type : "and-array"
-      vIndex : 2
+        subResult : []
+          0 : {}
+            funcInfo : undefined
+            message : "Target did not pass the function check"
+            reason : "returned-false"
+            result : false
+            type : "function"
+        type : "and-array"
+        vIndex : 2
     type : "object"
   10 {a: 1} : false, number & < : {}
     key : "a"
+    message : "Failed on object property validation"
     reason : "failed-on-key"
     result : false
-    subResult : {}
-      message : "Did not meet all validators in and array"
-      reason : "some-failed"
-      result : false
-      subResult : {}
-        funcInfo : "Comparison : < 0"
-        reason : "returned-false"
+    subResult : []
+      0 : {}
+        message : "Did not meet all validators in and array"
+        reason : "some-failed"
         result : false
-        type : "function"
-      type : "and-array"
-      vIndex : 2
+        subResult : []
+          0 : {}
+            funcInfo : "Comparison : < 0"
+            message : "Target did not pass the function check"
+            reason : "returned-false"
+            result : false
+            type : "function"
+        type : "and-array"
+        vIndex : 2
     type : "object"
   11 {a: 1} : true, number & > : {}
     result : true
   12 {a: 1} : false, object & > : {}
     key : "a"
+    message : "Failed on object property validation"
     reason : "failed-on-key"
     result : false
-    subResult : {}
-      message : "Did not meet all validators in and array"
-      reason : "some-failed"
-      result : false
-      subResult : {}
-        message : "Target value is not of the expected type"
-        reason : "object"
+    subResult : []
+      0 : {}
+        message : "Did not meet all validators in and array"
+        reason : "some-failed"
         result : false
-        type : "type"
-      type : "and-array"
-      vIndex : 1
+        subResult : []
+          0 : {}
+            message : "Target value is not of the expected type"
+            reason : "object"
+            result : false
+            type : "type"
+        type : "and-array"
+        vIndex : 1
     type : "object"
   13 {a: 1} : true, object | > : {}
     result : true
@@ -98,48 +113,45 @@
     result : true
   17 {a: {b: 1}} : false : {}
     key : "a"
+    message : "Failed on object property validation"
     reason : "failed-on-key"
     result : false
-    subResult : {}
-      key : "b"
-      reason : "failed-on-key"
-      result : false
-      subResult : {}
-        message : "Did not meet all validators in and array"
-        reason : "some-failed"
-        result : false
-        subResult : {}
-          message : "Target value is not of the expected type"
-          reason : "object"
-          result : false
-          type : "type"
-        type : "and-array"
-        vIndex : 1
-      type : "object"
-    type : "object"
-  18 {a: {b: ["1", "2", null]]}} : false : {}
-    key : "a"
-    reason : "failed-on-key"
-    result : false
-    subResult : {}
-      key : "b"
-      reason : "failed-on-key"
-      result : false
-      subResult : {}
-        message : "Did not match or-array"
-        reason : "all-types-failed"
+    subResult : []
+      0 : {}
+        key : "b"
+        message : "Failed on object property validation"
+        reason : "failed-on-key"
         result : false
         subResult : []
           0 : {}
-            message : "Target value is not of the expected type"
-            reason : "string"
+            message : "Did not meet all validators in and array"
+            reason : "some-failed"
             result : false
-            type : "type"
-            vIndex : 0
-          1 : {}
-            index : 2
-            message : "Target does not meet the array validators"
-            reason : "all-type-failed"
+            subResult : []
+              0 : {}
+                message : "Target value is not of the expected type"
+                reason : "object"
+                result : false
+                type : "type"
+            type : "and-array"
+            vIndex : 1
+        type : "object"
+    type : "object"
+  18 {a: {b: ["1", "2", null]]}} : false : {}
+    key : "a"
+    message : "Failed on object property validation"
+    reason : "failed-on-key"
+    result : false
+    subResult : []
+      0 : {}
+        key : "b"
+        message : "Failed on object property validation"
+        reason : "failed-on-key"
+        result : false
+        subResult : []
+          0 : {}
+            message : "Did not match or-array"
+            reason : "all-types-failed"
             result : false
             subResult : []
               0 : {}
@@ -147,11 +159,23 @@
                 reason : "string"
                 result : false
                 type : "type"
+                vIndex : 0
+              1 : {}
+                index : 2
+                message : "Target does not meet the array validators"
+                reason : "all-type-failed"
+                result : false
+                subResult : []
+                  0 : {}
+                    message : "Target value is not of the expected type"
+                    reason : "string"
+                    result : false
+                    type : "type"
+                    vIndex : 1
+                type : "array-array"
                 vIndex : 1
-            type : "array-array"
-            vIndex : 1
-        type : "or-array"
-      type : "object"
+            type : "or-array"
+        type : "object"
     type : "object"
   19 {a: {b: ["1", "2", null]]}} : true : {}
     result : true

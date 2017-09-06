@@ -414,7 +414,17 @@ module.exports = {
             },
 
             validatorFunction: function (target, validatorFunction, extra) {
-                if (validatorFunction(target, extra.key, extra.parent)) {
+                var result = validatorFunction(target, extra.key, extra.parent);
+                if (result) {
+                    if (typeof result === 'string') {
+                        return {
+                            result: false,
+                            type: 'function',
+                            reason: 'returned-false',
+                            message: 'Target did not pass the function check',
+                            funcInfo: result
+                        }
+                    }
                     return {
                         result: true
                     }
@@ -477,6 +487,7 @@ module.exports = {
                         }
                     }
                     else {
+                        result.vIndex = i;
                         fails.push(result);
                     }
                 }
@@ -495,9 +506,10 @@ module.exports = {
                 for (var i = 1; i < validator.length; i++) {
                     result = validatorsUtils.validate(target, validator[i], extra);
                     if (result.result) {
+                        result.vIndex = i;
+                        result.message = 'The sub-validator returns true in not-array check.';
                         return {
                             result: false,
-                            vIndex: i,
                             type: 'not-array',
                             reason: 'some-failed',
                             subResult: [result],
@@ -516,9 +528,9 @@ module.exports = {
                 for (var i = 1; i < validator.length; i++) {
                     result = validatorsUtils.validate(target, validator[i], extra);
                     if (!result.result) {
+                        result.vIndex = i;
                         return {
                             result: false,
-                            vIndex: i,
                             type: 'and-array',
                             reason: 'some-failed',
                             subResult: [result],
@@ -632,7 +644,15 @@ module.exports = {
                 }
             },
             exactValidator: function (target, expected) {
-                if (target === expected) {
+                if (expected && typeof expected === 'object' || typeof expected === 'function') {
+                    return {
+                        result: false,
+                        type: 'exact-equal',
+                        reason: 'validator-is-complex',
+                        message: 'Validator should not be an object/function in exact match'
+                    }
+                }
+                else if (target === expected) {
                     return {
                         result: true
                     }
@@ -887,7 +907,7 @@ module.exports = {
 
                 if ('vIndex' in result) {
                     var condType = extra.parentType === 'or-array' ?
-                        'or' : result.type === 'and-array' ?
+                        'or' : extra.parentType === 'and-array' ?
                             'and' : extra.parentType === 'array-array' ?
                                 'array' : extra.parentType === 'not-array' ?
                                     'not' : extra.parentType === 'value-array' ?
@@ -927,6 +947,9 @@ module.exports = {
                 }
                 else if (result.type === 'function' && result.funcInfo) {
                     result.finalMessage = result.message + ' <Expected func test: ' + result.funcInfo + ' >';
+                }
+                else if (result.type == 'exact-equal' && ('expected' in result)) {
+                    result.finalMessage = result.message + ' <Expected value: ' + result.expected + ' >';
                 }
                 else {
                     result.finalMessage = result.message;

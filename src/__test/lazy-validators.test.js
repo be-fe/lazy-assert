@@ -91,7 +91,7 @@ describe('Test lazy validator', function () {
             '08 value : false': lazy.validators.validate(true, ['value', 1, null]),
             '09 or : true': lazy.validators.validate([], ['or', 'array', null]),
             '09 or : false': lazy.validators.validate(true, ['value', 'array', null]),
-        });
+        }, -1);
     });
 
     it('Should return correct result : array-array', function () {
@@ -105,7 +105,7 @@ describe('Test lazy validator', function () {
             '08 [1, {a: 1}, 3] : true': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', {a: 'number'}]),
             '09 [1, {a: 1}, 3] : false': lazy.validators.validate([1, {a: 1}, 3], ['array', 'number', {a: 'string'}]),
             '10 null : false': lazy.validators.validate(null, ['array', 'number', {a: 'string'}]),
-        });
+        }, -1);
     });
 
     it('Should return correct result : object', function () {

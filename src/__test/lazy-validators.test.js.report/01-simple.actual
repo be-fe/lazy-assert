@@ -51,8 +51,8 @@
     result : false
     type : "type"
   15 null, object : false : {}
-    message : "Target is not an non-null object"
-    reason : "object-target-is-null"
+    message : "Target should be an non-null object"
+    reason : "not-null-object"
     result : false
     type : "type"
   16 function : true : {}

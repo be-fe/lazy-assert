@@ -61,7 +61,7 @@
           0 : {}
             condPath : "$COND.[or:0].a"
             expected : undefined
-            finalMessage : "Target is not equal to the expected value."
+            finalMessage : "Target is not equal to the expected value. <Expected value: undefined >"
             message : "Target is not equal to the expected value."
             reason : "not-equal"
             result : false
@@ -112,7 +112,7 @@
     type : "or-array"
     valPath : "$VAL"
   05 object & and array : {}
-    condPath : "$COND.[and:2]"
+    condPath : "$COND"
     finalMessage : "Did not meet all validators in and array"
     message : "Did not meet all validators in and array"
     reason : "some-failed"
@@ -135,9 +135,9 @@
             type : "type"
             valPath : "$VAL.a"
         type : "object"
+        vIndex : 2
         valPath : "$VAL.a"
     type : "and-array"
-    vIndex : 2
     valPath : "$VAL"
   06 val & op test : {}
     condPath : "$COND.a"
@@ -178,3 +178,134 @@
         valPath : "$VAL.a"
     type : "object"
     valPath : "$VAL.a"
+  07 val & array [and] validator : {}
+    condPath : "$COND"
+    finalMessage : "Target does not meet the array validators"
+    index : 0
+    message : "Target does not meet the array validators"
+    reason : "all-type-failed"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.[array:1]"
+        finalMessage : "Did not meet all validators in and array"
+        message : "Did not meet all validators in and array"
+        reason : "some-failed"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.[array:1].[and:2]"
+            finalMessage : "Target did not pass the function check <Expected func test: Comparison : > 5 >"
+            funcInfo : "Comparison : > 5"
+            message : "Target did not pass the function check"
+            reason : "returned-false"
+            result : false
+            type : "function"
+            vIndex : 2
+            valPath : "$VAL"
+        type : "and-array"
+        vIndex : 1
+        valPath : "$VAL"
+      1 : {}
+        condPath : "$COND.[array:2]"
+        finalMessage : "Target value is not of the expected type <Expected type: object >"
+        message : "Target value is not of the expected type"
+        reason : "object"
+        result : false
+        type : "type"
+        vIndex : 2
+        valPath : "$VAL"
+    type : "array-array"
+    valPath : "$VAL"
+  08 val & not array : {}
+    condPath : "$COND"
+    finalMessage : "Did not meet the not-array validator"
+    message : "Did not meet the not-array validator"
+    reason : "some-failed"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.[not:2]"
+        finalMessage : "The sub-validator returns true in not-array check."
+        message : "The sub-validator returns true in not-array check."
+        result : true
+        vIndex : 2
+        valPath : "$VAL"
+    type : "not-array"
+    valPath : "$VAL"
+  09 val & value array : {}
+    condPath : "$COND.a"
+    finalMessage : "Failed on object property validation"
+    key : "a"
+    message : "Failed on object property validation"
+    reason : "failed-on-key"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.a"
+        finalMessage : "Did not exact equal any value in the value-array"
+        message : "Did not exact equal any value in the value-array"
+        reason : "all-values-failed"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.a.[value:1]"
+            expected : 2
+            finalMessage : "Target is not equal to the expected value. <Expected value: 2 >"
+            message : "Target is not equal to the expected value."
+            reason : "not-equal"
+            result : false
+            type : "exact-equal"
+            vIndex : 1
+            valPath : "$VAL.a"
+          1 : {}
+            condPath : "$COND.a.[value:2]"
+            expected : 3
+            finalMessage : "Target is not equal to the expected value. <Expected value: 3 >"
+            message : "Target is not equal to the expected value."
+            reason : "not-equal"
+            result : false
+            type : "exact-equal"
+            vIndex : 2
+            valPath : "$VAL.a"
+          2 : {}
+            condPath : "$COND.a.[value:3]"
+            expected : null
+            finalMessage : "Target is not equal to the expected value. <Expected value: null >"
+            message : "Target is not equal to the expected value."
+            reason : "not-equal"
+            result : false
+            type : "exact-equal"
+            vIndex : 3
+            valPath : "$VAL.a"
+          3 : {}
+            condPath : "$COND.a.[value:4]"
+            finalMessage : "Validator should not be an object/function in exact match"
+            message : "Validator should not be an object/function in exact match"
+            reason : "validator-is-complex"
+            result : false
+            type : "exact-equal"
+            vIndex : 4
+            valPath : "$VAL.a"
+        type : "value-array"
+        valPath : "$VAL.a"
+    type : "object"
+    valPath : "$VAL.a"
+  10 val & func : {}
+    condPath : "$COND"
+    finalMessage : "Target did not pass the function check"
+    funcInfo : undefined
+    message : "Target did not pass the function check"
+    reason : "returned-false"
+    result : false
+    type : "function"
+    valPath : "$VAL"
+  11 val & func with info : {}
+    condPath : "$COND"
+    finalMessage : "Target did not pass the function check <Expected func test: Sum should be greator than 5 >"
+    funcInfo : "Sum should be greator than 5"
+    message : "Target did not pass the function check"
+    reason : "returned-false"
+    result : false
+    type : "function"
+    valPath : "$VAL"

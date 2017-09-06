@@ -1060,7 +1060,7 @@ module.exports = {
 
                 if (result.subResult) {
                     result.subResult.forEach(function (subResult) {
-                        validatorsUtils.getProblemPaths(subResult);
+                        validatorsUtils.getProblemPaths(subResult, problemPaths);
                     });
                 }
                 problemPaths[result.valPath] = 1;
@@ -1089,7 +1089,7 @@ module.exports = {
 
                         if ((type === 'or' && current !== type) || i) {
                             var currentPath = parentPath + '.[' + type + ':' + i + ']';
-                            result.push('path: ' + currentPath + (currentPath in problemPaths ? ' **NOTICE**' : ''));
+                            result.push('path: ' + currentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : ''));
                         }
                         result.push(validatorsUtils.debugOutputValidator(current, problemPaths, currentPath));
                     }
@@ -1098,7 +1098,7 @@ module.exports = {
                 }
                 else if (typeof validator === 'object' && validator) {
                     var result = {};
-                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' **NOTICE**' : '');
+                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : '');
 
                     for (var key in validator) {
                         var currentPath = parentPath + '.' + key;
@@ -1121,7 +1121,7 @@ module.exports = {
                         var current = value[i];
 
                         var currentPath = parentPath + '.[' + i + ']';
-                        result.push('path: ' + currentPath + (currentPath in problemPaths ? ' **NOTICE**' : ''));
+                        result.push('path: ' + currentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : ''));
                         result.push(validatorsUtils.debugOutputValue(current, problemPaths, currentPath));
                     }
 
@@ -1129,7 +1129,7 @@ module.exports = {
                 }
                 else if (typeof value === 'object' && value) {
                     var result = {};
-                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' **NOTICE**' : '');
+                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : '');
 
                     for (var key in value) {
                         var currentPath = parentPath + '.' + key;

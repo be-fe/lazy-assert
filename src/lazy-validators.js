@@ -1,5 +1,6 @@
 var utils = require('./utils');
 
+// @start-def: lazy.validators;
 module.exports = {
     load: function (lazyAssert) {
         /**
@@ -73,7 +74,7 @@ module.exports = {
              *  // key is related to the target's object's key
              *  objectConfig: {key: #@~Validator}
              *
-             * @def: .innerValidate: peekKey, actualTargetValue, validator => result
+             * @def: .validate: peekKey, actualTargetValue, validator => result
              *  peekKey: string         // The key to help marking the output easier
              *  actualTargetValue: any  // The value to validate
              *  validator: #@~Validator     // The validator to be used to validate the target value
@@ -88,7 +89,7 @@ module.exports = {
              *          | 'value-array' | 'not-array' | 'and-array' >>
              *          | 'type' | 'exact-equal' | 'function'
              *
-             *          
+             *
              *      // type == 'array-array'
              *      reason: 'target-not-array'
              *
@@ -135,8 +136,6 @@ module.exports = {
              *
              *      // set if the validator is an item from an array
              *      vIndex: number
-             *
-             *      target: any
              *
              *      // valid for exact validator
              *      expected: any
@@ -251,7 +250,8 @@ module.exports = {
                             type: 'object',
                             reason: 'failed-on-key',
                             key: key,
-                            subResult: result
+                            message: 'Failed on object property validation',
+                            subResult: [result]
                         };
                     }
                 }
@@ -424,6 +424,7 @@ module.exports = {
                         result: false,
                         type: 'function',
                         reason: 'returned-false',
+                        message: 'Target did not pass the function check',
                         funcInfo: extra.funcInfo
                     }
                 }
@@ -499,7 +500,7 @@ module.exports = {
                             vIndex: i,
                             type: 'not-array',
                             reason: 'some-failed',
-                            subResult: result,
+                            subResult: [result],
                             message: 'Did not meet the not-array validator'
                         }
                     }
@@ -520,7 +521,7 @@ module.exports = {
                             vIndex: i,
                             type: 'and-array',
                             reason: 'some-failed',
-                            subResult: result,
+                            subResult: [result],
                             message: 'Did not meet all validators in and array'
                         }
                     }
@@ -561,8 +562,8 @@ module.exports = {
                         return {
                             result: false,
                             type: 'type',
-                            reason: 'object-target-is-null',
-                            message: 'Target is not an non-null object'
+                            reason: 'not-null-object',
+                            message: 'Target should be an non-null object'
                         }
                     }
                     return validatorsUtils.typeValidator(target, 'object');
@@ -863,6 +864,75 @@ module.exports = {
              */
             printWarnings: function (result) {
 
+            },
+
+            /**
+             * build up valPath & condPath
+             * generate finalMessage
+             *
+             * @def: .formalizeFailResultItem: result => undefined
+             *  result: #@.validators.validator.result
+             *      valPath: string
+             *      condPath: string
+             *      finalMessage: string
+             */
+            formalizeFailResultItem: function (result, parentValPath, parentCondPath, extra) {
+                extra = extra || {};
+
+                parentValPath = parentValPath || '';
+                parentCondPath = parentCondPath || '';
+
+                var currentValPath = parentValPath;
+                var currentCondPath = parentCondPath;
+
+                if ('vIndex' in result) {
+                    var condType = extra.parentType === 'or-array' ?
+                        'or' : result.type === 'and-array' ?
+                            'and' : extra.parentType === 'array-array' ?
+                                'array' : extra.parentType === 'not-array' ?
+                                    'not' : extra.parentType === 'value-array' ?
+                                        'value' : '';
+                    currentCondPath = currentCondPath + '.[' + (condType ? condType + ':' : '') + result.vIndex + ']';
+                }
+
+                if (result.key) {
+                    currentValPath = currentValPath + '.' + result.key;
+                    currentCondPath = currentCondPath + '.' + result.key;
+                }
+
+                result.valPath = '$VAL'
+                    + (currentValPath && currentValPath.substr(0, 1) !== '.' ? '.' : '')
+                    + (currentValPath || '');
+                result.condPath = '$COND'
+                    + (currentCondPath && currentCondPath.substr(0, 1) !== '.' ? '.' : '')
+                    + (currentCondPath || '');
+
+                if (result.subResult) {
+                    // console.log('@@d', result.subResult);
+
+                    result.subResult.forEach(function (subResult) {
+                        validatorsUtils.formalizeFailResultItem(
+                            subResult, currentValPath, currentCondPath, {
+                                parentType: result.type
+                            }
+                        )
+                    });
+                }
+
+                if (result.type === 'regexp') {
+                    result.finalMessage = result.message + ' <REGEXP: ' + result.regexp.toString() + ' >';
+                }
+                else if (result.type === 'type') {
+                    result.finalMessage = result.message + ' <Expected type: ' + result.reason + ' >';
+                }
+                else if (result.type === 'function' && result.funcInfo) {
+                    result.finalMessage = result.message + ' <Expected func test: ' + result.funcInfo + ' >';
+                }
+                else {
+                    result.finalMessage = result.message;
+                }
+
+                return result;
             }
         };
 

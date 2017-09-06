@@ -1,0 +1,180 @@
+{}
+  01 root only : {}
+    condPath : "$COND"
+    finalMessage : "Target value is not of the expected type <Expected type: number >"
+    message : "Target value is not of the expected type"
+    reason : "number"
+    result : false
+    type : "type"
+    valPath : "$VAL"
+  02 with parents : {}
+    condPath : "$COND.test"
+    finalMessage : "Target value is not of the expected type <Expected type: number >"
+    message : "Target value is not of the expected type"
+    reason : "number"
+    result : false
+    type : "type"
+    valPath : "$VAL.test"
+  03 in object : {}
+    condPath : "$COND.a"
+    finalMessage : "Failed on object property validation"
+    key : "a"
+    message : "Failed on object property validation"
+    reason : "failed-on-key"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.a.b"
+        finalMessage : "Failed on object property validation"
+        key : "b"
+        message : "Failed on object property validation"
+        reason : "failed-on-key"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.a.b"
+            finalMessage : "Target value is not of the expected type <Expected type: object >"
+            message : "Target value is not of the expected type"
+            reason : "object"
+            result : false
+            type : "type"
+            valPath : "$VAL.a.b"
+        type : "object"
+        valPath : "$VAL.a.b"
+    type : "object"
+    valPath : "$VAL.a"
+  04 object & or array : {}
+    condPath : "$COND"
+    finalMessage : "Did not match or-array"
+    message : "Did not match or-array"
+    reason : "all-types-failed"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.[or:0].a"
+        finalMessage : "Failed on object property validation"
+        key : "a"
+        message : "Failed on object property validation"
+        reason : "failed-on-key"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.[or:0].a"
+            expected : undefined
+            finalMessage : "Target is not equal to the expected value."
+            message : "Target is not equal to the expected value."
+            reason : "not-equal"
+            result : false
+            type : "exact-equal"
+            valPath : "$VAL.a"
+        type : "object"
+        vIndex : 0
+        valPath : "$VAL.a"
+      1 : {}
+        condPath : "$COND.[or:1].a"
+        finalMessage : "Failed on object property validation"
+        key : "a"
+        message : "Failed on object property validation"
+        reason : "failed-on-key"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.[or:1].a.b"
+            finalMessage : "Failed on object property validation"
+            key : "b"
+            message : "Failed on object property validation"
+            reason : "failed-on-key"
+            result : false
+            subResult : []
+              0 : {}
+                condPath : "$COND.[or:1].a.b"
+                finalMessage : "Target value is not of the expected type <Expected type: function >"
+                message : "Target value is not of the expected type"
+                reason : "function"
+                result : false
+                type : "type"
+                valPath : "$VAL.a.b"
+            type : "object"
+            valPath : "$VAL.a.b"
+        type : "object"
+        vIndex : 1
+        valPath : "$VAL.a"
+      2 : {}
+        condPath : "$COND.[or:2]"
+        finalMessage : "Target can not be tested by regexp <REGEXP: /abc/ >"
+        message : "Target can not be tested by regexp"
+        reason : "target-type-error"
+        regexp : /abc/
+        result : false
+        type : "regexp"
+        vIndex : 2
+        valPath : "$VAL"
+    type : "or-array"
+    valPath : "$VAL"
+  05 object & and array : {}
+    condPath : "$COND.[and:2]"
+    finalMessage : "Did not meet all validators in and array"
+    message : "Did not meet all validators in and array"
+    reason : "some-failed"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.[and:2].a"
+        finalMessage : "Failed on object property validation"
+        key : "a"
+        message : "Failed on object property validation"
+        reason : "failed-on-key"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.[and:2].a"
+            finalMessage : "Target value is not of the expected type <Expected type: function >"
+            message : "Target value is not of the expected type"
+            reason : "function"
+            result : false
+            type : "type"
+            valPath : "$VAL.a"
+        type : "object"
+        valPath : "$VAL.a"
+    type : "and-array"
+    vIndex : 2
+    valPath : "$VAL"
+  06 val & op test : {}
+    condPath : "$COND.a"
+    finalMessage : "Failed on object property validation"
+    key : "a"
+    message : "Failed on object property validation"
+    reason : "failed-on-key"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.a"
+        finalMessage : "Did not match or-array"
+        message : "Did not match or-array"
+        reason : "all-types-failed"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.a.[or:0]"
+            finalMessage : "Target did not pass the function check <Expected func test: Comparison : > 6 >"
+            funcInfo : "Comparison : > 6"
+            message : "Target did not pass the function check"
+            reason : "returned-false"
+            result : false
+            type : "function"
+            vIndex : 0
+            valPath : "$VAL.a"
+          1 : {}
+            condPath : "$COND.a.[or:1]"
+            finalMessage : "Target does not match regexp <REGEXP: /abc/ >"
+            message : "Target does not match regexp"
+            reason : "match-failed"
+            regexp : /abc/
+            result : false
+            type : "regexp"
+            vIndex : 1
+            valPath : "$VAL.a"
+        type : "or-array"
+        valPath : "$VAL.a"
+    type : "object"
+    valPath : "$VAL.a"

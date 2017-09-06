@@ -679,9 +679,15 @@ module.exports = {
 
             removeOrphanUndefined: function (validator) {
                 if (validator && typeof validator === 'object') {
+                    var isInArray = utils.isArray(validator);
+
                     for (var key in validator) {
-                        if (typeof validator[key] === 'undefined') {
+                        if ((typeof validator[key] === 'undefined'
+                            || validator[key] === 'undefined') && !isInArray){
                             delete validator[key];
+                        }
+                        else {
+                            validatorsUtils.removeOrphanUndefined(validator[key]);
                         }
                     }
                 }

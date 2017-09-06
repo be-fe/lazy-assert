@@ -24,7 +24,9 @@
           contentImages : []
             0 : "array"
             1 : {}
-              extInfo : "null"
+              extInfo : []
+                0 : "null"
+                1 : "number"
               fid : "null"
               height : "null"
               imageId : "null"

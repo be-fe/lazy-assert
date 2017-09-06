@@ -673,6 +673,18 @@ module.exports = {
                 validatorsUtils.clearValidateKey(target);
 
                 var validator = validatorsUtils.extractValidatorFromRaw(rawValidator);
+                validator = validatorsUtils.removeOrphanUndefined(validator);
+                return validator;
+            },
+
+            removeOrphanUndefined: function (validator) {
+                if (validator && typeof validator === 'object') {
+                    for (var key in validator) {
+                        if (typeof validator[key] === 'undefined') {
+                            delete validator[key];
+                        }
+                    }
+                }
                 return validator;
             },
 

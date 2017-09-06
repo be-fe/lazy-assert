@@ -3,12 +3,14 @@
     result : true
   02 {} : false : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       message : "Target value is not of the expected type"
+      reason : "number"
       result : false
-      type : "type.number"
-    type : "object.failed-on-key"
+      type : "type"
+    type : "object"
   03 {} : true : {}
     result : true
   04 {} : true : {}
@@ -21,59 +23,71 @@
     result : true
   08 {a: 1} : false, object : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       message : "Did not match or-array"
+      reason : "all-types-failed"
       result : false
       subResult : []
         0 : {}
           message : "Target value is not of the expected type"
+          reason : "object"
           result : false
-          type : "type.object"
+          type : "type"
           vIndex : 0
-      type : "or-array.all-types-failed"
-    type : "object.failed-on-key"
+      type : "or-array"
+    type : "object"
   09 {a: 1} : false, number & func : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       message : "Did not meet all validators in and array"
+      reason : "some-failed"
       result : false
       subResult : {}
         funcInfo : undefined
+        reason : "returned-false"
         result : false
         type : "function"
       type : "and-array"
       vIndex : 2
-    type : "object.failed-on-key"
+    type : "object"
   10 {a: 1} : false, number & < : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       message : "Did not meet all validators in and array"
+      reason : "some-failed"
       result : false
       subResult : {}
         funcInfo : "Comparison : < 0"
+        reason : "returned-false"
         result : false
         type : "function"
       type : "and-array"
       vIndex : 2
-    type : "object.failed-on-key"
+    type : "object"
   11 {a: 1} : true, number & > : {}
     result : true
   12 {a: 1} : false, object & > : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       message : "Did not meet all validators in and array"
+      reason : "some-failed"
       result : false
       subResult : {}
         message : "Target value is not of the expected type"
+        reason : "object"
         result : false
-        type : "type.object"
+        type : "type"
       type : "and-array"
       vIndex : 1
-    type : "object.failed-on-key"
+    type : "object"
   13 {a: 1} : true, object | > : {}
     result : true
   14 {a: {b: 1}} : true : {}
@@ -84,51 +98,61 @@
     result : true
   17 {a: {b: 1}} : false : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       key : "b"
+      reason : "failed-on-key"
       result : false
       subResult : {}
         message : "Did not meet all validators in and array"
+        reason : "some-failed"
         result : false
         subResult : {}
           message : "Target value is not of the expected type"
+          reason : "object"
           result : false
-          type : "type.object"
+          type : "type"
         type : "and-array"
         vIndex : 1
-      type : "object.failed-on-key"
-    type : "object.failed-on-key"
+      type : "object"
+    type : "object"
   18 {a: {b: ["1", "2", null]]}} : false : {}
     key : "a"
+    reason : "failed-on-key"
     result : false
     subResult : {}
       key : "b"
+      reason : "failed-on-key"
       result : false
       subResult : {}
         message : "Did not match or-array"
+        reason : "all-types-failed"
         result : false
         subResult : []
           0 : {}
             message : "Target value is not of the expected type"
+            reason : "string"
             result : false
-            type : "type.string"
+            type : "type"
             vIndex : 0
           1 : {}
             index : 2
             message : "Target does not meet the array validators"
+            reason : "all-type-failed"
             result : false
             subResult : []
               0 : {}
                 message : "Target value is not of the expected type"
+                reason : "string"
                 result : false
-                type : "type.string"
+                type : "type"
                 vIndex : 1
-            type : "array-array.all-type-failed"
+            type : "array-array"
             vIndex : 1
-        type : "or-array.all-types-failed"
-      type : "object.failed-on-key"
-    type : "object.failed-on-key"
+        type : "or-array"
+      type : "object"
+    type : "object"
   19 {a: {b: ["1", "2", null]]}} : true : {}
     result : true
   20 {a: {b: "1"}} : true : {}

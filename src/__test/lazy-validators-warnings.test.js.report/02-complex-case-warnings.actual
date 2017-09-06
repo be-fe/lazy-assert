@@ -3,88 +3,27 @@
   1 : {}
     0 : "[WARN]  peek <\"1\", [or, {}, null]> Validation failed with the given validator, the result is :"
   2 : {}
-    0 : {}
-      message : "Did not match or-array"
-      subResult : []
-        0 : {}
-          message : "Target is not an object."
-          result : false
-          type : "object.is-not-object"
-          vIndex : 1
-        1 : {}
-          expected : null
-          message : "Target is not equal to the expected value."
-          result : false
-          type : "exact-equal"
-          vIndex : 2
-      type : "or-array.all-types-failed"
-  3 : {}
     0 : "[WARN]  peek <\"1\", [or, {}, null]> A default validator is : "
-  4 : {}
+  3 : {}
     0 : "\"string\""
-  5 : "-------- [\"1\"], [or, {}, null] --------"
-  6 : {}
+  4 : "-------- [\"1\"], [or, {}, null] --------"
+  5 : {}
     0 : "[WARN]  peek <[\"1\"], [or, {}, null]> Validation failed with the given validator, the result is :"
-  7 : {}
-    0 : {}
-      message : "Did not match or-array"
-      subResult : []
-        0 : {}
-          message : "Target is an array (Array is not recognised as valid object here), but is to be validated against object validator"
-          result : false
-          type : "object.is-array"
-          vIndex : 1
-        1 : {}
-          expected : null
-          message : "Target is not equal to the expected value."
-          result : false
-          type : "exact-equal"
-          vIndex : 2
-      type : "or-array.all-types-failed"
-  8 : {}
+  6 : {}
     0 : "[WARN]  peek <[\"1\"], [or, {}, null]> A default validator is : "
+  7 : {}
+    0 : "[\n  \"array\",\n  \"string\"\n]"
+  8 : "-------- [\"1\"], [array, {}, null] --------"
   9 : {}
-    0 : "[\n  \"array\",\n  \"string\"\n]"
-  10 : "-------- [\"1\"], [array, {}, null] --------"
-  11 : {}
     0 : "[WARN]  peek <[\"1\"], [array, {}, null]> Validation failed with the given validator, the result is :"
-  12 : {}
-    0 : {}
-      index : 0
-      message : "Target does not meet the array validators"
-      subResult : []
-        0 : {}
-          message : "Target is not an object."
-          result : false
-          type : "object.is-not-object"
-          vIndex : 1
-        1 : {}
-          expected : null
-          message : "Target is not equal to the expected value."
-          result : false
-          type : "exact-equal"
-          vIndex : 2
-      type : "array-array.all-type-failed"
-  13 : {}
+  10 : {}
     0 : "[WARN]  peek <[\"1\"], [array, {}, null]> A default validator is : "
-  14 : {}
+  11 : {}
     0 : "[\n  \"array\",\n  \"string\"\n]"
-  15 : "-------- [{a: [{b: 1}]}], inner array validator --------"
-  16 : {}
+  12 : "-------- [{a: [{b: 1}]}], inner array validator --------"
+  13 : {}
     0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> Validation failed with the given validator, the result is :"
-  17 : {}
-    0 : {}
-      index : 0
-      message : "Target does not meet the array validators"
-      subResult : []
-        0 : {}
-          key : "a"
-          result : false
-          subResult : "_[[[reference: object]]]_"
-          type : "object.failed-on-key"
-          vIndex : 1
-      type : "array-array.all-type-failed"
-  18 : {}
+  14 : {}
     0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> A default validator is : "
-  19 : {}
+  15 : {}
     0 : "[\n  \"array\",\n  {\n    \"a\": [\n      \"array\",\n      {\n        \"b\": \"number\"\n      }\n    ]\n  }\n]"

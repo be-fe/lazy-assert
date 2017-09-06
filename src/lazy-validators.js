@@ -84,16 +84,39 @@ module.exports = {
              *
              *      // a type to show the type of a validation
              *      type: 'ref-check' | 'object' | 'regexp' | 'array' >>
-             *          | 'array-array' | 'function' | 'or-array'
+             *          | 'array-array' | 'function' | 'or-array' >>
+             *          | 'value-array' | 'not-array' | 'and-array' >>
+             *          | 'type' | 'exact-equal' | 'function'
+             *
              *          
-             *      // type = 'array-array'
-             *      reason: 'all-type-failed' | 'target-not-array'
+             *      // type == 'array-array'
+             *      reason: 'target-not-array'
+             *
+             *      // type == 'or-array'
+             *      reason: 'all-type-failed'
              *
              *      // type = 'object'
              *      reason: 'is-array' | 'is-not-object' | 'failed-on-key'
              *
              *      // type == 'object' | 'or-array'
              *      reason: 'validator-error'
+             *
+             *      // type == 'value-array'
+             *      reason: 'all-values-failed'
+             *
+             *      // type == 'type'
+             *      reason: 'nan' | 'function' | 'regexp' | 'array' >>
+             *          | 'object-target-is-null' | 'number' | 'null' | 'undefined' >>
+             *          | 'infinity' | '-infinity' | 'object' | 'boolean' | 'string'
+             *
+             *      // type == 'exact-equal'
+             *      reason: 'not-equal'
+             *
+             *      // type == 'function'
+             *      reason: 'returned-false'
+             *
+             *      // type == 'not-array' | 'and-array'
+             *      reason: 'some-failed'
              *
              *      // type == 'regexp'
              *      reason: 'match-failed' | 'target-type-error'
@@ -400,6 +423,7 @@ module.exports = {
                     return {
                         result: false,
                         type: 'function',
+                        reason: 'returned-false',
                         funcInfo: extra.funcInfo
                     }
                 }
@@ -434,7 +458,8 @@ module.exports = {
 
                 return {
                     result: false,
-                    type: 'or-array.all-types-failed',
+                    type: 'or-array',
+                    reason: 'all-types-failed',
                     subResult: fails,
                     message: 'Did not match or-array'
                 }
@@ -457,7 +482,8 @@ module.exports = {
 
                 return {
                     result: false,
-                    type: 'value-array.all-values-failed',
+                    type: 'value-array',
+                    reason: 'all-values-failed',
                     subResult: fails,
                     message: 'Did not exact equal any value in the value-array'
                 }
@@ -472,6 +498,7 @@ module.exports = {
                             result: false,
                             vIndex: i,
                             type: 'not-array',
+                            reason: 'some-failed',
                             subResult: result,
                             message: 'Did not meet the not-array validator'
                         }
@@ -492,6 +519,7 @@ module.exports = {
                             result: false,
                             vIndex: i,
                             type: 'and-array',
+                            reason: 'some-failed',
                             subResult: result,
                             message: 'Did not meet all validators in and array'
                         }
@@ -529,10 +557,11 @@ module.exports = {
                     return validatorsUtils.typeValidator(target, validator);
                 }
                 else if (validator === 'object') {
-                    if (!target) {
+                    if (target === null) {
                         return {
                             result: false,
-                            type: 'object.null',
+                            type: 'type',
+                            reason: 'object-target-is-null',
                             message: 'Target is not an non-null object'
                         }
                     }
@@ -552,7 +581,8 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        type: 'type.regexp',
+                        type: 'type',
+                        reason: 'regexp',
                         message: 'Target is not a RegExp'
                     }
                 }
@@ -564,7 +594,8 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        type: 'type.array',
+                        type: 'type',
+                        reason: 'array',
                         message: 'Target is not an array'
                     }
                 }
@@ -578,7 +609,8 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        type: 'type.nan',
+                        type: 'type',
+                        reason: 'nan',
                         message: 'Target is not NaN'
                     }
                 }
@@ -592,7 +624,8 @@ module.exports = {
                 else {
                     return {
                         result: false,
-                        type: 'type.' + type,
+                        type: 'type',
+                        reason: type,
                         message: 'Target value is not of the expected type'
                     }
                 }
@@ -607,6 +640,7 @@ module.exports = {
                     return {
                         result: false,
                         type: 'exact-equal',
+                        reason: 'not-equal',
                         expected: expected,
                         message: 'Target is not equal to the expected value.'
                     }

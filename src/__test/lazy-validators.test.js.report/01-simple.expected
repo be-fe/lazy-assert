@@ -3,25 +3,29 @@
     result : true
   02 string : false : {}
     message : "Target value is not of the expected type"
+    reason : "string"
     result : false
-    type : "type.string"
+    type : "type"
   03 number : true : {}
     result : true
   04 number : false : {}
     message : "Target value is not of the expected type"
+    reason : "number"
     result : false
-    type : "type.number"
+    type : "type"
   05 boolean : true : {}
     result : true
   06 boolean : false : {}
     message : "Target value is not of the expected type"
+    reason : "boolean"
     result : false
-    type : "type.boolean"
+    type : "type"
   07 null : true : {}
     result : true
   08 null : false : {}
     expected : null
     message : "Target is not equal to the expected value."
+    reason : "not-equal"
     result : false
     type : "exact-equal"
   09 undefined : true : {}
@@ -29,41 +33,48 @@
   10 undefined : false : {}
     expected : undefined
     message : "Target is not equal to the expected value."
+    reason : "not-equal"
     result : false
     type : "exact-equal"
   11 array : true : {}
     result : true
   12 array : false : {}
     message : "Target is not an array"
+    reason : "array"
     result : false
-    type : "type.array"
+    type : "type"
   13 object : true : {}
     result : true
   14 object : false : {}
-    message : "Target is not an non-null object"
+    message : "Target value is not of the expected type"
+    reason : "object"
     result : false
-    type : "object.null"
+    type : "type"
   15 null, object : false : {}
     message : "Target is not an non-null object"
+    reason : "object-target-is-null"
     result : false
-    type : "object.null"
+    type : "type"
   16 function : true : {}
     result : true
   17 function : false : {}
     message : "Target value is not of the expected type"
+    reason : "function"
     result : false
-    type : "type.function"
+    type : "type"
   18 nan : true : {}
     result : true
   19 nan : false : {}
     message : "Target is not NaN"
+    reason : "nan"
     result : false
-    type : "type.nan"
+    type : "type"
   20 infinity : true : {}
     result : true
   21 infinity : false : {}
     expected : Infinity
     message : "Target is not equal to the expected value."
+    reason : "not-equal"
     result : false
     type : "exact-equal"
   22 -infinity : true : {}
@@ -71,6 +82,7 @@
   23 -infinity : false : {}
     expected : -Infinity
     message : "Target is not equal to the expected value."
+    reason : "not-equal"
     result : false
     type : "exact-equal"
   24 regexp 123, /^12/: true : {}
@@ -79,17 +91,20 @@
     result : true
   26 regexp {}, /bc$/: false : {}
     message : "Target can not be tested by regexp"
+    reason : "target-type-error"
     regexp : /bc$/
     result : false
-    type : "regexp-match.type-error"
+    type : "regexp"
   27 regexp 123, /bc$/: false : {}
     message : "Target does not match regexp"
+    reason : "match-failed"
     regexp : /bc$/
     result : false
-    type : "regexp-match.fail"
+    type : "regexp"
   28 regexp string : true : {}
     result : true
   29 regexp string: false : {}
     message : "Target is not a RegExp"
+    reason : "regexp"
     result : false
-    type : "type.regexp"
+    type : "type"

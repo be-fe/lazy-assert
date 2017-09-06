@@ -6,43 +6,50 @@
   03 [1, "2", 3] : false : {}
     index : 1
     message : "Target does not meet the array validators"
+    reason : "all-type-failed"
     result : false
     subResult : []
       0 : {}
         message : "Target value is not of the expected type"
+        reason : "number"
         result : false
-        type : "type.number"
+        type : "type"
         vIndex : 1
       1 : {}
         message : "Target value is not of the expected type"
+        reason : "object"
         result : false
-        type : "type.object"
+        type : "type"
         vIndex : 2
-    type : "array-array.all-type-failed"
+    type : "array-array"
   04 [1, {a: 1}, 3] : true : {}
     result : true
   05 [1, {a: 1}, 3] : false : {}
     index : 1
     message : "Target does not meet the array validators"
+    reason : "all-type-failed"
     result : false
     subResult : []
       0 : {}
         message : "Target value is not of the expected type"
+        reason : "number"
         result : false
-        type : "type.number"
+        type : "type"
         vIndex : 1
       1 : {}
         message : "Target value is not of the expected type"
+        reason : "function"
         result : false
-        type : "type.function"
+        type : "type"
         vIndex : 2
       2 : {}
         expected : null
         message : "Target is not equal to the expected value."
+        reason : "not-equal"
         result : false
         type : "exact-equal"
         vIndex : 3
-    type : "array-array.all-type-failed"
+    type : "array-array"
   07 [1, {a: 1}, 3] : false : {}
     result : true
   08 [1, {a: 1}, 3] : true : {}
@@ -50,24 +57,29 @@
   09 [1, {a: 1}, 3] : false : {}
     index : 1
     message : "Target does not meet the array validators"
+    reason : "all-type-failed"
     result : false
     subResult : []
       0 : {}
         message : "Target value is not of the expected type"
+        reason : "number"
         result : false
-        type : "type.number"
+        type : "type"
         vIndex : 1
       1 : {}
         key : "a"
+        reason : "failed-on-key"
         result : false
         subResult : {}
           message : "Target value is not of the expected type"
+          reason : "string"
           result : false
-          type : "type.string"
-        type : "object.failed-on-key"
+          type : "type"
+        type : "object"
         vIndex : 2
-    type : "array-array.all-type-failed"
+    type : "array-array"
   10 null : false : {}
     message : "Target is not an array."
+    reason : "target-not-array"
     result : false
-    type : "array-array.target-not-array"
+    type : "array-array"

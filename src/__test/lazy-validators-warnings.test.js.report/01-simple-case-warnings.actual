@@ -2,31 +2,18 @@
   0 : {}
     0 : "[WARN]  peek <01 1, undefined> Validation failed with the given validator, the result is :"
   1 : {}
-    0 : {}
-      expected : undefined
-      message : "Target is not equal to the expected value."
-      type : "exact-equal"
-  2 : {}
     0 : "[WARN]  peek <01 1, undefined> A default validator is : "
+  2 : {}
+    0 : "\"number\""
   3 : {}
-    0 : "\"number\""
-  4 : {}
     0 : "[WARN]  peek <02 1, \"object\"> Validation failed with the given validator, the result is :"
-  5 : {}
-    0 : {}
-      message : "Target value is not of the expected type"
-      type : "type.object"
-  6 : {}
+  4 : {}
     0 : "[WARN]  peek <02 1, \"object\"> A default validator is : "
-  7 : {}
+  5 : {}
     0 : "\"number\""
-  8 : {}
+  6 : {}
     0 : "[WARN]  peek <03 function, [array, number]> Validation failed with the given validator, the result is :"
-  9 : {}
-    0 : {}
-      message : "Target is not an array."
-      type : "array-array.target-not-array"
-  10 : {}
+  7 : {}
     0 : "[WARN]  peek <03 function, [array, number]> A default validator is : "
-  11 : {}
+  8 : {}
     0 : "\"function\""

@@ -957,8 +957,8 @@ module.exports = {
             formalizeFailResultItem: function (result, parentValPath, parentCondPath, extra) {
                 extra = extra || {};
 
-                parentValPath = parentValPath || '';
-                parentCondPath = parentCondPath || '';
+                parentValPath = parentValPath || '$VAL';
+                parentCondPath = parentCondPath || '$COND';
 
                 var currentValPath = parentValPath;
                 var currentCondPath = parentCondPath;
@@ -982,12 +982,8 @@ module.exports = {
                     currentCondPath = currentCondPath + '.' + result.key;
                 }
 
-                result.valPath = '$VAL'
-                    + (currentValPath && currentValPath.substr(0, 1) !== '.' ? '.' : '')
-                    + (currentValPath || '');
-                result.condPath = '$COND'
-                    + (currentCondPath && currentCondPath.substr(0, 1) !== '.' ? '.' : '')
-                    + (currentCondPath || '');
+                result.valPath = currentValPath;
+                result.condPath = currentCondPath;
 
                 if (result.subResult) {
                     // console.log('@@d', result.subResult);
@@ -1048,14 +1044,32 @@ module.exports = {
                 }
             },
 
-            printDebug: function (value, validator) {
+            printDebug: function (value, validator, result) {
+                var problemPaths = validatorsUtils.getProblemPaths(result);
+
+                console.log('@@d', problemPaths);
+
                 console.warn('[WARN] $VAL =');
-                console.warn(JSON.stringify(validatorsUtils.debugOutputValue(value), null, 2));
+                console.warn(JSON.stringify(validatorsUtils.debugOutputValue(value, problemPaths), null, 2));
                 console.warn('[WARN] $COND =');
-                console.warn(JSON.stringify(validatorsUtils.debugOutputValidator(validator), null, 2));
+                console.warn(JSON.stringify(validatorsUtils.debugOutputValidator(validator, problemPaths), null, 2));
             },
 
-            debugOutputValidator: function (validator, parentPath) {
+            getProblemPaths: function (result, problemPaths) {
+                problemPaths = problemPaths || {};
+
+                if (result.subResult) {
+                    result.subResult.forEach(function (subResult) {
+                        validatorsUtils.getProblemPaths(subResult);
+                    });
+                }
+                problemPaths[result.valPath] = 1;
+                problemPaths[result.condPath] = 1;
+
+                return problemPaths;
+            },
+
+            debugOutputValidator: function (validator, problemPaths, parentPath) {
                 parentPath = parentPath || '$COND';
 
                 if (utils.isArray(validator)) {
@@ -1075,20 +1089,20 @@ module.exports = {
 
                         if ((type === 'or' && current !== type) || i) {
                             var currentPath = parentPath + '.[' + type + ':' + i + ']';
-                            result.push('path: ' + currentPath);
+                            result.push('path: ' + currentPath + (currentPath in problemPaths ? ' **NOTICE**' : ''));
                         }
-                        result.push(validatorsUtils.debugOutputValidator(current, currentPath));
+                        result.push(validatorsUtils.debugOutputValidator(current, problemPaths, currentPath));
                     }
 
                     return result;
                 }
                 else if (typeof validator === 'object' && validator) {
                     var result = {};
-                    result[DEBUG_PATH_KEY] = parentPath;
+                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' **NOTICE**' : '');
 
                     for (var key in validator) {
                         var currentPath = parentPath + '.' + key;
-                        result[key] = validatorsUtils.debugOutputValidator(validator[key], currentPath);
+                        result[key] = validatorsUtils.debugOutputValidator(validator[key], problemPaths, currentPath);
                     }
 
                     return result;
@@ -1098,7 +1112,7 @@ module.exports = {
                 }
             },
 
-            debugOutputValue: function (value, parentPath) {
+            debugOutputValue: function (value, problemPaths, parentPath) {
                 parentPath = parentPath || '$VAL';
                 if (utils.isArray(value)) {
                     var result = [];
@@ -1107,19 +1121,19 @@ module.exports = {
                         var current = value[i];
 
                         var currentPath = parentPath + '.[' + i + ']';
-                        result.push('path: ' + currentPath);
-                        result.push(validatorsUtils.debugOutputValue(current, currentPath));
+                        result.push('path: ' + currentPath + (currentPath in problemPaths ? ' **NOTICE**' : ''));
+                        result.push(validatorsUtils.debugOutputValue(current, problemPaths, currentPath));
                     }
 
                     return result;
                 }
                 else if (typeof value === 'object' && value) {
                     var result = {};
-                    result[DEBUG_PATH_KEY] = parentPath;
+                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' **NOTICE**' : '');
 
                     for (var key in value) {
                         var currentPath = parentPath + '.' + key;
-                        result[key] = validatorsUtils.debugOutputValue(value[key], currentPath);
+                        result[key] = validatorsUtils.debugOutputValue(value[key], problemPaths, currentPath);
                     }
 
                     return result;

@@ -4,22 +4,46 @@
   1 : {}
     0 : "$VAL : $COND => Target is not equal to the expected value. <Expected value: undefined >"
   2 : {}
-    0 : "[WARN]  peek <01 1, undefined> A default validator is : "
+    0 : "[WARN] $VAL ="
   3 : {}
-    0 : "\"number\""
+    0 : "1"
   4 : {}
-    0 : "[WARN]  peek <02 1, \"object\"> Validation failed with the given validator, the result is :"
+    0 : "[WARN] $COND ="
   5 : {}
-    0 : "$VAL : $COND => Target value is not of the expected type <Expected type: object >"
+    0 : undefined
   6 : {}
-    0 : "[WARN]  peek <02 1, \"object\"> A default validator is : "
+    0 : "[WARN]  peek <01 1, undefined> A default validator is : "
   7 : {}
     0 : "\"number\""
   8 : {}
-    0 : "[WARN]  peek <03 function, [array, number]> Validation failed with the given validator, the result is :"
+    0 : "[WARN]  peek <02 1, \"object\"> Validation failed with the given validator, the result is :"
   9 : {}
-    0 : "$VAL : $COND => Target is not an array."
+    0 : "$VAL : $COND => Target value is not of the expected type <Expected type: object >"
   10 : {}
-    0 : "[WARN]  peek <03 function, [array, number]> A default validator is : "
+    0 : "[WARN] $VAL ="
   11 : {}
+    0 : "1"
+  12 : {}
+    0 : "[WARN] $COND ="
+  13 : {}
+    0 : "\"object\""
+  14 : {}
+    0 : "[WARN]  peek <02 1, \"object\"> A default validator is : "
+  15 : {}
+    0 : "\"number\""
+  16 : {}
+    0 : "[WARN]  peek <03 function, [array, number]> Validation failed with the given validator, the result is :"
+  17 : {}
+    0 : "$VAL : $COND => Target is not an array."
+  18 : {}
+    0 : "[WARN] $VAL ="
+  19 : {}
+    0 : undefined
+  20 : {}
+    0 : "[WARN] $COND ="
+  21 : {}
+    0 : "[\n  \"array\",\n  \"path: $COND.[array:1]\",\n  \"number\"\n]"
+  22 : {}
+    0 : "[WARN]  peek <03 function, [array, number]> A default validator is : "
+  23 : {}
     0 : undefined

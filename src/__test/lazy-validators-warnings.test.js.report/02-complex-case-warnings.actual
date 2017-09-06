@@ -10,57 +10,161 @@
       2 : "   $VAL : $COND.[or:2] => Target is not equal to the expected value. <Expected value: null >"
   3 : {}
     0 : []
-      0 : "[WARN]  peek <\"1\", [or, {}, null]> A default validator is : "
+      0 : "[WARN] $VAL ="
   4 : {}
     0 : []
-      0 : "\"string\""
-  5 : "-------- [\"1\"], [or, {}, null] --------"
+      0 : "\"1\""
+  5 : {}
+    0 : []
+      0 : "[WARN] $COND ="
   6 : {}
     0 : []
-      0 : "[WARN]  peek <[\"1\"], [or, {}, null]> Validation failed with the given validator, the result is :"
+      0 : "["
+      1 : "  \"or\","
+      2 : "  \"path: $COND.[or:1]\","
+      3 : "  {"
+      4 : "    \"--[[path]]--\": \"$COND.[or:1]\""
+      5 : "  },"
+      6 : "  \"path: $COND.[or:2]\","
+      7 : "  null"
+      8 : "]"
   7 : {}
+    0 : []
+      0 : "[WARN]  peek <\"1\", [or, {}, null]> A default validator is : "
+  8 : {}
+    0 : []
+      0 : "\"string\""
+  9 : "-------- [\"1\"], [or, {}, null] --------"
+  10 : {}
+    0 : []
+      0 : "[WARN]  peek <[\"1\"], [or, {}, null]> Validation failed with the given validator, the result is :"
+  11 : {}
     0 : []
       0 : "$VAL : $COND => Did not match or-array"
       1 : "   $VAL : $COND.[or:1] => Target is an array (Array is not recognised as valid object here), but is to be validated against object validator"
       2 : "   $VAL : $COND.[or:2] => Target is not equal to the expected value. <Expected value: null >"
-  8 : {}
+  12 : {}
+    0 : []
+      0 : "[WARN] $VAL ="
+  13 : {}
+    0 : []
+      0 : "["
+      1 : "  \"path: $VAL.[0]\","
+      2 : "  \"1\""
+      3 : "]"
+  14 : {}
+    0 : []
+      0 : "[WARN] $COND ="
+  15 : {}
+    0 : []
+      0 : "["
+      1 : "  \"or\","
+      2 : "  \"path: $COND.[or:1]\","
+      3 : "  {"
+      4 : "    \"--[[path]]--\": \"$COND.[or:1]\""
+      5 : "  },"
+      6 : "  \"path: $COND.[or:2]\","
+      7 : "  null"
+      8 : "]"
+  16 : {}
     0 : []
       0 : "[WARN]  peek <[\"1\"], [or, {}, null]> A default validator is : "
-  9 : {}
+  17 : {}
     0 : []
       0 : "["
       1 : "  \"array\","
       2 : "  \"string\""
       3 : "]"
-  10 : "-------- [\"1\"], [array, {}, null] --------"
-  11 : {}
+  18 : "-------- [\"1\"], [array, {}, null] --------"
+  19 : {}
     0 : []
       0 : "[WARN]  peek <[\"1\"], [array, {}, null]> Validation failed with the given validator, the result is :"
-  12 : {}
+  20 : {}
     0 : []
       0 : "$VAL.[0] : $COND => Target does not meet the array validators"
       1 : "   $VAL.[0] : $COND.[array:1] => Target is not an object."
       2 : "   $VAL.[0] : $COND.[array:2] => Target is not equal to the expected value. <Expected value: null >"
-  13 : {}
+  21 : {}
+    0 : []
+      0 : "[WARN] $VAL ="
+  22 : {}
+    0 : []
+      0 : "["
+      1 : "  \"path: $VAL.[0]\","
+      2 : "  \"1\""
+      3 : "]"
+  23 : {}
+    0 : []
+      0 : "[WARN] $COND ="
+  24 : {}
+    0 : []
+      0 : "["
+      1 : "  \"array\","
+      2 : "  \"path: $COND.[array:1]\","
+      3 : "  {"
+      4 : "    \"--[[path]]--\": \"$COND.[array:1]\""
+      5 : "  },"
+      6 : "  \"path: $COND.[array:2]\","
+      7 : "  null"
+      8 : "]"
+  25 : {}
     0 : []
       0 : "[WARN]  peek <[\"1\"], [array, {}, null]> A default validator is : "
-  14 : {}
+  26 : {}
     0 : []
       0 : "["
       1 : "  \"array\","
       2 : "  \"string\""
       3 : "]"
-  15 : "-------- [{a: [{b: 1}]}], inner array validator --------"
-  16 : {}
+  27 : "-------- [{a: [{b: 1}]}], inner array validator --------"
+  28 : {}
     0 : []
       0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> Validation failed with the given validator, the result is :"
-  17 : {}
+  29 : {}
     0 : []
       0 : "$VAL.[0].a.[0].b : $COND.[array:1].a.[array:1].b => Target value is not of the expected type <Expected type: string >"
-  18 : {}
+  30 : {}
+    0 : []
+      0 : "[WARN] $VAL ="
+  31 : {}
+    0 : []
+      0 : "["
+      1 : "  \"path: $VAL.[0]\","
+      2 : "  {"
+      3 : "    \"--[[path]]--\": \"$VAL.[0]\","
+      4 : "    \"a\": ["
+      5 : "      \"path: $VAL.[0].a.[0]\","
+      6 : "      {"
+      7 : "        \"--[[path]]--\": \"$VAL.[0].a.[0]\","
+      8 : "        \"b\": 1"
+      9 : "      }"
+      10 : "    ]"
+      11 : "  }"
+      12 : "]"
+  32 : {}
+    0 : []
+      0 : "[WARN] $COND ="
+  33 : {}
+    0 : []
+      0 : "["
+      1 : "  \"array\","
+      2 : "  \"path: $COND.[array:1]\","
+      3 : "  {"
+      4 : "    \"--[[path]]--\": \"$COND.[array:1]\","
+      5 : "    \"a\": ["
+      6 : "      \"array\","
+      7 : "      \"path: $COND.[array:1].a.[array:1]\","
+      8 : "      {"
+      9 : "        \"--[[path]]--\": \"$COND.[array:1].a.[array:1]\","
+      10 : "        \"b\": \"string\""
+      11 : "      }"
+      12 : "    ]"
+      13 : "  }"
+      14 : "]"
+  34 : {}
     0 : []
       0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> A default validator is : "
-  19 : {}
+  35 : {}
     0 : []
       0 : "["
       1 : "  \"array\","

@@ -59,7 +59,6 @@
                 0 : null
                 1 : []
                 2 : []
-                  0 : "=a"
               name : []
                 0 : null
                 1 : []
@@ -77,10 +76,29 @@
         2 : []
           0 : "object"
       b : []
-        0 : null
+        0 : {}
+          a : []
+            0 : {}
+              b : []
+                0 : null
+                1 : []
+                2 : []
+              name : []
+                0 : null
+                1 : []
+                2 : []
+                  0 : "string"
+            1 : []
+            2 : []
+              0 : "object"
+          name : []
+            0 : null
+            1 : []
+            2 : []
+              0 : "string"
         1 : null
         2 : []
-          0 : "=a.b"
+          0 : "object"
     1 : null
     2 : []
       0 : "object"
@@ -94,7 +112,6 @@
                 0 : null
                 1 : []
                 2 : []
-                  0 : "=a"
               name : []
                 0 : null
                 1 : []
@@ -112,10 +129,29 @@
         2 : []
           0 : "object"
       b : []
-        0 : null
+        0 : {}
+          a : []
+            0 : {}
+              b : []
+                0 : null
+                1 : []
+                2 : []
+              name : []
+                0 : null
+                1 : []
+                2 : []
+                  0 : "string"
+            1 : []
+            2 : []
+              0 : "object"
+          name : []
+            0 : null
+            1 : []
+            2 : []
+              0 : "string"
         1 : null
         2 : []
-          0 : "=a.b"
+          0 : "object"
     1 : null
     2 : []
       0 : "object"
@@ -179,13 +215,27 @@
         0 : null
         1 : []
           0 : {}
+            a : []
+              0 : {}
+                b : []
+                  0 : null
+                  1 : []
+                  2 : []
+                name : []
+                  0 : null
+                  1 : []
+                  2 : []
+                    0 : "string"
+              1 : []
+              2 : []
+                0 : "undefined"
+                1 : "object"
             b : []
               0 : {}
                 a : []
                   0 : null
                   1 : []
                   2 : []
-                    0 : "=a.0"
                 name : []
                   0 : null
                   1 : []
@@ -194,6 +244,7 @@
               1 : []
               2 : []
                 0 : "object"
+                1 : "undefined"
             name : []
               0 : null
               1 : []
@@ -202,19 +253,56 @@
           1 : null
           2 : []
             0 : "object"
-            1 : "=a.0.b"
         2 : []
           0 : "array"
       ta : []
-        0 : null
+        0 : {}
+          b : []
+            0 : {}
+              a : []
+                0 : null
+                1 : []
+                2 : []
+              name : []
+                0 : null
+                1 : []
+                2 : []
+                  0 : "string"
+            1 : []
+            2 : []
+              0 : "object"
+          name : []
+            0 : null
+            1 : []
+            2 : []
+              0 : "string"
         1 : null
         2 : []
-          0 : "=a.0"
+          0 : "object"
       tb : []
-        0 : null
+        0 : {}
+          a : []
+            0 : {}
+              b : []
+                0 : null
+                1 : []
+                2 : []
+              name : []
+                0 : null
+                1 : []
+                2 : []
+                  0 : "string"
+            1 : []
+            2 : []
+              0 : "object"
+          name : []
+            0 : null
+            1 : []
+            2 : []
+              0 : "string"
         1 : null
         2 : []
-          0 : "=a.0.b"
+          0 : "object"
     1 : null
     2 : []
       0 : "object"

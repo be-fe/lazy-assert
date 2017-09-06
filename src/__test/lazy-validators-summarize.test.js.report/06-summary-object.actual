@@ -15,17 +15,21 @@
   04 looping c : {}
     a : {}
       b : {}
-        a : "=a"
         name : "string"
       name : "string"
-    b : "=a.b"
+    b : {}
+      a : {}
+        name : "string"
+      name : "string"
   05 looping d : {}
     a : {}
       b : {}
-        a : "=a"
         name : "string"
       name : "string"
-    b : "=a.b"
+    b : {}
+      a : {}
+        name : "string"
+      name : "string"
   05 nested function : {}
     b : []
       0 : "array"
@@ -43,12 +47,21 @@
   08 looping e : {}
     a : []
       0 : "array"
-      1 : []
-        0 : {}
-          b : {}
-            a : "=a.0"
+      1 : {}
+        a : []
+          0 : "undefined"
+          1 : {}
             name : "string"
-          name : "string"
-        1 : "=a.0.b"
-    ta : "=a.0"
-    tb : "=a.0.b"
+        b : []
+          0 : {}
+            name : "string"
+          1 : "undefined"
+        name : "string"
+    ta : {}
+      b : {}
+        name : "string"
+      name : "string"
+    tb : {}
+      a : {}
+        name : "string"
+      name : "string"

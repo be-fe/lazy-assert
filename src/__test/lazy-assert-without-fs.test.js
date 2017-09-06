@@ -19,7 +19,6 @@ describe('Test lazy assert without fs', function () {
     var setLogCalled;
 
     before(function () {
-        console.log('fuck why? fs');
         setLogCalled = mockWarn.setLogCalled(self);
         mockWarn.mockWarn(self);
     });
@@ -68,7 +67,6 @@ describe('Test lazy assert without fs', function () {
     });
 
     it('Should throw warning on compare error', function () {
-        console.log('lalala fs');
         var result = [];
         setLogCalled(function () {
             result.push(arguments);

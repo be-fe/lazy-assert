@@ -13,7 +13,7 @@ describe('Test validators warning printing', function () {
     afterEach(function () {
     });
 
-    it('Should process result items : simple case', function () {
+    it('Should process result items : simple cases', function () {
         lazy.peek('01-simple-case', {
             '01 root only': lazy.validators.formalizeFailResultItem(
                 lazy.validators.validate(null, 'number')
@@ -52,8 +52,22 @@ describe('Test validators warning printing', function () {
                     return val.a + val.b > 5 ? true : 'Sum should be greator than 5';
                 })
             ),
-
-
         }, -1);
+    });
+
+    it('Should process result items : complex cases', function () {
+        lazy.peek('02-complex-case', {
+            '01 deep array': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate({a: [1, {b: 1}]}, {a: ['array', 'number', {b: 'boolean'}, ['value', 2, 3]]})
+            ),
+            '02 deep array with or': lazy.validators.formalizeFailResultItem(
+                lazy.validators.validate({a: [1, {b: 1}]}, {
+                    a: ['or',
+                        ['array', 'number', {b: 'boolean'}, ['value', 2, 3]],
+                        'number'
+                    ]
+                })
+            ),
+    }, -1);
     });
 });

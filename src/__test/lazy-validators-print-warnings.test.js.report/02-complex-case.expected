@@ -1,0 +1,176 @@
+{}
+  01 deep array : {}
+    condPath : "$COND.a"
+    finalMessage : "Failed on object property validation"
+    key : "a"
+    message : "Failed on object property validation"
+    reason : "failed-on-key"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.a"
+        finalMessage : "Target does not meet the array validators"
+        index : 1
+        message : "Target does not meet the array validators"
+        reason : "all-type-failed"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.a.[array:1]"
+            finalMessage : "Target value is not of the expected type <Expected type: number >"
+            message : "Target value is not of the expected type"
+            reason : "number"
+            result : false
+            type : "type"
+            vIndex : 1
+            valPath : "$VAL.a.[1]"
+          1 : {}
+            condPath : "$COND.a.[array:2].b"
+            finalMessage : "Failed on object property validation"
+            key : "b"
+            message : "Failed on object property validation"
+            reason : "failed-on-key"
+            result : false
+            subResult : []
+              0 : {}
+                condPath : "$COND.a.[array:2].b"
+                finalMessage : "Target value is not of the expected type <Expected type: boolean >"
+                message : "Target value is not of the expected type"
+                reason : "boolean"
+                result : false
+                type : "type"
+                valPath : "$VAL.a.[1].b"
+            type : "object"
+            vIndex : 2
+            valPath : "$VAL.a.[1].b"
+          2 : {}
+            condPath : "$COND.a.[array:3]"
+            finalMessage : "Did not exact equal any value in the value-array"
+            message : "Did not exact equal any value in the value-array"
+            reason : "all-values-failed"
+            result : false
+            subResult : []
+              0 : {}
+                condPath : "$COND.a.[array:3].[value:1]"
+                expected : 2
+                finalMessage : "Target is not equal to the expected value. <Expected value: 2 >"
+                message : "Target is not equal to the expected value."
+                reason : "not-equal"
+                result : false
+                type : "exact-equal"
+                vIndex : 1
+                valPath : "$VAL.a.[1]"
+              1 : {}
+                condPath : "$COND.a.[array:3].[value:2]"
+                expected : 3
+                finalMessage : "Target is not equal to the expected value. <Expected value: 3 >"
+                message : "Target is not equal to the expected value."
+                reason : "not-equal"
+                result : false
+                type : "exact-equal"
+                vIndex : 2
+                valPath : "$VAL.a.[1]"
+            type : "value-array"
+            vIndex : 3
+            valPath : "$VAL.a.[1]"
+        type : "array-array"
+        valPath : "$VAL.a.[1]"
+    type : "object"
+    valPath : "$VAL.a"
+  02 deep array with or : {}
+    condPath : "$COND.a"
+    finalMessage : "Failed on object property validation"
+    key : "a"
+    message : "Failed on object property validation"
+    reason : "failed-on-key"
+    result : false
+    subResult : []
+      0 : {}
+        condPath : "$COND.a"
+        finalMessage : "Did not match or-array"
+        message : "Did not match or-array"
+        reason : "all-types-failed"
+        result : false
+        subResult : []
+          0 : {}
+            condPath : "$COND.a.[or:1]"
+            finalMessage : "Target does not meet the array validators"
+            index : 1
+            message : "Target does not meet the array validators"
+            reason : "all-type-failed"
+            result : false
+            subResult : []
+              0 : {}
+                condPath : "$COND.a.[or:1].[array:1]"
+                finalMessage : "Target value is not of the expected type <Expected type: number >"
+                message : "Target value is not of the expected type"
+                reason : "number"
+                result : false
+                type : "type"
+                vIndex : 1
+                valPath : "$VAL.a.[1]"
+              1 : {}
+                condPath : "$COND.a.[or:1].[array:2].b"
+                finalMessage : "Failed on object property validation"
+                key : "b"
+                message : "Failed on object property validation"
+                reason : "failed-on-key"
+                result : false
+                subResult : []
+                  0 : {}
+                    condPath : "$COND.a.[or:1].[array:2].b"
+                    finalMessage : "Target value is not of the expected type <Expected type: boolean >"
+                    message : "Target value is not of the expected type"
+                    reason : "boolean"
+                    result : false
+                    type : "type"
+                    valPath : "$VAL.a.[1].b"
+                type : "object"
+                vIndex : 2
+                valPath : "$VAL.a.[1].b"
+              2 : {}
+                condPath : "$COND.a.[or:1].[array:3]"
+                finalMessage : "Did not exact equal any value in the value-array"
+                message : "Did not exact equal any value in the value-array"
+                reason : "all-values-failed"
+                result : false
+                subResult : []
+                  0 : {}
+                    condPath : "$COND.a.[or:1].[array:3].[value:1]"
+                    expected : 2
+                    finalMessage : "Target is not equal to the expected value. <Expected value: 2 >"
+                    message : "Target is not equal to the expected value."
+                    reason : "not-equal"
+                    result : false
+                    type : "exact-equal"
+                    vIndex : 1
+                    valPath : "$VAL.a.[1]"
+                  1 : {}
+                    condPath : "$COND.a.[or:1].[array:3].[value:2]"
+                    expected : 3
+                    finalMessage : "Target is not equal to the expected value. <Expected value: 3 >"
+                    message : "Target is not equal to the expected value."
+                    reason : "not-equal"
+                    result : false
+                    type : "exact-equal"
+                    vIndex : 2
+                    valPath : "$VAL.a.[1]"
+                type : "value-array"
+                vIndex : 3
+                valPath : "$VAL.a.[1]"
+            type : "array-array"
+            vIndex : 1
+            valPath : "$VAL.a.[1]"
+          1 : {}
+            condPath : "$COND.a.[or:2]"
+            finalMessage : "Target value is not of the expected type <Expected type: number >"
+            message : "Target value is not of the expected type"
+            reason : "number"
+            result : false
+            type : "type"
+            vIndex : 2
+            valPath : "$VAL.a"
+        type : "or-array"
+        valPath : "$VAL.a"
+    type : "object"
+    valPath : "$VAL.a"

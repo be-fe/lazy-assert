@@ -915,6 +915,10 @@ module.exports = {
                     currentCondPath = currentCondPath + '.[' + (condType ? condType + ':' : '') + result.vIndex + ']';
                 }
 
+                if ('index' in result) {
+                    currentValPath = currentValPath + '.[' + result.index + ']';
+                }
+
                 if (result.key) {
                     currentValPath = currentValPath + '.' + result.key;
                     currentCondPath = currentCondPath + '.' + result.key;

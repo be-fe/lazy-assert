@@ -202,10 +202,10 @@
             result : false
             type : "function"
             vIndex : 2
-            valPath : "$VAL"
+            valPath : "$VAL.[0]"
         type : "and-array"
         vIndex : 1
-        valPath : "$VAL"
+        valPath : "$VAL.[0]"
       1 : {}
         condPath : "$COND.[array:2]"
         finalMessage : "Target value is not of the expected type <Expected type: object >"
@@ -214,9 +214,9 @@
         result : false
         type : "type"
         vIndex : 2
-        valPath : "$VAL"
+        valPath : "$VAL.[0]"
     type : "array-array"
-    valPath : "$VAL"
+    valPath : "$VAL.[0]"
   08 val & not array : {}
     condPath : "$COND"
     finalMessage : "Did not meet the not-array validator"

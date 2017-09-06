@@ -68,13 +68,15 @@
         vIndex : 1
       1 : {}
         key : "a"
+        message : "Failed on object property validation"
         reason : "failed-on-key"
         result : false
-        subResult : {}
-          message : "Target value is not of the expected type"
-          reason : "string"
-          result : false
-          type : "type"
+        subResult : []
+          0 : {}
+            message : "Target value is not of the expected type"
+            reason : "string"
+            result : false
+            type : "type"
         type : "object"
         vIndex : 2
     type : "array-array"

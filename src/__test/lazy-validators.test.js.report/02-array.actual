@@ -32,8 +32,8 @@
         reason : "returned-false"
         result : false
         type : "function"
+        vIndex : 2
     type : "and-array"
-    vIndex : 2
   02 and : false, type error : {}
     message : "Did not meet all validators in and array"
     reason : "some-failed"
@@ -44,8 +44,8 @@
         reason : "number"
         result : false
         type : "type"
+        vIndex : 1
     type : "and-array"
-    vIndex : 1
   02 and : true : {}
     result : true
   03 > : false : {}
@@ -86,9 +86,10 @@
     result : false
     subResult : []
       0 : {}
+        message : "The sub-validator returns true in not-array check."
         result : true
+        vIndex : 1
     type : "not-array"
-    vIndex : 1
   07 ! : true : {}
     result : true
   08 value : false : {}
@@ -102,12 +103,14 @@
         reason : "not-equal"
         result : false
         type : "exact-equal"
+        vIndex : 1
       1 : {}
         expected : null
         message : "Target is not equal to the expected value."
         reason : "not-equal"
         result : false
         type : "exact-equal"
+        vIndex : 2
     type : "value-array"
   08 value : true, 1 : {}
     result : true
@@ -124,12 +127,14 @@
         reason : "not-equal"
         result : false
         type : "exact-equal"
+        vIndex : 1
       1 : {}
         expected : null
         message : "Target is not equal to the expected value."
         reason : "not-equal"
         result : false
         type : "exact-equal"
+        vIndex : 2
     type : "value-array"
   09 or : true : {}
     result : true

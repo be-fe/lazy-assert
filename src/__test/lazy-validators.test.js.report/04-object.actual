@@ -59,8 +59,8 @@
             reason : "returned-false"
             result : false
             type : "function"
+            vIndex : 2
         type : "and-array"
-        vIndex : 2
     type : "object"
   10 {a: 1} : false, number & < : {}
     key : "a"
@@ -79,8 +79,8 @@
             reason : "returned-false"
             result : false
             type : "function"
+            vIndex : 2
         type : "and-array"
-        vIndex : 2
     type : "object"
   11 {a: 1} : true, number & > : {}
     result : true
@@ -100,8 +100,8 @@
             reason : "object"
             result : false
             type : "type"
+            vIndex : 1
         type : "and-array"
-        vIndex : 1
     type : "object"
   13 {a: 1} : true, object | > : {}
     result : true
@@ -133,8 +133,8 @@
                 reason : "object"
                 result : false
                 type : "type"
+                vIndex : 1
             type : "and-array"
-            vIndex : 1
         type : "object"
     type : "object"
   18 {a: {b: ["1", "2", null]]}} : false : {}

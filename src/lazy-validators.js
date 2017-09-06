@@ -1047,7 +1047,7 @@ module.exports = {
             printDebug: function (value, validator, result) {
                 var problemPaths = validatorsUtils.getProblemPaths(result);
 
-                console.log('@@d', problemPaths);
+                // console.log('@@d', problemPaths);
 
                 console.warn('[WARN] $VAL =');
                 console.warn(JSON.stringify(validatorsUtils.debugOutputValue(value, problemPaths), null, 2));

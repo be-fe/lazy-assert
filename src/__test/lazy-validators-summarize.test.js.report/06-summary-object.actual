@@ -26,6 +26,10 @@
         name : "string"
       name : "string"
     b : "=a.b"
+  05 nested function : {}
+    b : []
+      0 : "array"
+      1 : "number"
   06 {a: 1, b: {c: 1, d: 1}} : {}
     a : "number"
     b : {}
@@ -36,7 +40,6 @@
     b : {}
       c : "number"
       d : "number"
-    e : "function"
   08 looping e : {}
     a : []
       0 : "array"

@@ -7,5 +7,5 @@
   06 true : "boolean"
   07 null : "null"
   08 undefined : "undefined"
-  09 function : "function"
+  09 function : []
   10 regexp : "regexp"

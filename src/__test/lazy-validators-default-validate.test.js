@@ -206,7 +206,7 @@ describe('Test default validate', function () {
                                 "contentFiles": [
                                     "array",
                                     {
-                                        "extInfo": "null",
+                                        "extInfo": 'null',
                                         "fid": "null",
                                         "fileId": "null",
                                         "fileType": "null",

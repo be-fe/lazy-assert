@@ -41,6 +41,7 @@ describe('Test summarizing', function() {
             '02 {a: 1, b: "123"}': lazy.validators.summarizeTypeValidator({a: 1, b: '123'}),
             '03 {a: 1, b: "123", c: [1, "2"]}': lazy.validators.summarizeTypeValidator({a: 1, b: '123', c: [1, '2']}),
             '04 looping c': lazy.validators.summarizeTypeValidator(c),
+            '05 nested function': lazy.validators.summarizeTypeValidator({a: function() {}, b: [1, function() {}]})
         };
 
         lazy.validators.clearValidateKey(c);

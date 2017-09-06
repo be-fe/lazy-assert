@@ -683,7 +683,10 @@ module.exports = {
                         var object = {};
                         if (validator[0]) {
                             for (var key in validator[0]) {
-                                object[key] = validatorsUtils.extractValidatorFromRaw(validator[0][key]);
+                                var defaultValidator = validatorsUtils.extractValidatorFromRaw(validator[0][key]);
+                                if (defaultValidator) {
+                                    object[key] = defaultValidator;
+                                }
                             }
                         }
                         result.push(object);
@@ -713,6 +716,9 @@ module.exports = {
 
                 if (result.length === 1) {
                     return result[0];
+                }
+                else if (!result.length) {
+                    return undefined;
                 }
                 return result;
             },
@@ -791,8 +797,12 @@ module.exports = {
                         return [null, null, ['number']];
                     }
                 }
+                else if (typeof target === 'function') {
+                    // do not extract function as the default validator
+                    return [null, null, []];
+                }
                 else {
-                    // boolean, undefined, function, string
+                    // boolean, undefined, string
                     return [null, null, [typeof target]];
                 }
             },

@@ -36,7 +36,7 @@
     b : {}
       c : "number"
       d : "number"
-    e : "function"
+    e : []
   08 looping e : {}
     a : []
       0 : "array"

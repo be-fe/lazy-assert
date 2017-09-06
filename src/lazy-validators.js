@@ -358,6 +358,12 @@ module.exports = {
              */
             validatorArrayArray: function (target, validator, extra) {
                 if (utils.isArray(target)) {
+                    if (validator.length <= 1) {
+                        return {
+                            result: true
+                        }
+                    }
+
                     var itemResult, result;
 
                     for (var i = 0; i < target.length; i++) {

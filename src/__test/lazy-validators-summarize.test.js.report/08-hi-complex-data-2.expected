@@ -101,7 +101,6 @@
                       desc : "string"
                       digest : "null"
                       friendlyLevel : "number"
-                      getGroup : "undefined"
                       gid : "string"
                       groupStatus : "number"
                       groupType : "number"

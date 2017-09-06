@@ -92,6 +92,31 @@ describe('Test summarizing', function() {
     });
 
     it('Should process hi complex data 2', function () {
+
+        lazy.assertValidate('08-hi-complex-data-2-assert',
+            require('./_mock/hi-data-2.mock'),
+            [
+                "array",
+                {
+                    "atall": "null",
+                    "atme": "null",
+                    "chatId": "string",
+                    "chatType": "number",
+                    "lastActiveTime": "string",
+                    "lastMessages": [
+                        "array"
+                    ],
+                    "lastReadMsgId": "string",
+                    "lastReadMsgSeq": "string",
+                    "lastRecvMsgId": "string",
+                    "lastRecvMsgSeq": "string",
+                    "name": "string",
+                    "subType": "number",
+                    "unreadCount": "number"
+                }
+            ]
+        );
+
         lazy.peek('08-hi-complex-data-2', lazy.validators.summarizeTypeValidator(require('./_mock/hi-data-2.mock')), -1);
     });
 });

@@ -758,7 +758,7 @@ module.exports = {
                 }
                 else if (utils.isArray(target)) {
                     if (target[VALIDATE_KEY]) {
-                        return [null, null, ['=' + target[VALIDATE_KEY]]];
+                        return [null, null, []];
                     }
                     else {
                         target[VALIDATE_KEY] = path;
@@ -771,12 +771,13 @@ module.exports = {
                         validatorsUtils.mergeChildSummary(validator, subValidator);
                     });
 
+                    delete target[VALIDATE_KEY];
                     return validator;
                 }
                 else if (typeof target === 'object') {
                     if (target) {
                         if (target[VALIDATE_KEY]) {
-                            return [null, null, ['=' + target[VALIDATE_KEY]]];
+                            return [null, null, []];
                         }
                         else {
                             target[VALIDATE_KEY] = path || '';
@@ -795,6 +796,9 @@ module.exports = {
 
                             validatorsUtils.mergeSiblingSummary(validator[key], validatorsUtils.preSummarizeTypeValidator(target[key], (path ? path + '.' : '') + key));
                         });
+
+                        delete target[VALIDATE_KEY];
+
                         return [validator, null, ['object']];
                     }
                     else {
@@ -888,6 +892,8 @@ module.exports = {
             },
 
             /**
+             * @deprecated this would not be needed as the key will always removed on the fly
+             *
              * Clean all #@~VALIDATE_KEY flag from (sub) objects & (sub) arrays
              *
              * @def: .clearValidateKey: target => undefined
@@ -999,6 +1005,9 @@ module.exports = {
                 }
                 else if (result.type == 'exact-equal' && ('expected' in result)) {
                     result.finalMessage = result.message + ' <Expected value: ' + result.expected + ' >';
+                }
+                else if (result.type === 'ref-check') {
+                    result.finalMessage = result.message + ' source: ' + result.sourcePath + ' target: ' + result.targetPath;
                 }
                 else {
                     result.finalMessage = result.message;

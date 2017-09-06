@@ -9,6 +9,7 @@ module.exports = {
          * @def: ~VALIDATE_KEY: string
          */
         var VALIDATE_KEY = '--[[validate_key]]--';
+        var DEBUG_PATH_KEY = '--[[path]]--';
 
         var validatorsUtils = {
 
@@ -689,7 +690,7 @@ module.exports = {
 
                     for (var key in validator) {
                         if ((typeof validator[key] === 'undefined'
-                            || validator[key] === 'undefined') && !isInArray){
+                                || validator[key] === 'undefined') && !isInArray) {
                             delete validator[key];
                         }
                         else {
@@ -937,8 +938,8 @@ module.exports = {
                 var result = indent + warning.message;
                 if (warning.subResult) {
                     result += '\n' + warning.subResult.map(function (warning) {
-                            return validatorsUtils.getWarningText(warning, indent + '   ');
-                        }).join('\n');
+                        return validatorsUtils.getWarningText(warning, indent + '   ');
+                    }).join('\n');
                 }
                 return result;
             },
@@ -1045,7 +1046,89 @@ module.exports = {
                     warningResult.message = result.valPath + ' : ' + result.condPath + ' => ' + result.finalMessage;
                     return warningResult;
                 }
+            },
+
+            printDebug: function (value, validator) {
+                console.warn('[WARN] $VAL =');
+                console.warn(JSON.stringify(validatorsUtils.debugOutputValue(value), null, 2));
+                console.warn('[WARN] $COND =');
+                console.warn(JSON.stringify(validatorsUtils.debugOutputValidator(validator), null, 2));
+            },
+
+            debugOutputValidator: function (validator, parentPath) {
+                parentPath = parentPath || '$COND';
+
+                if (utils.isArray(validator)) {
+                    var result = [];
+                    var type = validator[0];
+
+                    if (type !== 'and' && type !== 'or' && type !== 'value'
+                        && type !== 'array' && type !== '!') {
+                        type = 'or';
+                    }
+                    else if (type === '!') {
+                        type = 'not';
+                    }
+
+                    for (var i = 0; i < validator.length; i++) {
+                        var current = validator[i];
+
+                        if ((type === 'or' && current !== type) || i) {
+                            var currentPath = parentPath + '.[' + type + ':' + i + ']';
+                            result.push('path: ' + currentPath);
+                        }
+                        result.push(validatorsUtils.debugOutputValidator(current, currentPath));
+                    }
+
+                    return result;
+                }
+                else if (typeof validator === 'object' && validator) {
+                    var result = {};
+                    result[DEBUG_PATH_KEY] = parentPath;
+
+                    for (var key in validator) {
+                        var currentPath = parentPath + '.' + key;
+                        result[key] = validatorsUtils.debugOutputValidator(validator[key], currentPath);
+                    }
+
+                    return result;
+                }
+                else {
+                    return validator;
+                }
+            },
+
+            debugOutputValue: function (value, parentPath) {
+                parentPath = parentPath || '$VAL';
+                if (utils.isArray(value)) {
+                    var result = [];
+
+                    for (var i = 0; i < value.length; i++) {
+                        var current = value[i];
+
+                        var currentPath = parentPath + '.[' + i + ']';
+                        result.push('path: ' + currentPath);
+                        result.push(validatorsUtils.debugOutputValue(current, currentPath));
+                    }
+
+                    return result;
+                }
+                else if (typeof value === 'object' && value) {
+                    var result = {};
+                    result[DEBUG_PATH_KEY] = parentPath;
+
+                    for (var key in value) {
+                        var currentPath = parentPath + '.' + key;
+                        result[key] = validatorsUtils.debugOutputValue(value[key], currentPath);
+                    }
+
+                    return result;
+                }
+                else {
+                    return value;
+                }
             }
+
         };
 
         lazyAssert.validators = {};

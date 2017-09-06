@@ -258,29 +258,22 @@ var lazyAssert = {
      *  depthOrPlugin: @#.processValue.depthOrPlugin
      */
     peek: function (peekKey, value, depthOrPlugin) {
-        if (!this.testLocation) {
-            throw utils.newError('no-test-set', 'No test script set for this test.');
-        }
-        if (arguments.length < 2 || typeof peekKey !== 'string' || !peekKey) {
-            throw utils.newError('no-peek-key', 'No peek key set for this peek')
-        }
+        lazyAssert.checkArguments(peekKey);
 
-        var reportPath = utils.j(this.testLocation + '.report');
-        var expectPath = utils.j(reportPath, peekKey + '.expected');
-        var actualPath = utils.j(reportPath, peekKey + '.actual');
+        var paths = lazyAssert.getReportPaths(peekKey);
 
         var expected = '';
         var actual = this.stringify(value, depthOrPlugin);
 
-        if (!fs.existsSync(expectPath)) {
-            utils.write(expectPath, '');
+        if (!fs.existsSync(paths.expect)) {
+            utils.write(paths.expect, '');
             expected = '';
         }
         else {
-            expected = utils.read(expectPath);
+            expected = utils.read(paths.expect);
         }
 
-        utils.write(actualPath, actual);
+        utils.write(paths.actual, actual);
         assert.equal(
             actual, expected,
             (this.testLocation ? this.testLocation + ' : ' : '')
@@ -363,6 +356,8 @@ var lazyAssert = {
             lazyAssert.warn(peekKey, 'Validation failed with the given validator, the result is :');
             lazyAssert.validators.printWarnings(result);
 
+            lazyAssert.validators.printDebug(actualTargetValue, validator);
+
             lazyAssert.warn(peekKey, 'A default validator is : ');
             console.warn(JSON.stringify(lazyAssert.validators.summarizeTypeValidator(actualTargetValue), null, 2));
             return false;
@@ -378,6 +373,58 @@ var lazyAssert = {
         var result = lazyAssert.validate(peekKey, actualTargetValue, validator);
 
         lazyAssert.ok(result, peekKey);
+    },
+
+    peekValidate: function (peekKey, actualTargetValue) {
+        lazyAssert.checkArguments(peekKey);
+
+        var paths = lazyAssert.getReportPaths(peekKey);
+
+        var validator;
+
+        if (!fs.existsSync(paths.validator)) {
+            utils.write(paths.validator, '__tmp_expect__ = "undefined";');
+            validator = 'undefined';
+        }
+        else {
+            validator = eval(utils.read(paths.validator));
+        }
+
+        var result = lazyAssert.validate(peekKey, actualTargetValue, validator);
+
+        if (!result) {
+            var suggest = lazyAssert.validators.summarizeTypeValidator(actualTargetValue);
+            utils.write(paths.suggest,
+                '__tmp_expect__ = '
+                + JSON.stringify(suggest, null, 4)
+            )
+        }
+        lazyAssert.ok(result, peekKey);
+    },
+
+    checkArguments: function (peekKey) {
+        if (!this.testLocation) {
+            throw utils.newError('no-test-set', 'No test script set for this test.');
+        }
+        if (typeof peekKey !== 'string' || !peekKey) {
+            throw utils.newError('no-peek-key', 'No peek key set for this peek')
+        }
+    },
+
+    getReportPaths: function (peekKey) {
+        var reportPath = utils.j(this.testLocation + '.report');
+        var expectPath = utils.j(reportPath, peekKey + '.expected');
+        var actualPath = utils.j(reportPath, peekKey + '.actual');
+        var suggestPath = utils.j(reportPath, peekKey + '.suggest.js');
+        var validatarPath = utils.j(reportPath, peekKey + '.validator.js');
+
+        return {
+            report: reportPath,
+            expect: expectPath,
+            actual: actualPath,
+            suggest: suggestPath,
+            validator: validatarPath
+        }
     },
 
     newPeek: function (peekKey) {

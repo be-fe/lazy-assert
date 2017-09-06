@@ -173,4 +173,50 @@ describe('Test lazy validator', function () {
             ),
         }, -1);
     });
+
+    it('Should output debug validator', function () {
+        lazy.peek('05-debug-output-validator', lazy.validators.debugOutputValidator({
+            "array": [
+                "array",
+                [
+                    "number",
+                    "string",
+                    "null",
+                    {
+                        "a": [
+                            "number"
+                        ],
+                        "b": [
+                            "undefined",
+                            [
+                                "array",
+                                [
+                                    "number",
+                                    [
+                                        "array",
+                                        "string"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    }
+                ]
+            ],
+            "boolean": "boolean",
+            "null": "null",
+            "number": "number",
+            "string": "string"
+        }), -1);
+    });
+
+    it('Should output debug value', function () {
+        lazy.peek('06-debug-output-value', lazy.validators.debugOutputValue({
+            'number': 1,
+            'string': 'abc',
+            'boolean': true,
+            'null': null,
+
+            'array': [1, 'abc', null, {a: 1}, {b: [1, ['c']]}]
+        }));
+    });
 });

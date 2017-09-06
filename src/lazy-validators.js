@@ -214,7 +214,7 @@ module.exports = {
                         message: 'Target is an array (Array is not recognised as valid object here), but is to be validated against object validator'
                     }
                 }
-                if (typeof target !== 'object' || !null) {
+                if (typeof target !== 'object' || !target) {
                     return {
                         result: false,
                         type: 'object',

@@ -883,7 +883,24 @@ module.exports = {
              *  #@.validate.result
              */
             printWarnings: function (result) {
+                console.warn(validatorsUtils.getWarnings(result));
+            },
 
+            getWarnings: function (result) {
+                validatorsUtils.formalizeFailResultItem(result);
+                var warning = validatorsUtils.mergeFailResults(result);
+                return validatorsUtils.getWarningText(warning);
+            },
+
+            getWarningText: function (warning, indent) {
+                indent = indent || '';
+                var result = indent + warning.message;
+                if (warning.subResult) {
+                    result += '\n' + warning.subResult.map(function (warning) {
+                            return validatorsUtils.getWarningText(warning, indent + '   ');
+                        }).join('\n');
+                }
+                return result;
             },
 
             /**
@@ -891,7 +908,7 @@ module.exports = {
              * generate finalMessage
              *
              * @def: .formalizeFailResultItem: result => undefined
-             *  result: #@.validators.validator.result
+             *  result: extends #@.validators.validator.result
              *      valPath: string
              *      condPath: string
              *      finalMessage: string
@@ -960,6 +977,31 @@ module.exports = {
                 }
 
                 return result;
+            },
+
+            /**
+             *
+             * @def: .mergeFailResults: result => warningResult
+             *  result: #@.formalizeFailResultItem.result
+             *
+             *  warningResult: {}
+             *      message: string
+             *      subResult: [warningResult]
+             */
+            mergeFailResults: function (result) {
+                if (result.subResult && result.subResult.length === 1) {
+                    return validatorsUtils.mergeFailResults(result.subResult[0]);
+                }
+                else {
+                    var warningResult = {};
+                    if (result.subResult) {
+                        warningResult.subResult = result.subResult.map(function (subResult) {
+                            return validatorsUtils.mergeFailResults(subResult);
+                        });
+                    }
+                    warningResult.message = result.valPath + ' : ' + result.condPath + ' => ' + result.finalMessage;
+                    return warningResult;
+                }
             }
         };
 

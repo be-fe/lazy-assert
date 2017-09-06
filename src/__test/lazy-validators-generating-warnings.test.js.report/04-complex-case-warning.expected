@@ -1,0 +1,17 @@
+{}
+  01 deep array : []
+    0 : "$VAL.a.[1] : $COND.a => Target does not meet the array validators"
+    1 : "   $VAL.a.[1] : $COND.a.[array:1] => Target value is not of the expected type <Expected type: number >"
+    2 : "   $VAL.a.[1].b : $COND.a.[array:2].b => Target value is not of the expected type <Expected type: boolean >"
+    3 : "   $VAL.a.[1] : $COND.a.[array:3] => Did not exact equal any value in the value-array"
+    4 : "      $VAL.a.[1] : $COND.a.[array:3].[value:1] => Target is not equal to the expected value. <Expected value: 2 >"
+    5 : "      $VAL.a.[1] : $COND.a.[array:3].[value:2] => Target is not equal to the expected value. <Expected value: 3 >"
+  02 deep array with or : []
+    0 : "$VAL.a : $COND.a => Did not match or-array"
+    1 : "   $VAL.a.[1] : $COND.a.[or:1] => Target does not meet the array validators"
+    2 : "      $VAL.a.[1] : $COND.a.[or:1].[array:1] => Target value is not of the expected type <Expected type: number >"
+    3 : "      $VAL.a.[1].b : $COND.a.[or:1].[array:2].b => Target value is not of the expected type <Expected type: boolean >"
+    4 : "      $VAL.a.[1] : $COND.a.[or:1].[array:3] => Did not exact equal any value in the value-array"
+    5 : "         $VAL.a.[1] : $COND.a.[or:1].[array:3].[value:1] => Target is not equal to the expected value. <Expected value: 2 >"
+    6 : "         $VAL.a.[1] : $COND.a.[or:1].[array:3].[value:2] => Target is not equal to the expected value. <Expected value: 3 >"
+    7 : "   $VAL.a : $COND.a.[or:2] => Target value is not of the expected type <Expected type: number >"

@@ -1,0 +1,34 @@
+{}
+  01 root only : []
+    0 : "$VAL : $COND => Target value is not of the expected type <Expected type: number >"
+  02 with parents : []
+    0 : "$VAL : $COND => Target value is not of the expected type <Expected type: number >"
+  03 in object : []
+    0 : "$VAL.a.b : $COND.a.b => Target value is not of the expected type <Expected type: object >"
+  04 object & or array : []
+    0 : "$VAL : $COND => Did not match or-array"
+    1 : "   $VAL.a : $COND.[or:0].a => Target is not equal to the expected value. <Expected value: undefined >"
+    2 : "   $VAL.a.b : $COND.[or:1].a.b => Target value is not of the expected type <Expected type: function >"
+    3 : "   $VAL : $COND.[or:2] => Target can not be tested by regexp <REGEXP: /abc/ >"
+  05 object & and array : []
+    0 : "$VAL.a : $COND.[and:2].a => Target value is not of the expected type <Expected type: function >"
+  06 val & op test : []
+    0 : "$VAL.a : $COND.a => Did not match or-array"
+    1 : "   $VAL.a : $COND.a.[or:0] => Target did not pass the function check <Expected func test: Comparison : > 6 >"
+    2 : "   $VAL.a : $COND.a.[or:1] => Target does not match regexp <REGEXP: /abc/ >"
+  07 val & array [and] validator : []
+    0 : "$VAL.[0] : $COND => Target does not meet the array validators"
+    1 : "   $VAL.[0] : $COND.[array:1].[and:2] => Target did not pass the function check <Expected func test: Comparison : > 5 >"
+    2 : "   $VAL.[0] : $COND.[array:2] => Target value is not of the expected type <Expected type: object >"
+  08 val & not array : []
+    0 : "$VAL : $COND.[not:2] => The sub-validator returns true in not-array check."
+  09 val & value array : []
+    0 : "$VAL.a : $COND.a => Did not exact equal any value in the value-array"
+    1 : "   $VAL.a : $COND.a.[value:1] => Target is not equal to the expected value. <Expected value: 2 >"
+    2 : "   $VAL.a : $COND.a.[value:2] => Target is not equal to the expected value. <Expected value: 3 >"
+    3 : "   $VAL.a : $COND.a.[value:3] => Target is not equal to the expected value. <Expected value: null >"
+    4 : "   $VAL.a : $COND.a.[value:4] => Validator should not be an object/function in exact match"
+  10 val & func : []
+    0 : "$VAL : $COND => Target did not pass the function check"
+  11 val & func with info : []
+    0 : "$VAL : $COND => Target did not pass the function check <Expected func test: Sum should be greator than 5 >"

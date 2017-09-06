@@ -1,47 +1,75 @@
 []
   0 : "-------- \"1\", [or, {}, null] --------"
   1 : {}
-    0 : "[WARN]  peek <\"1\", [or, {}, null]> Validation failed with the given validator, the result is :"
+    0 : []
+      0 : "[WARN]  peek <\"1\", [or, {}, null]> Validation failed with the given validator, the result is :"
   2 : {}
-    0 : {}
-      message : "Did not match or-array"
-      target : "1"
-      validator : []
-        0 : {}
-        1 : null
+    0 : []
+      0 : "$VAL : $COND => Did not match or-array"
+      1 : "   $VAL : $COND.[or:1] => Target is not an object."
+      2 : "   $VAL : $COND.[or:2] => Target is not equal to the expected value. <Expected value: null >"
   3 : {}
-    0 : "[WARN]  peek <\"1\", [or, {}, null]> A default validator is : "
+    0 : []
+      0 : "[WARN]  peek <\"1\", [or, {}, null]> A default validator is : "
   4 : {}
-    0 : "\"string\""
+    0 : []
+      0 : "\"string\""
   5 : "-------- [\"1\"], [or, {}, null] --------"
   6 : {}
-    0 : "[WARN]  peek <[\"1\"], [or, {}, null]> Validation failed with the given validator, the result is :"
+    0 : []
+      0 : "[WARN]  peek <[\"1\"], [or, {}, null]> Validation failed with the given validator, the result is :"
   7 : {}
-    0 : {}
-      message : "Did not match or-array"
-      target : []
-        0 : "1"
-      validator : []
-        0 : {}
-        1 : null
+    0 : []
+      0 : "$VAL : $COND => Did not match or-array"
+      1 : "   $VAL : $COND.[or:1] => Target is an array (Array is not recognised as valid object here), but is to be validated against object validator"
+      2 : "   $VAL : $COND.[or:2] => Target is not equal to the expected value. <Expected value: null >"
   8 : {}
-    0 : "[WARN]  peek <[\"1\"], [or, {}, null]> A default validator is : "
+    0 : []
+      0 : "[WARN]  peek <[\"1\"], [or, {}, null]> A default validator is : "
   9 : {}
-    0 : "[\n  \"array\",\n  \"string\"\n]"
+    0 : []
+      0 : "["
+      1 : "  \"array\","
+      2 : "  \"string\""
+      3 : "]"
   10 : "-------- [\"1\"], [array, {}, null] --------"
   11 : {}
-    0 : "[WARN]  peek <[\"1\"], [array, {}, null]> Validation failed with the given validator, the result is :"
+    0 : []
+      0 : "[WARN]  peek <[\"1\"], [array, {}, null]> Validation failed with the given validator, the result is :"
   12 : {}
-    0 : {}
-      index : 0
-      message : "Target does not meet the array validators"
-      path : "0"
-      target : "1"
-      validator : []
-        0 : "array"
-        1 : {}
-        2 : null
+    0 : []
+      0 : "$VAL.[0] : $COND => Target does not meet the array validators"
+      1 : "   $VAL.[0] : $COND.[array:1] => Target is not an object."
+      2 : "   $VAL.[0] : $COND.[array:2] => Target is not equal to the expected value. <Expected value: null >"
   13 : {}
-    0 : "[WARN]  peek <[\"1\"], [array, {}, null]> A default validator is : "
+    0 : []
+      0 : "[WARN]  peek <[\"1\"], [array, {}, null]> A default validator is : "
   14 : {}
-    0 : "[\n  \"array\",\n  \"string\"\n]"
+    0 : []
+      0 : "["
+      1 : "  \"array\","
+      2 : "  \"string\""
+      3 : "]"
+  15 : "-------- [{a: [{b: 1}]}], inner array validator --------"
+  16 : {}
+    0 : []
+      0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> Validation failed with the given validator, the result is :"
+  17 : {}
+    0 : []
+      0 : "$VAL.[0].a.[0].b : $COND.[array:1].a.[array:1].b => Target value is not of the expected type <Expected type: string >"
+  18 : {}
+    0 : []
+      0 : "[WARN]  peek <[{a: [{b: 1}]}], inner array validator> A default validator is : "
+  19 : {}
+    0 : []
+      0 : "["
+      1 : "  \"array\","
+      2 : "  {"
+      3 : "    \"a\": ["
+      4 : "      \"array\","
+      5 : "      {"
+      6 : "        \"b\": \"number\""
+      7 : "      }"
+      8 : "    ]"
+      9 : "  }"
+      10 : "]"

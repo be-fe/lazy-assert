@@ -53,6 +53,9 @@ describe('Test lazy validator warnings', function () {
         var result = [];
 
         setLogCalled(function () {
+            if (typeof arguments[0] === 'string') {
+                arguments[0] = arguments[0].split('\n');
+            }
             result.push(arguments);
         });
 

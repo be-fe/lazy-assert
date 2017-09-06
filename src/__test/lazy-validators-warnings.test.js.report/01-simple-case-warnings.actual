@@ -2,18 +2,24 @@
   0 : {}
     0 : "[WARN]  peek <01 1, undefined> Validation failed with the given validator, the result is :"
   1 : {}
-    0 : "[WARN]  peek <01 1, undefined> A default validator is : "
+    0 : "$VAL : $COND => Target is not equal to the expected value. <Expected value: undefined >"
   2 : {}
-    0 : "\"number\""
+    0 : "[WARN]  peek <01 1, undefined> A default validator is : "
   3 : {}
-    0 : "[WARN]  peek <02 1, \"object\"> Validation failed with the given validator, the result is :"
-  4 : {}
-    0 : "[WARN]  peek <02 1, \"object\"> A default validator is : "
-  5 : {}
     0 : "\"number\""
+  4 : {}
+    0 : "[WARN]  peek <02 1, \"object\"> Validation failed with the given validator, the result is :"
+  5 : {}
+    0 : "$VAL : $COND => Target value is not of the expected type <Expected type: object >"
   6 : {}
-    0 : "[WARN]  peek <03 function, [array, number]> Validation failed with the given validator, the result is :"
+    0 : "[WARN]  peek <02 1, \"object\"> A default validator is : "
   7 : {}
-    0 : "[WARN]  peek <03 function, [array, number]> A default validator is : "
+    0 : "\"number\""
   8 : {}
+    0 : "[WARN]  peek <03 function, [array, number]> Validation failed with the given validator, the result is :"
+  9 : {}
+    0 : "$VAL : $COND => Target is not an array."
+  10 : {}
+    0 : "[WARN]  peek <03 function, [array, number]> A default validator is : "
+  11 : {}
     0 : "\"function\""

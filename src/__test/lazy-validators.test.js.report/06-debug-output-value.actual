@@ -1,27 +1,16 @@
 {}
-  --[[path]]-- : "$Val"
   array : []
-    0 : "path: $Val.array.[0]"
-    1 : 1
-    2 : "path: $Val.array.[1]"
-    3 : "abc"
-    4 : "path: $Val.array.[2]"
-    5 : null
-    6 : "path: $Val.array.[3]"
-    7 : {}
-      --[[path]]-- : "$Val.array.[3]"
+    0 : 1
+    1 : "abc"
+    2 : "null <<----- NOTICE **Leaf** @ $VAL.array.[2]"
+    3 : {}
       a : 1
-    8 : "path: $Val.array.[4]"
-    9 : {}
-      --[[path]]-- : "$Val.array.[4]"
+    4 : {}
       b : []
-        0 : "path: $Val.array.[4].b.[0]"
-        1 : 1
-        2 : "path: $Val.array.[4].b.[1]"
-        3 : []
-          0 : "path: $Val.array.[4].b.[1].[0]"
-          1 : "c"
+        0 : 1
+        1 : []
+          0 : "c"
   boolean : true
   null : null
-  number : 1
+  number : "1 <<----- NOTICE @ $VAL.number"
   string : "abc"

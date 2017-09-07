@@ -1115,11 +1115,11 @@ module.exports = {
              *  ///
              *  Example:
              *
-             *  123         => "raw: 123 <<----- NOTICE"
-             *  'abc'       => "raw: 'abc' <<----- NOTICE"
-             *  true        => "raw: true <<----- NOTICE"
-             *  null        => "raw: null <<----- NOTICE"
-             *  undefined   => "raw: undefined <<----- NOTICE"
+             *  123         => "123 <<----- NOTICE"
+             *  'abc'       => "'abc' <<----- NOTICE"
+             *  true        => "true <<----- NOTICE"
+             *  null        => "null <<----- NOTICE"
+             *  undefined   => "undefined <<----- NOTICE"
              *  ///
              *  valueDisplay: string
              */
@@ -1127,7 +1127,8 @@ module.exports = {
                 if (problemPaths[path]
                     && (typeof rawValue !== 'object' || rawValue === null)
                     && typeof rawValue !== 'function') {
-                    return 'raw: ' + JSON.stringify(rawValue).split('"').join('\'')
+                    console.log('@@d', JSON.stringify(rawValue));
+                    return (JSON.stringify(rawValue) || 'undefined').split('"').join('\'')
                         + validatorsUtils.getNoticeFlag(path, problemPaths);
                 } else {
                     return rawValue;

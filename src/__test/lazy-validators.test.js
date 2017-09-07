@@ -206,6 +206,9 @@ describe('Test lazy validator', function () {
             "null": "null",
             "number": "number",
             "string": "string"
+        }, {
+            '$COND.boolean': 'not-leaf',
+            '$COND.array.[array:1].[or:3].a.[or:0]': 'leaf'
         }), -1);
     });
 
@@ -217,6 +220,9 @@ describe('Test lazy validator', function () {
             'null': null,
 
             'array': [1, 'abc', null, {a: 1}, {b: [1, ['c']]}]
+        }, {
+            '$VAL.number': 'not-leaf',
+            '$VAL.array.[2]': 'leaf'
         }));
     });
 });

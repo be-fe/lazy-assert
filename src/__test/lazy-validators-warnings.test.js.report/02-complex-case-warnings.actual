@@ -13,18 +13,18 @@
       0 : "[WARN] $VAL ="
   4 : {}
     0 : []
-      0 : "\"raw: '1' <<----- NOTICE @ $VAL\""
+      0 : "\"'1' <<----- NOTICE @ $VAL\""
   5 : {}
     0 : []
       0 : "[WARN] $COND ="
   6 : {}
     0 : []
       0 : "["
-      1 : "  \"raw: 'or' <<----- NOTICE @ $COND\","
+      1 : "  \"'or' <<----- NOTICE @ $COND\","
       2 : "  {"
       3 : "    \"--[[path]]--\": \" <<----- NOTICE **Leaf** @ $COND.[or:1]\""
       4 : "  },"
-      5 : "  \"raw: null <<----- NOTICE **Leaf** @ $COND.[or:2]\""
+      5 : "  \"null <<----- NOTICE **Leaf** @ $COND.[or:2]\""
       6 : "]"
   7 : {}
     0 : []
@@ -55,11 +55,11 @@
   15 : {}
     0 : []
       0 : "["
-      1 : "  \"raw: 'or' <<----- NOTICE @ $COND\","
+      1 : "  \"'or' <<----- NOTICE @ $COND\","
       2 : "  {"
       3 : "    \"--[[path]]--\": \" <<----- NOTICE **Leaf** @ $COND.[or:1]\""
       4 : "  },"
-      5 : "  \"raw: null <<----- NOTICE **Leaf** @ $COND.[or:2]\""
+      5 : "  \"null <<----- NOTICE **Leaf** @ $COND.[or:2]\""
       6 : "]"
   16 : {}
     0 : []
@@ -85,7 +85,7 @@
   22 : {}
     0 : []
       0 : "["
-      1 : "  \"raw: '1' <<----- NOTICE @ $VAL.[0]\""
+      1 : "  \"'1' <<----- NOTICE @ $VAL.[0]\""
       2 : "]"
   23 : {}
     0 : []
@@ -93,11 +93,11 @@
   24 : {}
     0 : []
       0 : "["
-      1 : "  \"raw: 'array' <<----- NOTICE @ $COND\","
+      1 : "  \"'array' <<----- NOTICE @ $COND\","
       2 : "  {"
       3 : "    \"--[[path]]--\": \" <<----- NOTICE **Leaf** @ $COND.[array:1]\""
       4 : "  },"
-      5 : "  \"raw: null <<----- NOTICE **Leaf** @ $COND.[array:2]\""
+      5 : "  \"null <<----- NOTICE **Leaf** @ $COND.[array:2]\""
       6 : "]"
   25 : {}
     0 : []
@@ -126,7 +126,7 @@
       3 : "    \"a\": ["
       4 : "      {"
       5 : "        \"--[[path]]--\": \" <<----- NOTICE @ $VAL.[0].a.[0]\","
-      6 : "        \"b\": \"raw: 1 <<----- NOTICE @ $VAL.[0].a.[0].b\""
+      6 : "        \"b\": \"1 <<----- NOTICE @ $VAL.[0].a.[0].b\""
       7 : "      }"
       8 : "    ]"
       9 : "  }"
@@ -137,12 +137,12 @@
   33 : {}
     0 : []
       0 : "["
-      1 : "  \"raw: 'array' <<----- NOTICE @ $COND\","
+      1 : "  \"'array' <<----- NOTICE @ $COND\","
       2 : "  {"
       3 : "    \"a\": ["
-      4 : "      \"raw: 'array' <<----- NOTICE @ $COND\","
+      4 : "      \"'array' <<----- NOTICE @ $COND\","
       5 : "      {"
-      6 : "        \"b\": \"raw: 'string' <<----- NOTICE @ $COND.[array:1].a.[array:1].b\""
+      6 : "        \"b\": \"'string' <<----- NOTICE @ $COND.[array:1].a.[array:1].b\""
       7 : "      }"
       8 : "    ]"
       9 : "  }"

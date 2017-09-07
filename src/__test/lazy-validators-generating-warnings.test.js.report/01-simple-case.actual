@@ -8,13 +8,13 @@
     type : "type"
     valPath : "$VAL"
   02 with parents : {}
-    condPath : "test"
+    condPath : "$COND.test"
     finalMessage : "Target value is not of the expected type <Expected type: number >"
     message : "Target value is not of the expected type"
     reason : "number"
     result : false
     type : "type"
-    valPath : "test"
+    valPath : "$VAL.test"
   03 in object : {}
     condPath : "$COND.a"
     finalMessage : "Failed on object property validation"

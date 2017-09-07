@@ -1064,8 +1064,8 @@ module.exports = {
             printDebug: function (value, validator, result) {
                 var problemPaths = validatorsUtils.getProblemPaths(result);
 
-                console.log('@@d', result);
-                console.log('@@d', problemPaths);
+                // console.log('@@d', result);
+                // console.log('@@d', problemPaths);
 
                 console.warn('[WARN] $VAL =');
                 console.warn(JSON.stringify(validatorsUtils.debugOutputValue(value, problemPaths), null, 2));
@@ -1127,7 +1127,7 @@ module.exports = {
                 if (problemPaths[path]
                     && (typeof rawValue !== 'object' || rawValue === null)
                     && typeof rawValue !== 'function') {
-                    console.log('@@d', JSON.stringify(rawValue));
+                    // console.log('@@d', JSON.stringify(rawValue));
                     return (JSON.stringify(rawValue) || 'undefined').split('"').join('\'')
                         + validatorsUtils.getNoticeFlag(path, problemPaths);
                 } else {

@@ -45,17 +45,19 @@ var lib = {
     refreshAll: function (basePath, output) {
         lib.forEachActual(basePath, function (actualPath, expectedPath) {
             // console.log('@@d', actualPath, expectedPath);
-            output && console.log('[INFO] refreshing ' + actualPath);
             utils.write(actualPath,
                 utils.read(expectedPath)
             );
+            output && console.log('[INFO] refreshed ' + actualPath);
         });
     },
 
     removeAll: function (basePath, output) {
         lib.forEachActual(basePath, function (actualPath) {
-            output && console.log('[INFO] removing ' + actualPath);
-            fs.unlink(actualPath);
+            try {
+                fs.unlinkSync(actualPath);
+                output && console.log('[INFO] removed ' + actualPath);
+            } catch (ex) {}
         });
     }
 };

@@ -1,6 +1,6 @@
 {
   "name": "lazy-assert",
-  "version": "0.2.10",
+  "version": "0.2.12",
   "description": "An way of doing assertion for lazy people ...",
   "main": "src/index.js",
   "bin": {

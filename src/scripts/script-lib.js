@@ -44,7 +44,7 @@ var lib = {
 
     refreshAll: function (basePath) {
         lib.forEachActual(basePath, function (actualPath, expectedPath) {
-            console.log('@@d', actualPath, expectedPath);
+            // console.log('@@d', actualPath, expectedPath);
             utils.write(actualPath,
                 utils.read(expectedPath)
             );

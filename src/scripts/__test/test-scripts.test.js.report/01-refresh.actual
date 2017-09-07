@@ -1,0 +1,4 @@
+{}
+  00 actual : "expected"
+  01 actual.js : "// expected"
+  02 suggest.js : "// expected"

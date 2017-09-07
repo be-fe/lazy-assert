@@ -7,7 +7,8 @@ __tmp_expect__ = {
             "null",
             {
                 "a": [
-                    "number"
+                    "number",
+                    "undefined"
                 ],
                 "b": [
                     "undefined",

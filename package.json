@@ -15,8 +15,8 @@
     "test-api": "./node_modules/mocha/bin/mocha examples/4-mocha-test-api/__test/**/*.test.js",
     "test-nightwatch": "node node_modules/nightwatch/bin/nightwatch -c examples/5-nightwatch/nightwatch.config.js",
     "test-compared-with-chai": "./node_modules/mocha/bin/mocha examples/6-compared-with-chai/__test/**/*.test.js",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha src/**/__test/*.test.js",
-    "test-lazy": "./node_modules/.bin/mocha src/**/__test/*.test.js",
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha src/**/__test/*.test.js src/__test/*.test.js",
+    "test-lazy": "./node_modules/.bin/mocha src/**/__test/*.test.js src/__test/*.test.js",
     "open-cover": "open ./coverage/lcov-report/index.html"
   },
   "author": "Liang",

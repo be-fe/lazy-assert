@@ -675,9 +675,15 @@ module.exports = {
                 }
             },
 
+            /**
+             * This method will try to go through the targetValue,
+             * and exact a suggest validator for the developer,
+             * so that it's quite easy to simply copy & paste to write your validate assertions
+             *
+             * @def: .summarizeTypeValidator: target => suggestedValidator
+             */
             summarizeTypeValidator: function (target) {
                 var rawValidator = validatorsUtils.preSummarizeTypeValidator(target);
-                validatorsUtils.clearValidateKey(target);
 
                 var validator = validatorsUtils.extractValidatorFromRaw(rawValidator);
                 validator = validatorsUtils.removeOrphanUndefined(validator);
@@ -949,7 +955,7 @@ module.exports = {
              * generate finalMessage
              *
              * @def: .formalizeFailResultItem: result => undefined
-             *  result: extends #@.validators.validator.result
+             *  result: extends #@.validators.validator.result as ~FinalResult
              *      valPath: string
              *      condPath: string
              *      finalMessage: string
@@ -1044,10 +1050,22 @@ module.exports = {
                 }
             },
 
+            /**
+             *
+             * @def: .printDebug: value, validator, result => undefined
+             *  // The value to be debug
+             *  value: any
+             *  validator: #@~Validator
+             *
+             *  // For extracting the problematic valPath & condPath,
+             *  // so that the related path in value & validator can be highlighted
+             *  result: #@~FinalResult
+             */
             printDebug: function (value, validator, result) {
                 var problemPaths = validatorsUtils.getProblemPaths(result);
 
-                // console.log('@@d', problemPaths);
+                console.log('@@d', result);
+                console.log('@@d', problemPaths);
 
                 console.warn('[WARN] $VAL =');
                 console.warn(JSON.stringify(validatorsUtils.debugOutputValue(value, problemPaths), null, 2));
@@ -1055,6 +1073,16 @@ module.exports = {
                 console.warn(JSON.stringify(validatorsUtils.debugOutputValidator(validator, problemPaths), null, 2));
             },
 
+            /**
+             * Extract all valPath & condPath from result
+             *
+             * @def: .getProblemPaths: result, problemPaths => problemPaths
+             *  result: #@~FinalResult
+             *
+             *  problemPaths: {path: 'leaf' | 'not-leaf'} as ~ProblemPaths
+             *      // e.g. $VAL.someKey.[1].someOtherKey
+             *      path: string
+             */
             getProblemPaths: function (result, problemPaths) {
                 problemPaths = problemPaths || {};
 
@@ -1062,13 +1090,91 @@ module.exports = {
                     result.subResult.forEach(function (subResult) {
                         validatorsUtils.getProblemPaths(subResult, problemPaths);
                     });
+                    problemPaths[result.valPath] = 'not-leaf';
+                    problemPaths[result.condPath] = 'not-leaf';
                 }
-                problemPaths[result.valPath] = 1;
-                problemPaths[result.condPath] = 1;
+                else {
+                    problemPaths[result.valPath] = 'leaf';
+                    problemPaths[result.condPath] = 'leaf';
+                }
 
                 return problemPaths;
             },
 
+            /**
+             *
+             * @def: .getPrimitiveValue: rawValue, parentPath, key, problemPaths => valueDisplay
+             *
+             *  // But only primitive value will be processed
+             *  rawValue: any
+             *
+             *  // If the full path can be found in problemPaths, this value will be processed
+             *  path: string
+             *  problemPaths: #@~ProblemPaths
+             *
+             *  ///
+             *  Example:
+             *
+             *  123         => "raw: 123 <<----- NOTICE"
+             *  'abc'       => "raw: 'abc' <<----- NOTICE"
+             *  true        => "raw: true <<----- NOTICE"
+             *  null        => "raw: null <<----- NOTICE"
+             *  undefined   => "raw: undefined <<----- NOTICE"
+             *  ///
+             *  valueDisplay: string
+             */
+            getPrimitiveValueNotice: function (rawValue, path, problemPaths) {
+                if (problemPaths[path]
+                    && (typeof rawValue !== 'object' || rawValue === null)
+                    && typeof rawValue !== 'function') {
+                    return 'raw: ' + JSON.stringify(rawValue).split('"').join('\'')
+                        + validatorsUtils.getNoticeFlag(path, problemPaths);
+                } else {
+                    return rawValue;
+                }
+            },
+
+            getNoticeFlag: function (path, problemPaths) {
+                if (problemPaths[path] === 'leaf') {
+                    return ' <<----- NOTICE **Leaf** @ ' + path;
+                }
+                else {
+                    return ' <<----- NOTICE @ ' + path;
+                }
+            },
+
+            /**
+             * All problematic paths will be detected during processing the validator
+             * When a path is found, some extra info will be inserted into the output,
+             * so that it's easier to find out what's wrong with the value against the validator
+             *
+             * ```
+             * # in array
+             * # Raw:
+             * [1, 2, null]
+             *
+             * # Output:
+             * [ '$Cond.[0]', 1, '$Cond.[1]', 2, '$Cond.[3] <<----- NOTICE', 3 ]
+             *
+             * # in object
+             * # Raw:
+             * {a: {b: 1, c: null}}
+             *
+             * # Output:
+             * {
+             *  '--[[path]]--': '$VAL',
+             *  a: {
+             *      '--[[path]]--': '$VAL.a'
+             *      b: 1,
+             *      c: 'raw: null <<----- NOTICE'
+             *  }
+             * }
+             * ```
+             *
+             * @def: validator, problemPaths, parentPath => validatorWithDebugInfo
+             *  validator: #@~Validator
+             *  problemPaths: #@~ProblemPaths
+             */
             debugOutputValidator: function (validator, problemPaths, parentPath) {
                 parentPath = parentPath || '$COND';
 
@@ -1089,7 +1195,6 @@ module.exports = {
 
                         if ((type === 'or' && current !== type) || i) {
                             var currentPath = parentPath + '.[' + type + ':' + i + ']';
-                            result.push('path: ' + currentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : ''));
                         }
                         result.push(validatorsUtils.debugOutputValidator(current, problemPaths, currentPath));
                     }
@@ -1098,7 +1203,9 @@ module.exports = {
                 }
                 else if (typeof validator === 'object' && validator) {
                     var result = {};
-                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : '');
+                    if (parentPath in problemPaths) {
+                        result[DEBUG_PATH_KEY] = validatorsUtils.getNoticeFlag(parentPath, problemPaths);
+                    }
 
                     for (var key in validator) {
                         var currentPath = parentPath + '.' + key;
@@ -1108,11 +1215,16 @@ module.exports = {
                     return result;
                 }
                 else {
-                    return validator;
+                    return validatorsUtils.getPrimitiveValueNotice(validator, parentPath, problemPaths);
                 }
             },
 
-            debugOutputValue: function (value, problemPaths, parentPath) {
+            /**
+             * Almost the same logic & purpose with #@.debugOutputValidator
+             *
+             * @def: .debugOutputValue: value, problemPaths, parentPath => valueWithDebugInfo
+             */
+            debugOutputValue: function (value, problemPaths, parentPath, isFromArray) {
                 parentPath = parentPath || '$VAL';
                 if (utils.isArray(value)) {
                     var result = [];
@@ -1121,7 +1233,7 @@ module.exports = {
                         var current = value[i];
 
                         var currentPath = parentPath + '.[' + i + ']';
-                        result.push('path: ' + currentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : ''));
+
                         result.push(validatorsUtils.debugOutputValue(current, problemPaths, currentPath));
                     }
 
@@ -1129,7 +1241,9 @@ module.exports = {
                 }
                 else if (typeof value === 'object' && value) {
                     var result = {};
-                    result[DEBUG_PATH_KEY] = parentPath + (currentPath in problemPaths ? ' <<----- NOTICE' : '');
+                    if (parentPath in problemPaths) {
+                        result[DEBUG_PATH_KEY] = validatorsUtils.getNoticeFlag(parentPath, problemPaths);
+                    }
 
                     for (var key in value) {
                         var currentPath = parentPath + '.' + key;
@@ -1139,7 +1253,7 @@ module.exports = {
                     return result;
                 }
                 else {
-                    return value;
+                    return validatorsUtils.getPrimitiveValueNotice(value, parentPath, problemPaths);
                 }
             }
 

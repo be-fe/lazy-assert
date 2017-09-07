@@ -1,0 +1,2 @@
+/__test/test-files/*
+!/__test/test-files/.empty

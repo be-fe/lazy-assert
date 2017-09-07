@@ -46,6 +46,67 @@ var utils = {
         }
     },
 
+
+    /**
+     * ///
+     * 遍历 baseDir 下的所有文件,
+     *
+     * 产生一个平级列表:
+     *
+     * 例如:
+     *
+     * ```
+     * base -
+     *      | a - b.js
+     *          | c - d.js
+     *          |   | e.js
+     *          | f.js
+     * ```
+     *
+     * 输出:
+     *
+     * ```
+     * /a/b.js
+     * /a/c/d.js
+     * /a/c/e.js
+     * /a/f.js
+     * ```
+     *
+     * @todo NOTE: 我们当前这个设计, 可能会有内存使用过大的风险, 请知悉.
+     * ///
+     * @def: .flattenFiles: baseDir => [filepath] throws noSuchDirError
+     *  baseDir: string     // 目标的基础文件夹
+     *  filepath: string    // 相对于基础文件夹的 "相对路径"
+     *  noSuchDirError: Error   // 如果 baseDir 不存在, 抛出该错误 (避免不小心为用户创建莫名其妙的文件夹)
+     */
+    flattenFiles: function (baseDir) {
+        if (!fs.existsSync(baseDir)) {
+            throw new Error('无此文件夹!');
+        }
+
+        var result = [];
+        fs.readdirSync(baseDir).forEach(function (fileEntry) {
+
+            // 忽略以 `.` 起始的文件/文件夹
+            if (/^\./.test(fileEntry)) {
+                return;
+            }
+
+            // 如果是文件, 直接插入 result 集合
+            if (fs.statSync(baseDir + '/' + fileEntry).isFile()) {
+                result.push('/' + fileEntry);
+            }
+
+            // 如果是文件夹, 返回其子 flatten list, 并合并返回
+            else {
+                utils.flattenFiles(baseDir + '/' + fileEntry).forEach(function (subFile) {
+                    result.push('/' + fileEntry + subFile);
+                });
+            }
+        });
+        return result;
+    },
+
     /**
      *
      * @def: .write: path, value => undefined throws #@.ensureFolder.isFileError

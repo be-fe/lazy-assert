@@ -258,7 +258,7 @@ var lazyAssert = {
      *  depthOrPlugin: @#.processValue.depthOrPlugin
      */
     peek: function (peekKey, value, depthOrPlugin) {
-        lazyAssert.checkArguments(peekKey);
+        lazyAssert.checkArguments(peekKey, true);
 
         var paths = lazyAssert.getReportPaths(peekKey);
 
@@ -304,6 +304,8 @@ var lazyAssert = {
      *  depthOrPlugin: string | func | number   // see #@.processValue.depthOrPlugin
      */
     compare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
+        lazyAssert.checkArguments(peekKey, false);
+
         var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
         var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue));
 
@@ -330,8 +332,10 @@ var lazyAssert = {
      * @def: .assertCompare: function
      */
     assertCompare: function (peekKey, actualTargetValue, expectedPreparedValue, depthOrPlugin) {
+        lazyAssert.checkArguments(peekKey, false);
+
         var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
-        var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue, depthOrPlugin));
+        var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue));
 
         if (actualString !== expectedString) {
             lazyAssert.warn(peekKey, 'did not match the expected value, the actual prepared value is : ');
@@ -340,10 +344,40 @@ var lazyAssert = {
         assert.equal(actualString, expectedString, peekKey);
     },
 
-    validate: function (peekKey, actualTargetValue, validator) {
-        if (!peekKey) {
-            throw utils.newError('no-peek-key', 'No peek key is set for this validation');
+    peekCompare: function (peekKey, actualTargetValue, depthOrPlugin) {
+        lazyAssert.checkArguments(peekKey);
+
+        var paths = lazyAssert.getReportPaths(peekKey);
+
+        var expectedPreparedValue;
+        if (!fs.existsSync(paths.expectJS)) {
+            utils.write(paths.expectJS, '__tmp_expect__ = undefined;');
+            expectedPreparedValue = undefined;
         }
+        else {
+            expectedPreparedValue = eval(utils.read(paths.expectJS));
+        }
+
+        var actualString = utils.trim(lazyAssert.stringify(actualTargetValue, depthOrPlugin));
+        var expectedString = utils.trim(lazyAssert.innerStringify(expectedPreparedValue));
+
+        var actualPreparedValue = lazyAssert.prepareValue(actualTargetValue, depthOrPlugin);
+
+        utils.write(paths.actualJS,
+            '__tmp_expect__ = '
+            + JSON.stringify(actualPreparedValue, null, 4)
+            + ';'
+        );
+
+        assert.equal(
+            actualString,
+            expectedString,
+            peekKey
+        );
+    },
+
+    validate: function (peekKey, actualTargetValue, validator) {
+        lazyAssert.checkArguments(peekKey, false);
 
         var result = lazyAssert.validators.validate(actualTargetValue, validator);
 
@@ -375,7 +409,7 @@ var lazyAssert = {
     },
 
     peekValidate: function (peekKey, actualTargetValue) {
-        lazyAssert.checkArguments(peekKey);
+        lazyAssert.checkArguments(peekKey, true);
 
         var paths = lazyAssert.getReportPaths(peekKey);
 
@@ -396,13 +430,14 @@ var lazyAssert = {
             utils.write(paths.suggest,
                 '__tmp_expect__ = '
                 + JSON.stringify(suggest, null, 4)
+                + ';'
             )
         }
         lazyAssert.ok(result, peekKey);
     },
 
-    checkArguments: function (peekKey) {
-        if (!this.testLocation) {
+    checkArguments: function (peekKey, checkTestLocation) {
+        if (checkTestLocation && !this.testLocation) {
             throw utils.newError('no-test-set', 'No test script set for this test.');
         }
         if (typeof peekKey !== 'string' || !peekKey) {
@@ -414,15 +449,19 @@ var lazyAssert = {
         var reportPath = utils.j(this.testLocation + '.report');
         var expectPath = utils.j(reportPath, peekKey + '.expected');
         var actualPath = utils.j(reportPath, peekKey + '.actual');
+        var expectJSPath = utils.j(reportPath, peekKey + '.expected.js');
+        var actualJSPath = utils.j(reportPath, peekKey + '.actual.js');
         var suggestPath = utils.j(reportPath, peekKey + '.suggest.js');
-        var validatarPath = utils.j(reportPath, peekKey + '.validator.js');
+        var validatorPath = utils.j(reportPath, peekKey + '.validator.js');
 
         return {
             report: reportPath,
             expect: expectPath,
             actual: actualPath,
+            expectJS: expectJSPath,
+            actualJS: actualJSPath,
             suggest: suggestPath,
-            validator: validatarPath
+            validator: validatorPath
         }
     },
 

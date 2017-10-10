@@ -13,7 +13,8 @@ describe('Test lazy peek validate', function () {
 
     afterEach(function () {});
 
-    it('Should create suggest file', function() {
+    it('Should create related files' +
+        '', function() {
         var _warn = console.warn;
         console.warn = function() {};
 
@@ -22,7 +23,7 @@ describe('Test lazy peek validate', function () {
         }, /AssertionError/);
 
         var paths = lazy.getReportPaths('temp-peek');
-        lazy.ok(fs.existsSync(paths.validator), 'expected file should exist');
+        lazy.ok(fs.existsSync(paths.validator), 'validator file should exist');
         lazy.ok(fs.existsSync(paths.suggest), 'suggest file should exist');
 
         console.warn = _warn;

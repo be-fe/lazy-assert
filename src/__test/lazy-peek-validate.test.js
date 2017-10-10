@@ -30,7 +30,7 @@ describe('Test lazy peek validate', function () {
 
     it('Should peek validate', function () {
         lazy.peekValidate('01-simple-value', {
-            'number': 1,
+            'number': true,
             'string': 'abc',
             'boolean': true,
             'null': null,

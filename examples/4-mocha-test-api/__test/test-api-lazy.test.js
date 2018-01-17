@@ -20,6 +20,19 @@ describe('测试 api', function () {
         lazy.setLocation(__filename);
     });
 
+    it('测试测试', function () {
+        var result = /* call() */ {
+            data: {
+                user: {
+                    name: 'liang'
+                },
+                personList: [1, 4, 3, null, 'abc']
+            }
+        };
+
+        lazy.peekValidate('something', result)
+    });
+
     it('测试 get /hello', function (done) {
         instance.get('/hello').then(function (response) {
 

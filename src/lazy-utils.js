@@ -1,5 +1,8 @@
 var utils = require('./utils');
 
+/**
+ * @start-def: lazyUtils: {}
+ */
 module.exports = {
     load: function (lazyAssert) {
         var inner = {
@@ -238,7 +241,7 @@ module.exports = {
 
             /**
              *
-             * @jsdef: target, pattern => result
+             * @def: .pattern: target, pattern => result
              *
              *  ///
              *  场景:

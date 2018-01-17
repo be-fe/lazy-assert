@@ -2,6 +2,6 @@
   actual : "\", world\""
   expected : ""
   generatedMessage : false
-  message : "temp-wrong-peek"
+  message : "/Users/baidu/development/lazy-assert/examples/4-mocha-test-api/__test/test-api-lazy.test.js : temp-wrong-peek"
   name : "AssertionError"
   operator : "=="

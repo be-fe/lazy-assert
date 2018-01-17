@@ -15,7 +15,7 @@ module.exports = {
             this.map = {};
         };
 
-// @start-def: .prototype: {}
+        // @start-def: .prototype: {}
         Peek.prototype = {
             /**
              *
@@ -52,7 +52,7 @@ module.exports = {
 
             /**
              * // Basically the same as #@.set, except for it doesn't throw an error when setting an existing key
-             * @def: forceSet: key, value, depthOrPlugin => this
+             * @def: .forceSet: key, value, depthOrPlugin => this
              */
             forceSet: function (key, value, depthOrPlugin) {
                 this.map[key] = lazyAssert.prepareValue(value, depthOrPlugin);

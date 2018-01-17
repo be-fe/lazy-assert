@@ -255,7 +255,7 @@ var lazyAssert = {
      * @def: .peek: peekKey, value, depthOrPlugin => undefined
      *  peekKey: string     // This will set up the peek key (the peek file) for the test
      *  value: any          // This is the value for peeking
-     *  depthOrPlugin: @#.processValue.depthOrPlugin
+     *  depthOrPlugin: #@.processValue.depthOrPlugin
      */
     peek: function (peekKey, value, depthOrPlugin) {
         lazyAssert.checkArguments(peekKey, true);

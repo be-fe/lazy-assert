@@ -74,7 +74,9 @@ module.exports = {
              *
              *  // key is related to the target's object's key
              *  objectConfig: {key: #@~Validator}
-             *
+             */
+
+            /**
              * @def: .validate: peekKey, actualTargetValue, validator => result
              *  peekKey: string         // The key to help marking the output easier
              *  actualTargetValue: any  // The value to validate

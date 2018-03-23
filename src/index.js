@@ -1,5 +1,6 @@
 var assert = require('assert');
 var utils = require('./utils');
+var _ = require('lodash');
 
 try {
     var fs = require('fs');
@@ -275,7 +276,8 @@ var lazyAssert = {
 
         utils.write(paths.actual, actual);
         assert.equal(
-            actual, expected,
+            _.trim(actual),
+            _.trim(expected),
             (this.testLocation ? this.testLocation + ' : ' : '')
             + (this._hint ? this._hint + ' : ' : '')
             + peekKey
